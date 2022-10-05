@@ -35,6 +35,12 @@ const KONVA_EVENTS = [
 	'transformend'
 ];
 
+/**
+ * Registers all possible Konva node events with the provided Svelte dispatcher
+ *
+ * @param dispatch
+ * @param node
+ */
 export function registerEvents(
 	dispatch: <EventKey extends string>(
 		type: EventKey,

@@ -5,8 +5,8 @@
 	import { registerEvents } from '$lib/util/events';
 	import { getParentContainer, type KonvaParent } from '$lib/util/manageContext';
 
-	export let config: Konva.TransformerConfig | undefined = undefined;
-	export let handle: null | Konva.Transformer = null;
+	export let config: Konva.TransformerConfig;
+	export let handle = new Konva.Transformer(config);
 
 	let parent: Writable<null | KonvaParent> = getParentContainer();
 	let dispatcher = createEventDispatcher();
@@ -16,8 +16,6 @@
 	}
 
 	onMount(() => {
-		handle = new Konva.Transformer(config);
-
 		$parent!.add(handle);
 
 		registerEvents(dispatcher, handle);

@@ -1,39 +1,48 @@
-<script lang="ts">
+<!--
+@component
+The Image component needs to be placed either inside a svelte-konva Layer or Group component. 
+
+### Usage:
+```tsx
+<Image config={{}} />
+```
+
+Further information: [Konva API docs](https://konvajs.org/api/Konva.Image.html) 
+-->
+
+<script lang='ts'>
 	import Konva from 'konva';
 	import { onMount, onDestroy, createEventDispatcher } from 'svelte';
 	import type { Writable } from 'svelte/store';
 	import { registerEvents } from '$lib/util/events';
 	import { getParentContainer, type KonvaParent } from '$lib/util/manageContext';
+	import { copyExistingKeys } from '$lib/util/copy';
 
-	export let config: Konva.ImageConfig | undefined = undefined;
-	export let handle: null | Konva.Image = null;
+	export let config: Konva.ImageConfig;
+	export let handle = new Konva.Image (config);
 
 	let parent: Writable<null | KonvaParent> = getParentContainer();
 	let dispatcher = createEventDispatcher();
 
-	$: if (handle) {
-		handle.setAttrs(config);
-	}
+	$: handle.setAttrs(config);
 
 	onMount(() => {
-		handle = new Konva.Image(config);
-
 		$parent!.add(handle);
 
-		registerEvents(dispatcher, handle);
-
 		handle.on('transformend', () => {
-			config = handle!.getAttrs();
+			copyExistingKeys(config, handle.getAttrs());
+			config = config;
 		});
 
 		handle.on('dragend', () => {
-			config = handle!.getAttrs();
+			copyExistingKeys(config, handle.getAttrs());
+			config = config;
 		});
+
+		registerEvents(dispatcher, handle);
 	});
 
 	onDestroy(() => {
-		if (handle) {
-			handle.destroy();
-		}
+		handle.destroy();
 	});
 </script>

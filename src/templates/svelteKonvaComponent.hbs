@@ -1,39 +1,48 @@
+<!--
+@component
+The {{ componentName }} component needs to be placed either inside a svelte-konva Layer or Group component. 
+
+### Usage:
+```tsx
+<{{ componentName }} config=\{{}} />
+```
+
+Further information: [Konva API docs](https://konvajs.org/api/Konva.{{ componentName }}.html) 
+-->
+
 <script lang='ts'>
 	import Konva from 'konva';
 	import { onMount, onDestroy, createEventDispatcher } from 'svelte';
 	import type { Writable } from 'svelte/store';
 	import { registerEvents } from '$lib/util/events';
 	import { getParentContainer, type KonvaParent } from '$lib/util/manageContext';
+	import { copyExistingKeys } from '$lib/util/copy';
 
-	export let config: Konva.{{ componentName }}Config | undefined = undefined;
-	export let handle: null | Konva.{{ componentName }}= null;
+	export let config: Konva.{{ componentName }}Config;
+	export let handle = new Konva.{{componentName}} (config);
 
 	let parent: Writable<null | KonvaParent> = getParentContainer();
 	let dispatcher = createEventDispatcher();
 
-	$: if (handle) {
-		handle.setAttrs(config);
-	}
+	$: handle.setAttrs(config);
 
 	onMount(() => {
-		handle = new Konva.{{componentName}} (config);
-
 		$parent!.add(handle);
 
+		handle.on('transformend', () => {
+			copyExistingKeys(config, handle.getAttrs());
+			config = config;
+		});
+
+		handle.on('dragend', () => {
+			copyExistingKeys(config, handle.getAttrs());
+			config = config;
+		});
+
 		registerEvents(dispatcher, handle);
-
-		handle.on("transformend", () => {
-			config = handle!.getAttrs();
-		});
-
-		handle.on("dragend", () => {
-			config = handle!.getAttrs();
-		});
 	});
 
 	onDestroy(() => {
-		if (handle) {
-			handle.destroy();
-		}
+		handle.destroy();
 	});
 </script>

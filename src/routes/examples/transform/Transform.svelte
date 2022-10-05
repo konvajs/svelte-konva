@@ -1,16 +1,16 @@
 <script lang="ts">
 	import Konva from 'konva';
-	import ResponsiveStage from '../ResponsiveStage.svelte';
+	import Stage from '../../ResponsiveStage.svelte';
 	import type { KonvaEventObject } from 'konva/lib/Node';
-	import { getRealPointerPos } from '../util';
+	import { getRealPointerPos } from '../../util';
 
 	// svelte-konva components
-	import Circle from '$lib/Circle.svelte';
-	import Layer from '$lib/Layer.svelte';
-	import Group from '$lib/Group.svelte';
-	import RegularPolygon from '$lib/RegularPolygon.svelte';
-	import Transformer from '$lib/Transformer.svelte';
-	import Rect from '$lib/Rect.svelte';
+	import Circle from 'svelte-konva/Circle.svelte';
+	import Layer from 'svelte-konva/Layer.svelte';
+	import Group from 'svelte-konva/Group.svelte';
+	import RegularPolygon from 'svelte-konva/RegularPolygon.svelte';
+	import Transformer from 'svelte-konva/Transformer.svelte';
+	import Rect from 'svelte-konva/Rect.svelte';
 
 	let stage: Konva.Stage;
 	let layer: Konva.Layer;
@@ -140,16 +140,14 @@
 	}
 </script>
 
-<h3>Select and transform</h3>
-
-<ResponsiveStage
+<Stage
 	on:pointerdown={selectStart}
 	on:pointermove={selectDrag}
 	on:pointerup={selectEnd}
 	on:mouseout={selectMouseOut}
 	bind:handle={stage}
 >
-	<Layer config={{}} bind:handle={layer}>
+	<Layer bind:handle={layer}>
 		<Group config={{ draggable: true }}>
 			{#each configs as config}
 				<Circle bind:config />
@@ -167,6 +165,4 @@
 		<!-- The selection rectangle -->
 		<Rect config={selectionRectangleConfig} bind:handle={selectionRectangle} />
 	</Layer>
-</ResponsiveStage>
-
-<p style="margin-top: 10px">Drag to select a shape or group and transform it</p>
+</Stage>

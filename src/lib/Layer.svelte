@@ -5,7 +5,7 @@
 	import { Container, getParentStage, setContainerContext } from '$lib/util/manageContext';
 	import { registerEvents } from '$lib/util/events';
 
-	export let config: Konva.LayerConfig;
+	export let config: Konva.LayerConfig | undefined = undefined;
 	export let handle: null | Konva.Layer = null;
 
 	let inner = writable<null | Konva.Layer>(null);

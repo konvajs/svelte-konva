@@ -1,7 +1,7 @@
 import type Konva from 'konva';
 
 // Calculate real pointer position on canvas taking scale and stage position into account
-// This is required if you scale your stage
+// This is required if you scale or reposition your stage x/y coordinates
 export function getRealPointerPos(pos: Konva.Vector2d, stage: Konva.Stage) {
 	const realPos = {
 		x: 0,

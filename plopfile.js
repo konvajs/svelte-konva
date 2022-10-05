@@ -10,6 +10,7 @@ const COMPONENT_LIST = [
 	'Text',
 	'TextPath',
 	'Star',
+	'Sprite',
 	'Ring',
 	'Arc',
 	'Label',

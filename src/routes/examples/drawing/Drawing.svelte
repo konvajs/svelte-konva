@@ -1,15 +1,14 @@
 <script lang="ts">
 	import type Konva from 'konva';
-	import ResponsiveStage from '../ResponsiveStage.svelte';
+	import Stage from '../../ResponsiveStage.svelte';
 	import type { KonvaEventObject } from 'konva/lib/Node';
-	import { getRealPointerPos } from '../util';
+	import { getRealPointerPos } from '../../util';
 
 	// svelte-konva components
-	import Layer from '$lib/Layer.svelte';
-	import Line from '$lib/Line.svelte';
+	import Layer from 'svelte-konva/Layer.svelte';
+	import Line from 'svelte-konva/Line.svelte';
 
 	let stage: Konva.Stage;
-	let layer: Konva.Layer;
 
 	const DRAW_TIMEOUT_MS = 5;
 
@@ -22,7 +21,7 @@
 	let selectedTool = Tools.Pen;
 	let strokeWidth = 10;
 	let isDrawing = false; // Flag is active if the user is currently drawing/erasing
-	let drawTimeout: NodeJS.Timeout | null; // Timeout used to limit the pointermove event to not save too many data for the stroke points
+	let drawTimeout: NodeJS.Timeout | null; // Timeout used to limit the pointermove event to not save too much data for the stroke points
 	let drawTimeoutRunning = false; // Used to indicate wether the timeout is currently in progress or not
 
 	function startDraw() {
@@ -102,50 +101,33 @@
 	}
 </script>
 
-<h3>Free drawing</h3>
-
-<div class="palette">
-	<button
-		class={selectedTool === Tools.Pen ? 'palette-button palette-button-active' : 'palette-button'}
-		on:click={() => (selectedTool = Tools.Pen)}>Pen</button
-	>
-	<button
-		class={selectedTool === Tools.Eraser
-			? 'palette-button palette-button-active'
-			: 'palette-button'}
-		on:click={() => (selectedTool = Tools.Eraser)}>Eraser</button
-	>
-	<input type="range" min="1" max="100" bind:value={strokeWidth} />
+<div class="flex align-middle justify-around m-2">
+	<div class="btn-group">
+		<button
+			class={selectedTool === Tools.Pen ? 'btn btn-active' : 'btn'}
+			on:click={() => (selectedTool = Tools.Pen)}>Pen</button
+		>
+		<button
+			class={selectedTool === Tools.Eraser ? 'btn btn-active' : 'btn'}
+			on:click={() => (selectedTool = Tools.Eraser)}>Eraser</button
+		>
+	</div>
+	<div class="flex flex-col justify-around align-middle">
+		<span>Size:</span>
+		<input type="range" min="1" max="100" bind:value={strokeWidth} class="range range-sm" />
+	</div>
 </div>
 
-<ResponsiveStage
+<Stage
 	on:pointerdown={startDraw}
 	on:pointermove={draw}
 	on:pointerup={stopDraw}
 	on:mouseout={drawMouseOut}
 	bind:handle={stage}
 >
-	<Layer config={{}} bind:handle={layer}>
+	<Layer>
 		{#each strokes as stroke}
 			<Line config={stroke} />
 		{/each}
 	</Layer>
-</ResponsiveStage>
-
-<p style="margin-top: 10px">Use the pen and eraser to draw on the stage</p>
-
-<style>
-	.palette {
-		display: flex;
-		flex-direction: row;
-		justify-content: space-around;
-	}
-
-	.palette-button {
-		margin: 5px;
-	}
-
-	.palette-button-active {
-		background-color: yellow;
-	}
-</style>
+</Stage>

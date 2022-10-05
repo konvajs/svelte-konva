@@ -1,6 +1,6 @@
 <script lang="ts">
 	import type Konva from 'konva';
-	import Stage from '$lib/Stage.svelte';
+	import Stage from 'svelte-konva/Stage.svelte';
 	import { onMount } from 'svelte';
 
 	export let handle: null | Konva.Stage = null;
@@ -17,14 +17,16 @@
 	};
 
 	function updateStageSize() {
-		if (container) {
-			// Subtract 10 px because of 5px border of div container
-			config.width = container.offsetWidth - 10;
-			config.height = container.offsetHeight - 10;
-			let scale = config.width / STAGE_BASE_WIDTH;
-			config.scaleX = scale;
-			config.scaleY = scale;
+		if (!container) {
+			return;
 		}
+
+		// Subtract 10 px because of 5px border of div container
+		config.width = container.offsetWidth - 10;
+		config.height = container.offsetHeight - 10;
+		let scale = config.width / STAGE_BASE_WIDTH;
+		config.scaleX = scale;
+		config.scaleY = scale;
 	}
 
 	onMount(() => {
@@ -34,16 +36,18 @@
 	});
 </script>
 
-<div bind:this={container} style="border: solid grey 5px;">
-	<Stage
-		{config}
-		bind:handle
-		on:pointerdblclick
-		on:pointerdown
-		on:pointerup
-		on:pointermove
-		on:mouseout
-	>
-		<slot />
-	</Stage>
+<div bind:this={container} style="max-height: 70vh;">
+	<div style="border: solid grey 5px;">
+		<Stage
+			{config}
+			bind:handle
+			on:pointerdblclick
+			on:pointerdown
+			on:pointerup
+			on:pointermove
+			on:mouseout
+		>
+			<slot />
+		</Stage>
+	</div>
 </div>

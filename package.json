@@ -15,29 +15,38 @@
 		"predev": "plop"
 	},
 	"peerDependencies": {
-		"konva": ">=8",
-		"canvas": ">=2"
+		"canvas": ">=2",
+		"konva": ">=8"
 	},
 	"devDependencies": {
 		"@sveltejs/adapter-auto": "next",
 		"@sveltejs/kit": "next",
 		"@sveltejs/package": "next",
+		"@types/lodash.clonedeep": "^4.5.7",
 		"@typescript-eslint/eslint-plugin": "^5.27.0",
 		"@typescript-eslint/parser": "^5.27.0",
 		"canvas": "^2.10.1",
+		"daisyui": "^2.31.0",
 		"eslint": "^8.16.0",
 		"eslint-config-prettier": "^8.3.0",
 		"eslint-plugin-svelte3": "^4.0.0",
-		"konva": "^8.3.12",
+		"konva": "^8.3.13",
+		"lodash.clonedeep": "^4.5.0",
 		"plop": "^3.1.1",
 		"prettier": "^2.6.2",
 		"prettier-plugin-svelte": "^2.7.0",
 		"svelte": "^3.44.0",
 		"svelte-check": "^2.7.1",
+		"svelte-highlight": "^6.2.1",
+		"svelte-local-storage-store": "^0.3.1",
 		"svelte-preprocess": "^4.10.6",
+		"tailwindcss": "^3.1.8",
 		"tslib": "^2.3.1",
 		"typescript": "^4.7.4",
 		"vite": "^3.1.0"
 	},
-	"type": "module"
+	"type": "module",
+	"dependencies": {
+		"@tailwindcss/typography": "github:tailwindcss/typography"
+	}
 }
