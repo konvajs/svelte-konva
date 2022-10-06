@@ -15,13 +15,15 @@
 		"predev": "plop"
 	},
 	"peerDependencies": {
-		"canvas": ">=2",
-		"konva": ">=8"
+		"konva": ">=8",
+		"canvas": ">=2"
 	},
 	"devDependencies": {
 		"@sveltejs/adapter-auto": "next",
+		"@sveltejs/adapter-static": "^1.0.0-next.44",
 		"@sveltejs/kit": "next",
 		"@sveltejs/package": "next",
+		"@tailwindcss/typography": "^0.5.7",
 		"@types/lodash.clonedeep": "^4.5.7",
 		"@typescript-eslint/eslint-plugin": "^5.27.0",
 		"@typescript-eslint/parser": "^5.27.0",
@@ -45,8 +47,5 @@
 		"typescript": "^4.7.4",
 		"vite": "^3.1.0"
 	},
-	"type": "module",
-	"dependencies": {
-		"@tailwindcss/typography": "github:tailwindcss/typography"
-	}
+	"type": "module"
 }
