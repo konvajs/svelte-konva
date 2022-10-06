@@ -1,0 +1,22 @@
+name: ESLint
+
+on:
+  - push
+  - pull_request
+
+jobs:
+  eslint:
+    name: Run eslint
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      security-events: write
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Setup/Retrieve npm build chache
+        uses: bahmutov/npm-install@v1
+        
+      - name: Run linter
+        run: npm i && npm run lint
