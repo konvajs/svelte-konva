@@ -1,3 +1,5 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
+
 import type Konva from 'konva';
 import type { DispatchOptions } from 'svelte/internal';
 

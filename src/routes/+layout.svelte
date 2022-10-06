@@ -1,5 +1,4 @@
 <script lang="ts">
-	import { page as appPage } from '$app/stores';
 	import '../app.css';
 	import Link from './Link.svelte';
 	import { darkMode } from './stores';
