@@ -14,7 +14,6 @@
 
 	let selectedColor = 0;
 
-	$: console.log(selectedColor);
 	function init() {
 		for (let i = 0; i < 5; i++) {
 			configs.push({
