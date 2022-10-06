@@ -9,8 +9,7 @@ The Shape component needs to be placed either inside a svelte-konva Layer or Gro
 
 Further information: [Konva API docs](https://konvajs.org/api/Konva.Shape.html) 
 -->
-
-<script lang='ts'>
+<script lang="ts">
 	import Konva from 'konva';
 	import { onMount, onDestroy, createEventDispatcher } from 'svelte';
 	import type { Writable } from 'svelte/store';
@@ -19,7 +18,7 @@ Further information: [Konva API docs](https://konvajs.org/api/Konva.Shape.html)
 	import { copyExistingKeys } from '$lib/util/copy';
 
 	export let config: Konva.ShapeConfig;
-	export let handle = new Konva.Shape (config);
+	export let handle = new Konva.Shape(config);
 
 	let parent: Writable<null | KonvaParent> = getParentContainer();
 	let dispatcher = createEventDispatcher();

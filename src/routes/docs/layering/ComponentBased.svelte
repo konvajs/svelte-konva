@@ -20,8 +20,8 @@
 
 		let randomScale = Math.random() * 0.8 + 0.2;
 
-		let randomX = Math.random() * 1000;
-		let randomY = Math.random() * 300;
+		let randomX = Math.random() * 1300 - 300;
+		let randomY = Math.random() * 400 - 100;
 
 		clouds.push({
 			x: randomX,

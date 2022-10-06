@@ -3,6 +3,7 @@
 	import bindingCode from './Binding.svelte?raw';
 	import Code from '../../Code.svelte';
 	import Warn from '../../Warn.svelte';
+	import Link from '../../Link.svelte';
 </script>
 
 <h2>Binding the component configuration</h2>
@@ -19,7 +20,7 @@
 	>
 	and <code>dragend</code> events. If you require the config to update while dragging or
 	transforming you have to implement the functionality yourself using the
-	<a href="/docs/event">konva event listeners</a>.
+	<Link href="/docs/event">konva event listeners</Link>.
 </p>
 
 <Warn>

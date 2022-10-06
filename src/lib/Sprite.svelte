@@ -9,8 +9,7 @@ The Sprite component needs to be placed either inside a svelte-konva Layer or Gr
 
 Further information: [Konva API docs](https://konvajs.org/api/Konva.Sprite.html) 
 -->
-
-<script lang='ts'>
+<script lang="ts">
 	import Konva from 'konva';
 	import { onMount, onDestroy, createEventDispatcher } from 'svelte';
 	import type { Writable } from 'svelte/store';
@@ -19,7 +18,7 @@ Further information: [Konva API docs](https://konvajs.org/api/Konva.Sprite.html)
 	import { copyExistingKeys } from '$lib/util/copy';
 
 	export let config: Konva.SpriteConfig;
-	export let handle = new Konva.Sprite (config);
+	export let handle = new Konva.Sprite(config);
 
 	let parent: Writable<null | KonvaParent> = getParentContainer();
 	let dispatcher = createEventDispatcher();

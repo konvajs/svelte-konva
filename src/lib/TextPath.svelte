@@ -9,8 +9,7 @@ The TextPath component needs to be placed either inside a svelte-konva Layer or 
 
 Further information: [Konva API docs](https://konvajs.org/api/Konva.TextPath.html) 
 -->
-
-<script lang='ts'>
+<script lang="ts">
 	import Konva from 'konva';
 	import { onMount, onDestroy, createEventDispatcher } from 'svelte';
 	import type { Writable } from 'svelte/store';
@@ -19,7 +18,7 @@ Further information: [Konva API docs](https://konvajs.org/api/Konva.TextPath.htm
 	import { copyExistingKeys } from '$lib/util/copy';
 
 	export let config: Konva.TextPathConfig;
-	export let handle = new Konva.TextPath (config);
+	export let handle = new Konva.TextPath(config);
 
 	let parent: Writable<null | KonvaParent> = getParentContainer();
 	let dispatcher = createEventDispatcher();

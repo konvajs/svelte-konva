@@ -9,8 +9,7 @@ The Circle component needs to be placed either inside a svelte-konva Layer or Gr
 
 Further information: [Konva API docs](https://konvajs.org/api/Konva.Circle.html) 
 -->
-
-<script lang='ts'>
+<script lang="ts">
 	import Konva from 'konva';
 	import { onMount, onDestroy, createEventDispatcher } from 'svelte';
 	import type { Writable } from 'svelte/store';
@@ -19,7 +18,7 @@ Further information: [Konva API docs](https://konvajs.org/api/Konva.Circle.html)
 	import { copyExistingKeys } from '$lib/util/copy';
 
 	export let config: Konva.CircleConfig;
-	export let handle = new Konva.Circle (config);
+	export let handle = new Konva.Circle(config);
 
 	let parent: Writable<null | KonvaParent> = getParentContainer();
 	let dispatcher = createEventDispatcher();

@@ -1,43 +1,44 @@
 <script lang="ts">
 	import { page as appPage } from '$app/stores';
 	import '../app.css';
+	import Link from './Link.svelte';
 	import { darkMode } from './stores';
 
 	let docs = [
 		{
 			name: 'Events',
-			url: 'docs/event'
+			url: '/docs/event'
 		},
 		{
 			name: 'Accessing the underlying Konva object',
-			url: 'docs/handle'
+			url: '/docs/handle'
 		},
 		{
 			name: 'Binding config prop',
-			url: 'docs/binding'
+			url: '/docs/binding'
 		},
 		{
 			name: 'Layering',
-			url: 'docs/layering'
+			url: '/docs/layering'
 		}
 	];
 
 	let examples = [
 		{
 			name: 'Grouping',
-			url: 'examples/group'
+			url: '/examples/group'
 		},
 		{
 			name: 'Select and Transform',
-			url: 'examples/transform'
+			url: '/examples/transform'
 		},
 		{
 			name: 'Free drawing',
-			url: 'examples/drawing'
+			url: '/examples/drawing'
 		},
 		{
 			name: 'Connect four',
-			url: 'examples/connectFour'
+			url: '/examples/connectFour'
 		}
 	];
 </script>
@@ -125,26 +126,20 @@
 			<ul class="menu menu-compact p-4 overflow-y-auto w-80 bg-base-200 text-base-content">
 				<!-- Sidebar content here -->
 				<li>
-					<a class={$appPage.url.pathname === '/' ? 'active' : ''} href="/">Home</a>
+					<Link href="">Home</Link>
 				</li>
 				<li />
 				<li class="menu-title"><span>docs</span></li>
 				{#each docs as page}
 					<li>
-						<a
-							class={$appPage.url.pathname === `/${page.url}` ? 'active' : ''}
-							href={`/${page.url}`}>{page.name}</a
-						>
+						<Link href={page.url}>{page.name}</Link>
 					</li>
 				{/each}
 				<li />
 				<li class="menu-title"><span>Examples</span></li>
 				{#each examples as page}
 					<li>
-						<a
-							class={$appPage.url.pathname === `/${page.url}` ? 'active' : ''}
-							href={`/${page.url}`}>{page.name}</a
-						>
+						<Link href={page.url}>{page.name}</Link>
 					</li>
 				{/each}
 			</ul>

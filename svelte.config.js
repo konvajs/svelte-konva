@@ -21,11 +21,11 @@ const config = {
 			precompress: false
 		}),
 		alias: {
-			'svelte-konva': 'src/lib',
+			'svelte-konva': 'src/lib'
 		},
 		paths: {
-			base: dev ? '' : '/svelte-konva',
-		},
+			base: dev ? '' : '/svelte-konva'
+		}
 	}
 };
 
