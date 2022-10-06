@@ -32,7 +32,7 @@ jobs:
       - name: Setup/Retrieve npm build chache
         uses: bahmutov/npm-install@v1
       - name: Build svelte-konva docs
-        run: npm i && npm build-app
+        run: npm i && npm run build-app
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v1
         with:
