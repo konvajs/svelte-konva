@@ -4,10 +4,10 @@ The Rect component needs to be placed either inside a svelte-konva Layer or Grou
 
 ### Usage:
 ```tsx
-<Rect config={{}} />
+<Rect config={{ x: 100, y: 100, width: 100, height: 50, fill: "blue" }} />
 ```
 
-Further information: [Konva API docs](https://konvajs.org/api/Konva.Rect.html) 
+Further information: [Konva API docs](https://konvajs.org/api/Konva.Rect.html), [svelte-konva docs](https://teykey1.github.io/svelte-konva)
 -->
 <script lang="ts">
 	import Konva from 'konva';

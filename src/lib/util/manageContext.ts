@@ -13,17 +13,23 @@ import { getContext, setContext } from 'svelte';
 import type { Writable } from 'svelte/store';
 
 /** Keys used for each konva container element in the svelte context */
-const CONTAINER_COMPONENT_KEYS = ['svelte-konva-stage', 'svelte-konva-layer', 'svelte-konva-group'];
+const CONTAINER_COMPONENT_KEYS = [
+	'svelte-konva-stage',
+	'svelte-konva-layer',
+	'svelte-konva-group',
+	'svelte-konva-label'
+];
 
 /** Konva container kind */
 export enum Container {
 	Stage = 0,
 	Layer = 1,
-	Group = 2
+	Group = 2,
+	Label = 3
 }
 
-type KonvaContainer = Konva.Stage | Konva.Layer | Konva.Group;
-export type KonvaParent = Konva.Layer | Konva.Group;
+type KonvaContainer = Konva.Stage | Konva.Layer | Konva.Group | Konva.Label;
+export type KonvaParent = Konva.Layer | Konva.Group | Konva.Label;
 
 /**
  * Sets the svelte context of the calling module to the provided konva container type
@@ -43,7 +49,7 @@ export function setContainerContext(kind: Container, value: Writable<null | Konv
 }
 
 export function getParentContainer(): Writable<null | KonvaParent> {
-	for (let i = 1; i < 2; i++) {
+	for (let i = 1; i < 3; i++) {
 		const parent = getContext<null | Writable<null | KonvaParent>>(CONTAINER_COMPONENT_KEYS[i]);
 
 		if (parent) {

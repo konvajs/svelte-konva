@@ -4,10 +4,10 @@ The Text component needs to be placed either inside a svelte-konva Layer or Grou
 
 ### Usage:
 ```tsx
-<Text config={{}} />
+<Text config={{ x: 100, y: 100, text: "some text", fontSize: 25 }} />
 ```
 
-Further information: [Konva API docs](https://konvajs.org/api/Konva.Text.html) 
+Further information: [Konva API docs](https://konvajs.org/api/Konva.Text.html), [svelte-konva docs](https://teykey1.github.io/svelte-konva)
 -->
 <script lang="ts">
 	import Konva from 'konva';

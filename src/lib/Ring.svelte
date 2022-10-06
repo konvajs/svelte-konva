@@ -4,10 +4,10 @@ The Ring component needs to be placed either inside a svelte-konva Layer or Grou
 
 ### Usage:
 ```tsx
-<Ring config={{}} />
+<Ring config={{ x: 100, y: 100, innerRadius: 25, outerRadius: 50, fill: "blue" }} />
 ```
 
-Further information: [Konva API docs](https://konvajs.org/api/Konva.Ring.html) 
+Further information: [Konva API docs](https://konvajs.org/api/Konva.Ring.html), [svelte-konva docs](https://teykey1.github.io/svelte-konva)
 -->
 <script lang="ts">
 	import Konva from 'konva';

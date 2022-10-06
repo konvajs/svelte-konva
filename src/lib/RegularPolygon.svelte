@@ -4,10 +4,10 @@ The RegularPolygon component needs to be placed either inside a svelte-konva Lay
 
 ### Usage:
 ```tsx
-<RegularPolygon config={{}} />
+<RegularPolygon config={{ x: 100, y: 100, sides: 7, radius: 70, fill: "blue" }} />
 ```
 
-Further information: [Konva API docs](https://konvajs.org/api/Konva.RegularPolygon.html) 
+Further information: [Konva API docs](https://konvajs.org/api/Konva.RegularPolygon.html), [svelte-konva docs](https://teykey1.github.io/svelte-konva)
 -->
 <script lang="ts">
 	import Konva from 'konva';

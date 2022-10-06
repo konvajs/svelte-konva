@@ -1,13 +1,13 @@
 <!--
 @component
-The {{ componentName }} component needs to be placed either inside a svelte-konva Layer or Group component. 
+The Tag component needs to be placed either inside a svelte-konva Layer or Group component. 
 
 ### Usage:
 ```tsx
-{{{ example }}}
+<Tag config={{ x: 10, y: 20, fill: "black", pointerDirection: "down", pointerWidth: 10, pointerHeight: 10, lineJoin: "round" }} />
 ```
 
-Further information: [Konva API docs](https://konvajs.org/api/Konva.{{ componentName }}.html), [svelte-konva docs](https://teykey1.github.io/svelte-konva)
+Further information: [Konva API docs](https://konvajs.org/api/Konva.Tag.html), [svelte-konva docs](https://teykey1.github.io/svelte-konva)
 -->
 <script lang="ts">
 	import Konva from 'konva';
@@ -17,8 +17,8 @@ Further information: [Konva API docs](https://konvajs.org/api/Konva.{{ component
 	import { getParentContainer, type KonvaParent } from '$lib/util/manageContext';
 	import { copyExistingKeys } from '$lib/util/copy';
 
-	export let config: Konva.{{ componentName }}Config;
-	export let handle = new Konva.{{componentName}}(config);
+	export let config: Konva.TagConfig;
+	export let handle = new Konva.Tag(config);
 
 	let parent: Writable<null | KonvaParent> = getParentContainer();
 	let dispatcher = createEventDispatcher();

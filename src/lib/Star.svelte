@@ -4,10 +4,10 @@ The Star component needs to be placed either inside a svelte-konva Layer or Grou
 
 ### Usage:
 ```tsx
-<Star config={{}} />
+<Star config={{ x: 100, y: 100, innerRadius: 25, outerRadius: 50, numPoints: 5, fill: "blue" }} />
 ```
 
-Further information: [Konva API docs](https://konvajs.org/api/Konva.Star.html) 
+Further information: [Konva API docs](https://konvajs.org/api/Konva.Star.html), [svelte-konva docs](https://teykey1.github.io/svelte-konva)
 -->
 <script lang="ts">
 	import Konva from 'konva';

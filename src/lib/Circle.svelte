@@ -4,10 +4,10 @@ The Circle component needs to be placed either inside a svelte-konva Layer or Gr
 
 ### Usage:
 ```tsx
-<Circle config={{}} />
+<Circle config={{ x: 100, y: 100, radius: 50, fill: "blue" }} />
 ```
 
-Further information: [Konva API docs](https://konvajs.org/api/Konva.Circle.html) 
+Further information: [Konva API docs](https://konvajs.org/api/Konva.Circle.html), [svelte-konva docs](https://teykey1.github.io/svelte-konva)
 -->
 <script lang="ts">
 	import Konva from 'konva';

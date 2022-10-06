@@ -4,10 +4,10 @@ The Wedge component needs to be placed either inside a svelte-konva Layer or Gro
 
 ### Usage:
 ```tsx
-<Wedge config={{}} />
+<Wedge config={{ x: 100, y: 100, radius: 100, angle: 120, fill: "blue" }} />
 ```
 
-Further information: [Konva API docs](https://konvajs.org/api/Konva.Wedge.html) 
+Further information: [Konva API docs](https://konvajs.org/api/Konva.Wedge.html), [svelte-konva docs](https://teykey1.github.io/svelte-konva)
 -->
 <script lang="ts">
 	import Konva from 'konva';

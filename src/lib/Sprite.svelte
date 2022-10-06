@@ -4,10 +4,10 @@ The Sprite component needs to be placed either inside a svelte-konva Layer or Gr
 
 ### Usage:
 ```tsx
-<Sprite config={{}} />
+<Sprite config={{ x: 100, y: 100, image: imageObj, animation: "idle", animations: animations, frameRate: 7, frameIndex: 0 }} />
 ```
 
-Further information: [Konva API docs](https://konvajs.org/api/Konva.Sprite.html) 
+Further information: [Konva API docs](https://konvajs.org/api/Konva.Sprite.html), [svelte-konva docs](https://teykey1.github.io/svelte-konva)
 -->
 <script lang="ts">
 	import Konva from 'konva';
