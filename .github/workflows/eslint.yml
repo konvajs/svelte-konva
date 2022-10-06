@@ -17,6 +17,6 @@ jobs:
 
       - name: Setup/Retrieve npm build chache
         uses: bahmutov/npm-install@v1
-        
+
       - name: Run linter
         run: npm i && npm run lint
