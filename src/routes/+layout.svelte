@@ -24,6 +24,10 @@
 
 	let examples = [
 		{
+			name: 'Label',
+			url: '/examples/label'
+		},
+		{
 			name: 'Grouping',
 			url: '/examples/group'
 		},
