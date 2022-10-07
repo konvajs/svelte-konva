@@ -1,6 +1,21 @@
 {
 	"name": "svelte-konva",
 	"version": "0.0.1",
+	"author": {
+		"name": "TeyKey1"
+	},
+	"description": "A Svelte wrapper for Konva",
+	"homepage": "https://teykey1.github.io/svelte-konva",
+	"bugs": {
+		"url": "https://github.com/TeyKey1/svelte-konva/issues"
+	},
+	"repository": "github:TeyKey1/svelte-konva",
+	"keywords": [
+		"konva",
+		"svelte",
+		"canvas"
+	],
+	"license": "MIT",
 	"scripts": {
 		"dev": "set NODE_ENV=development&& vite dev",
 		"build-app": "set NODE_ENV=production&& vite build",

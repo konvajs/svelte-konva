@@ -61,7 +61,7 @@
 		let newZIndex = Number.parseInt(answer);
 
 		if (isNaN(newZIndex) || newZIndex > 4 || newZIndex < 0) {
-			window.alert(`Failed to parse int. Integer needs to be in the range between 0-4`);
+			window.alert('Failed to parse int. Integer needs to be in the range between 0-4');
 			return;
 		}
 

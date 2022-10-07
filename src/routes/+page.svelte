@@ -17,7 +17,7 @@
 	<code>Circle</code> <code>Ellipse</code> <code>Image</code> <code>Label</code>
 	<code>Line</code> <code>Path</code> <code>Rect</code> <code>RegularPolygon</code>
 	<code>Ring</code> <code>Shape</code> <code>Sprite</code> <code>Star</code> <code>Text</code>
-	<code>TextPath</code> <code>Transformer</code> <code>Wedge</code>
+	<code>TextPath</code> <code>Transformer</code> <code>Wedge</code> <code>Tag</code>
 </p>
 
 <p>
