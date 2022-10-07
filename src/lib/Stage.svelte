@@ -1,3 +1,17 @@
+<!--
+@component
+The Stage component is the entry point and parent for all other svelte-konva components.
+Under the hood it creates a div element where the html canvas is attached to.  
+
+### Usage:
+```tsx
+<Stage config={{ width: 1000, height: 1000 }}>
+	Place your Layers here
+</Stage>
+```
+
+Further information: [Konva API docs](https://konvajs.org/api/Konva.Stage.html), [svelte-konva docs](https://teykey1.github.io/svelte-konva)
+-->
 <script lang="ts">
 	import Konva from 'konva';
 	import { onMount, onDestroy, createEventDispatcher } from 'svelte';

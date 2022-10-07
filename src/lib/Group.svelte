@@ -1,3 +1,18 @@
+<!--
+@component
+The Group component needs to be placed inside a svelte-konva Layer or Group component. 
+
+The Group component automatically groups all components that are placed inside it.
+
+### Usage:
+```tsx
+<Group config={{}}>
+	Place components that should be grouped here
+</Group>
+```
+
+Further information: [Konva API docs](https://konvajs.org/api/Konva.Group.html), [svelte-konva docs](https://teykey1.github.io/svelte-konva)
+-->
 <script lang="ts">
 	import Konva from 'konva';
 	import { onMount, onDestroy, createEventDispatcher } from 'svelte';

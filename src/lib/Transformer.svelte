@@ -1,3 +1,23 @@
+<!--
+@component
+The Transformer component needs to be placed inside a svelte-konva Layer or Group component. 
+
+In order to add shapes to the transformer you need to access the underlying Konva Transformer by binding the `handle` prop. 
+Then use the `nodes()` function to add any shapes to the Transformer.
+
+### Usage:
+```tsx
+<script>
+	let transformer;
+
+	transformer.nodes([someShape, otherShape]);
+</script>
+
+<Transformer config={{}} bind:handle={transformer} />
+```
+
+Further information: [Konva API docs](https://konvajs.org/api/Konva.Transformer.html), [svelte-konva docs](https://teykey1.github.io/svelte-konva)
+-->
 <script lang="ts">
 	import Konva from 'konva';
 	import { onMount, onDestroy, createEventDispatcher } from 'svelte';

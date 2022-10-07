@@ -1,3 +1,20 @@
+<!--
+@component
+The Layer component needs to be placed inside a svelte-konva Stage component. 
+
+### Usage:
+```tsx
+<Stage config={{ width: 1000, height: 1000 }}>
+	<Layer>
+		Place your components here
+	</Layer>
+
+	You also can add multiple Layers to a Stage
+</Stage>
+```
+
+Further information: [Konva API docs](https://konvajs.org/api/Konva.Layer.html), [svelte-konva docs](https://teykey1.github.io/svelte-konva)
+-->
 <script lang="ts">
 	import Konva from 'konva';
 	import { onMount, onDestroy, createEventDispatcher } from 'svelte';
