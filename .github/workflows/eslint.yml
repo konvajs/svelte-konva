@@ -1,4 +1,4 @@
-name: ESLint
+name: Lint and Typecheck
 
 on:
   - push
@@ -20,3 +20,18 @@ jobs:
 
       - name: Run linter
         run: npm i && npm run lint
+  typecheck:
+    name: Run typecheck
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      security-events: write
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Setup/Retrieve npm build chache
+        uses: bahmutov/npm-install@v1
+
+      - name: Run typecheck
+        run: npm i && npm run check
