@@ -25,6 +25,10 @@
 		fill: 'red',
 		draggable: true
 	};
+
+	// Kind of a whack workaround to enable non-null assertions inside the svelte components
+	$: redRingX = redRingConfig.x!;
+	$: redRingY = redRingConfig.y!;
 </script>
 
 <div class="flex justify-center items-center m-2">
@@ -32,7 +36,7 @@
 		<div class="stat">
 			<div class="stat-title">Red Ring</div>
 			<div class="stat-value text-primary">
-				x: {Math.round(redRingConfig.x)} y: {Math.round(redRingConfig.y)}
+				x: {Math.round(redRingX)} y: {Math.round(redRingY)}
 			</div>
 		</div>
 

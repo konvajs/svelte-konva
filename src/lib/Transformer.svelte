@@ -13,7 +13,7 @@ Then use the `nodes()` function to add any shapes to the Transformer.
 	transformer.nodes([someShape, otherShape]);
 </script>
 
-<Transformer config={{}} bind:handle={transformer} />
+<Transformer bind:handle={transformer} />
 ```
 
 Further information: [Konva API docs](https://konvajs.org/api/Konva.Transformer.html), [svelte-konva docs](https://teykey1.github.io/svelte-konva)
@@ -24,8 +24,9 @@ Further information: [Konva API docs](https://konvajs.org/api/Konva.Transformer.
 	import type { Writable } from 'svelte/store';
 	import { registerEvents } from '$lib/util/events';
 	import { getParentContainer, type KonvaParent } from '$lib/util/manageContext';
+	import { copyExistingKeys } from './util/copy';
 
-	export let config: Konva.TransformerConfig;
+	export let config: Konva.TransformerConfig = {};
 	export let handle = new Konva.Transformer(config);
 
 	let parent: Writable<null | KonvaParent> = getParentContainer();
@@ -37,6 +38,16 @@ Further information: [Konva API docs](https://konvajs.org/api/Konva.Transformer.
 
 	onMount(() => {
 		$parent!.add(handle);
+
+		handle.on('transformend', () => {
+			copyExistingKeys(config, handle.getAttrs());
+			config = config;
+		});
+
+		handle.on('dragend', () => {
+			copyExistingKeys(config, handle.getAttrs());
+			config = config;
+		});
 
 		registerEvents(dispatcher, handle);
 	});

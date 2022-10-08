@@ -6,7 +6,7 @@ The Group component automatically groups all components that are placed inside i
 
 ### Usage:
 ```tsx
-<Group config={{}}>
+<Group>
 	Place components that should be grouped here
 </Group>
 ```
@@ -24,9 +24,10 @@ Further information: [Konva API docs](https://konvajs.org/api/Konva.Group.html),
 		type KonvaParent
 	} from '$lib/util/manageContext';
 	import { registerEvents } from '$lib/util/events';
+	import { copyExistingKeys } from './util/copy';
 
-	export let config: Konva.GroupConfig;
-	export let handle: null | Konva.Group = null;
+	export let config: Konva.GroupConfig = {};
+	export let handle: Konva.Group = new Konva.Group(config);
 
 	let inner = writable<null | Konva.Group>(null);
 
@@ -41,9 +42,17 @@ Further information: [Konva API docs](https://konvajs.org/api/Konva.Group.html),
 	let parent: Writable<null | KonvaParent> = getParentContainer();
 
 	onMount(() => {
-		handle = new Konva.Group(config);
-
 		$parent!.add(handle);
+
+		handle.on('transformend', () => {
+			copyExistingKeys(config, handle.getAttrs());
+			config = config;
+		});
+
+		handle.on('dragend', () => {
+			copyExistingKeys(config, handle.getAttrs());
+			config = config;
+		});
 
 		registerEvents(dispatcher, handle);
 

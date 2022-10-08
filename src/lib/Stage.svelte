@@ -18,6 +18,7 @@ Further information: [Konva API docs](https://konvajs.org/api/Konva.Stage.html),
 	import { writable } from 'svelte/store';
 	import { registerEvents } from '$lib/util/events';
 	import { Container, setContainerContext } from '$lib/util/manageContext';
+	import { copyExistingKeys } from './util/copy';
 
 	export let config: Konva.ContainerConfig;
 	export let handle: null | Konva.Stage = null;
@@ -40,6 +41,11 @@ Further information: [Konva API docs](https://konvajs.org/api/Konva.Stage.html),
 			...config
 		});
 
+		handle.on('dragend', () => {
+			copyExistingKeys(config, handle!.getAttrs());
+			config = config;
+		});
+
 		registerEvents(dispatcher, handle);
 
 		inner.set(handle);
@@ -55,7 +61,7 @@ Further information: [Konva API docs](https://konvajs.org/api/Konva.Stage.html),
 	setContainerContext(Container.Stage, inner);
 </script>
 
-<div bind:this={stage}>
+<div bind:this={stage} {...$$restProps}>
 	{#if isReady}
 		<slot />
 	{/if}

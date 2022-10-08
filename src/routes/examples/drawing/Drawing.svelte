@@ -7,6 +7,7 @@
 	// svelte-konva components
 	import Layer from 'svelte-konva/Layer.svelte';
 	import Line from 'svelte-konva/Line.svelte';
+	import type { LineCap, LineJoin } from 'konva/lib/Shape';
 
 	let stage: Konva.Stage;
 
@@ -31,20 +32,15 @@
 			points: [pointerPos.x, pointerPos.y, pointerPos.x, pointerPos.y], // Initial position is added twice to make a single click visible as dot (otherwise a single click would result in an invisible dot)
 			stroke: 'yellow',
 			strokeWidth,
-			lineCap: 'round',
-			lineJoin: 'round',
+			lineCap: 'round' as LineCap,
+			lineJoin: 'round' as LineJoin,
 			tension: 0.5,
 			draggable: false,
-			globalCompositeOperation: ''
+			globalCompositeOperation: 'source-over' as GlobalCompositeOperation
 		};
 
-		switch (selectedTool) {
-			case Tools.Pen:
-				lineConfig.globalCompositeOperation = 'source-over';
-				break;
-			case Tools.Eraser:
-				lineConfig.globalCompositeOperation = 'destination-out';
-				break;
+		if (selectedTool === Tools.Eraser) {
+			lineConfig.globalCompositeOperation = 'destination-out';
 		}
 
 		strokes.push(lineConfig);
