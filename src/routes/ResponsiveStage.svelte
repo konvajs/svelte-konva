@@ -37,17 +37,16 @@
 </script>
 
 <div bind:this={container} style="max-height: 70vh;">
-	<div style="border: solid grey 5px;">
-		<Stage
-			{config}
-			bind:handle
-			on:pointerdblclick
-			on:pointerdown
-			on:pointerup
-			on:pointermove
-			on:mouseout
-		>
-			<slot />
-		</Stage>
-	</div>
+	<Stage
+		{config}
+		style="border: solid grey 5px;"
+		bind:handle
+		on:pointerdblclick
+		on:pointerdown
+		on:pointerup
+		on:pointermove
+		on:mouseout
+	>
+		<slot />
+	</Stage>
 </div>
