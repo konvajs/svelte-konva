@@ -27,11 +27,13 @@
 		"format": "prettier --plugin-search-dir . --write .",
 		"plop": "plop",
 		"prepack": "plop",
-		"predev": "plop"
+		"predev": "plop",
+		"test": "jest src",
+		"test:watch": "npm run test -- --watch"
 	},
 	"peerDependencies": {
-		"konva": ">=8",
-		"canvas": ">=2"
+		"canvas": ">=2",
+		"konva": ">=8"
 	},
 	"devDependencies": {
 		"@sveltejs/adapter-auto": "next",
@@ -39,6 +41,8 @@
 		"@sveltejs/kit": "next",
 		"@sveltejs/package": "next",
 		"@tailwindcss/typography": "^0.5.7",
+		"@testing-library/svelte": "^3.2.2",
+		"@types/jest": "^29.1.2",
 		"@types/lodash.clonedeep": "^4.5.7",
 		"@typescript-eslint/eslint-plugin": "^5.27.0",
 		"@typescript-eslint/parser": "^5.27.0",
@@ -47,6 +51,8 @@
 		"eslint": "^8.16.0",
 		"eslint-config-prettier": "^8.3.0",
 		"eslint-plugin-svelte3": "^4.0.0",
+		"jest": "^29.1.2",
+		"jest-environment-jsdom": "^29.1.2",
 		"konva": "^8.3.13",
 		"lodash.clonedeep": "^4.5.0",
 		"plop": "^3.1.1",
@@ -55,12 +61,34 @@
 		"svelte": "^3.44.0",
 		"svelte-check": "^2.7.1",
 		"svelte-highlight": "^6.2.1",
+		"svelte-jester": "^2.3.2",
 		"svelte-local-storage-store": "^0.3.1",
-		"svelte-preprocess": "^4.10.6",
+		"svelte-preprocess": "^4.10.7",
 		"tailwindcss": "^3.1.8",
+		"ts-jest": "^29.0.3",
 		"tslib": "^2.3.1",
-		"typescript": "^4.7.4",
+		"typescript": "^4.8.4",
 		"vite": "^3.1.0"
 	},
-	"type": "module"
+	"type": "module",
+	"jest": {
+		"transform": {
+			"^.+\\.svelte$": [
+				"svelte-jester",
+				{
+					"preprocess": "./svelte.config.js"
+				}
+			],
+			"^.+\\.ts$": "ts-jest"
+		},
+		"moduleFileExtensions": [
+			"js",
+			"ts",
+			"svelte"
+		],
+		"moduleNameMapper": {
+			"^\\$lib(.*)$": "<rootDir>/src/lib$1"
+		},
+		"testEnvironment": "jsdom"
+	}
 }

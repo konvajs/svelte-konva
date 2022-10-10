@@ -13,7 +13,7 @@ import { getContext, setContext } from 'svelte';
 import type { Writable } from 'svelte/store';
 
 /** Keys used for each konva container element in the svelte context */
-const CONTAINER_COMPONENT_KEYS = [
+export const CONTAINER_COMPONENT_KEYS = [
 	'svelte-konva-stage',
 	'svelte-konva-layer',
 	'svelte-konva-group',
@@ -30,6 +30,10 @@ export enum Container {
 
 type KonvaContainer = Konva.Stage | Konva.Layer | Konva.Group | Konva.Label;
 export type KonvaParent = Konva.Layer | Konva.Group | Konva.Label;
+
+export const CONTAINER_ERROR =
+	'svelte-konva: Component does not have any parent container. Please make sure that the component is wrapped inside a Layer or Group.';
+export const LAYER_ERROR = 'svelte-konva: A Layer needs to have a Stage as parent.';
 
 /**
  * Sets the svelte context of the calling module to the provided konva container type
@@ -57,9 +61,7 @@ export function getParentContainer(): Writable<null | KonvaParent> {
 		}
 	}
 
-	throw new Error(
-		'svelte-konva: Component does not have any parent container. Please make sure that the component is wrapped inside a Layer or Group.'
-	);
+	throw new Error(CONTAINER_ERROR);
 }
 
 export function getParentStage(): Writable<null | Konva.Stage> {
@@ -71,5 +73,5 @@ export function getParentStage(): Writable<null | Konva.Stage> {
 		return parent;
 	}
 
-	throw new Error('svelte-konva: A Layer needs to have a Stage as parent.');
+	throw new Error(LAYER_ERROR);
 }
