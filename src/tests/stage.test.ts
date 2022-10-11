@@ -59,8 +59,7 @@ test('creates a konva stage instance and passes config prop', () => {
 
 test('sets the correct context', () => {
 	const rendered = render(Stage, {
-		config: { width: 1000, height: 1000 },
-		id: 'container'
+		config: { width: 1000, height: 1000 }
 	});
 
 	const component = rendered.component.$$;
@@ -72,8 +71,7 @@ test('sets the correct context', () => {
 
 test('nulls unused context', () => {
 	const rendered = render(Stage, {
-		config: { width: 1000, height: 1000 },
-		id: 'container'
+		config: { width: 1000, height: 1000 }
 	});
 
 	const component = rendered.component.$$;
