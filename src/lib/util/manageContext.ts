@@ -53,7 +53,7 @@ export function setContainerContext(kind: Container, value: Writable<null | Konv
 }
 
 export function getParentContainer(): Writable<null | KonvaParent> {
-	for (let i = 1; i < 3; i++) {
+	for (let i = 1; i < 4; i++) {
 		const parent = getContext<null | Writable<null | KonvaParent>>(CONTAINER_COMPONENT_KEYS[i]);
 
 		if (parent) {
