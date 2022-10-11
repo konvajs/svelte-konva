@@ -63,7 +63,7 @@ Further information: [Konva API docs](https://konvajs.org/api/Konva.Label.html),
 		handle.destroy();
 	});
 
-	setContainerContext(Container.Layer, inner);
+	setContainerContext(Container.Label, inner);
 </script>
 
 {#if isReady}
