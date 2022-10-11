@@ -66,7 +66,7 @@ Further information: [Konva API docs](https://konvajs.org/api/Konva.Group.html),
 		}
 	});
 
-	setContainerContext(Container.Layer, inner);
+	setContainerContext(Container.Group, inner);
 </script>
 
 {#if isReady}
