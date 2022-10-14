@@ -18,7 +18,7 @@ test('throws an error if not placed inside a Container (Layer, Group, Label) com
 	expect(() => {
 		render(TextPath, {
 			props: {
-				config: {x: 0, fontSize: 100, text: "some text", data: "M 1 60 H 168 Z"}
+				config: { x: 0, fontSize: 100, text: 'some text', data: 'M 1 60 H 168 Z' }
 			}
 		});
 	}).toThrow(CONTAINER_ERROR);
@@ -28,7 +28,7 @@ test('throws an error if not placed inside a Container (Layer, Group, Label) com
 		render(TextPath, {
 			context: createMockParentContext(Container.Stage, div),
 			props: {
-				config: {x: 0, fontSize: 100, text: "some text", data: "M 1 60 H 168 Z"}
+				config: { x: 0, fontSize: 100, text: 'some text', data: 'M 1 60 H 168 Z' }
 			}
 		});
 	}).toThrow(CONTAINER_ERROR);
@@ -38,8 +38,8 @@ test('is correctly added to the parent Layer', () => {
 	const mockContext = createMockParentContext(Container.Layer);
 	const rendered = render(TextPath, {
 		context: mockContext,
-        props: {
-			config: {x: 0, fontSize: 100, text: "some text", data: "M 1 60 H 168 Z"}
+		props: {
+			config: { x: 0, fontSize: 100, text: 'some text', data: 'M 1 60 H 168 Z' }
 		}
 	});
 
@@ -59,8 +59,8 @@ test('is correctly added to the parent Group', () => {
 	const mockContext = createMockParentContext(Container.Group);
 	const rendered = render(TextPath, {
 		context: mockContext,
-        props: {
-			config: {x: 0, fontSize: 100, text: "some text", data: "M 1 60 H 168 Z"}
+		props: {
+			config: { x: 0, fontSize: 100, text: 'some text', data: 'M 1 60 H 168 Z' }
 		}
 	});
 
@@ -80,8 +80,8 @@ test('is correctly added to the parent Label', () => {
 	const mockContext = createMockParentContext(Container.Label);
 	const rendered = render(TextPath, {
 		context: mockContext,
-        props: {
-			config: {x: 0, fontSize: 100, text: "some text", data: "M 1 60 H 168 Z"}
+		props: {
+			config: { x: 0, fontSize: 100, text: 'some text', data: 'M 1 60 H 168 Z' }
 		}
 	});
 
@@ -101,7 +101,7 @@ test('Can listen to Konva events', () => {
 	const rendered = render(TextPath, {
 		context: createMockParentContext(Container.Layer),
 		props: {
-			config: {x: 0, fontSize: 100, text: "some text", data: "M 1 60 H 168 Z"}
+			config: { x: 0, fontSize: 100, text: 'some text', data: 'M 1 60 H 168 Z' }
 		}
 	});
 
@@ -122,7 +122,7 @@ test('Can listen to Konva events', () => {
 });
 
 test('Correctly updates bound config on dragend', () => {
-    const rawConfig = {x: 0, fontSize: 100, text: "some text", data: "M 1 60 H 168 Z"};
+	const rawConfig = { x: 0, fontSize: 100, text: 'some text', data: 'M 1 60 H 168 Z' };
 	const CONFIG = { ...rawConfig, draggable: true };
 	const rendered = render(TextPath, {
 		context: createMockParentContext(Container.Layer),
@@ -149,11 +149,11 @@ test('Correctly updates bound config on dragend', () => {
 });
 
 test('Does not alter the context', () => {
-    const mockContext = createMockParentContext(Container.Layer);
+	const mockContext = createMockParentContext(Container.Layer);
 	const rendered = render(TextPath, {
 		context: mockContext,
 		props: {
-			config: {x: 0, fontSize: 100, text: "some text", data: "M 1 60 H 168 Z"}
+			config: { x: 0, fontSize: 100, text: 'some text', data: 'M 1 60 H 168 Z' }
 		}
 	});
 
@@ -168,7 +168,7 @@ test('Konva instance is correctly destroyed on component unmount', () => {
 	const rendered = render(TextPath, {
 		context: mockContext,
 		props: {
-			config: {x: 0, fontSize: 100, text: "some text", data: "M 1 60 H 168 Z"}
+			config: { x: 0, fontSize: 100, text: 'some text', data: 'M 1 60 H 168 Z' }
 		}
 	});
 

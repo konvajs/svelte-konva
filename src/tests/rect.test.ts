@@ -18,7 +18,7 @@ test('throws an error if not placed inside a Container (Layer, Group, Label) com
 	expect(() => {
 		render(Rect, {
 			props: {
-				config: {x: 0, width: 100, height: 100}
+				config: { x: 0, width: 100, height: 100 }
 			}
 		});
 	}).toThrow(CONTAINER_ERROR);
@@ -28,7 +28,7 @@ test('throws an error if not placed inside a Container (Layer, Group, Label) com
 		render(Rect, {
 			context: createMockParentContext(Container.Stage, div),
 			props: {
-				config: {x: 0, width: 100, height: 100}
+				config: { x: 0, width: 100, height: 100 }
 			}
 		});
 	}).toThrow(CONTAINER_ERROR);
@@ -38,8 +38,8 @@ test('is correctly added to the parent Layer', () => {
 	const mockContext = createMockParentContext(Container.Layer);
 	const rendered = render(Rect, {
 		context: mockContext,
-        props: {
-			config: {x: 0, width: 100, height: 100}
+		props: {
+			config: { x: 0, width: 100, height: 100 }
 		}
 	});
 
@@ -59,8 +59,8 @@ test('is correctly added to the parent Group', () => {
 	const mockContext = createMockParentContext(Container.Group);
 	const rendered = render(Rect, {
 		context: mockContext,
-        props: {
-			config: {x: 0, width: 100, height: 100}
+		props: {
+			config: { x: 0, width: 100, height: 100 }
 		}
 	});
 
@@ -80,8 +80,8 @@ test('is correctly added to the parent Label', () => {
 	const mockContext = createMockParentContext(Container.Label);
 	const rendered = render(Rect, {
 		context: mockContext,
-        props: {
-			config: {x: 0, width: 100, height: 100}
+		props: {
+			config: { x: 0, width: 100, height: 100 }
 		}
 	});
 
@@ -101,7 +101,7 @@ test('Can listen to Konva events', () => {
 	const rendered = render(Rect, {
 		context: createMockParentContext(Container.Layer),
 		props: {
-			config: {x: 0, width: 100, height: 100}
+			config: { x: 0, width: 100, height: 100 }
 		}
 	});
 
@@ -122,7 +122,7 @@ test('Can listen to Konva events', () => {
 });
 
 test('Correctly updates bound config on dragend', () => {
-    const rawConfig = {x: 0, width: 100, height: 100};
+	const rawConfig = { x: 0, width: 100, height: 100 };
 	const CONFIG = { ...rawConfig, draggable: true };
 	const rendered = render(Rect, {
 		context: createMockParentContext(Container.Layer),
@@ -149,11 +149,11 @@ test('Correctly updates bound config on dragend', () => {
 });
 
 test('Does not alter the context', () => {
-    const mockContext = createMockParentContext(Container.Layer);
+	const mockContext = createMockParentContext(Container.Layer);
 	const rendered = render(Rect, {
 		context: mockContext,
 		props: {
-			config: {x: 0, width: 100, height: 100}
+			config: { x: 0, width: 100, height: 100 }
 		}
 	});
 
@@ -168,7 +168,7 @@ test('Konva instance is correctly destroyed on component unmount', () => {
 	const rendered = render(Rect, {
 		context: mockContext,
 		props: {
-			config: {x: 0, width: 100, height: 100}
+			config: { x: 0, width: 100, height: 100 }
 		}
 	});
 
