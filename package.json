@@ -26,11 +26,13 @@
 		"lint": "prettier --plugin-search-dir . --check . && eslint .",
 		"format": "prettier --plugin-search-dir . --write .",
 		"plop": "plop",
-		"prepack": "plop",
-		"predev": "plop",
+		"prepack": "plop svelteKonvaComponents",
+		"predev": "plop svelteKonvaComponents",
 		"test": "jest src",
+		"test:watch": "npm run test -- --watch",
+		"pretest": "plop svelteKonvaComponentTests",
 		"coverage": "jest src --coverage",
-		"test:watch": "npm run test -- --watch"
+		"precoverage": "plop svelteKonvaComponentTests"
 	},
 	"peerDependencies": {
 		"canvas": ">=2",
