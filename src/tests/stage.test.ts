@@ -2,8 +2,13 @@ import { render } from '@testing-library/svelte';
 import { get } from 'svelte/store';
 import Konva from 'konva';
 
+// svelte-konva
 import Stage from '$lib/Stage.svelte';
 import { CONTAINER_COMPONENT_KEYS, Container } from '$lib/util/manageContext';
+
+// Mocks
+import './mocks/mouse';
+import type { MockStage } from './mocks/mouse';
 
 test('creates a div container and forwards rest props to div', () => {
 	const rendered = render(Stage, {
@@ -57,6 +62,40 @@ test('creates a konva stage instance and passes config prop', () => {
 	expect((handle as Konva.Stage).getSize()).toStrictEqual(CONFIG);
 });
 
+test('Can listen to Konva events', () => {
+	const rendered = render(Stage, {
+		config: { width: 1000, height: 1000 }
+	});
+
+	const component = rendered.component.$$;
+	const handle: MockStage = component.ctx[component.props['handle']];
+
+	const mockFn = jest.fn();
+	rendered.component.$on('mousedown', mockFn);
+
+	handle.simulateMouseDown({ x: 50, y: 50 });
+
+	expect(mockFn).toHaveBeenCalledTimes(1);
+});
+
+test('Correctly updates bound config on dragend', () => {
+	const CONFIG = { x: 0, width: 1000, height: 1000, draggable: true };
+	const rendered = render(Stage, {
+		config: CONFIG
+	});
+
+	const component = rendered.component.$$;
+	const handle: MockStage = component.ctx[component.props['handle']];
+
+	handle.simulateMouseDown({ x: 50, y: 50 });
+	handle.simulateMouseMove({ x: 100, y: 100 });
+	handle.simulateMouseUp({ x: 100, y: 100 });
+
+	const config = component.ctx[component.props['config']];
+
+	expect(config).toStrictEqual({ ...CONFIG, x: 50 });
+});
+
 test('sets the correct context', () => {
 	const rendered = render(Stage, {
 		config: { width: 1000, height: 1000 }
@@ -83,4 +122,20 @@ test('nulls unused context', () => {
 	otherKeys.forEach((e) => {
 		expect(context.get(e)).toBe(null);
 	});
+});
+
+test('Konva instance is correctly destroyed on component unmount', () => {
+	const rendered = render(Stage, {
+		config: { width: 1000, height: 1000 }
+	});
+
+	expect(Konva.stages.length).toBe(1);
+
+	rendered.unmount();
+
+	const component = rendered.component.$$;
+	const handle = component.ctx[component.props['handle']];
+
+	expect(Konva.stages.length).toBe(0);
+	expect(handle).toBeUndefined();
 });

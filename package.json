@@ -29,6 +29,7 @@
 		"prepack": "plop",
 		"predev": "plop",
 		"test": "jest src",
+		"coverage": "jest src --coverage",
 		"test:watch": "npm run test -- --watch"
 	},
 	"peerDependencies": {

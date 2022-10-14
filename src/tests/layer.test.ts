@@ -1,12 +1,15 @@
 import { render } from '@testing-library/svelte';
+import Konva from 'konva';
+import { get } from 'svelte/store';
 
+// svelte-konva
 import Layer from '$lib/Layer.svelte';
 import { LAYER_ERROR, Container, CONTAINER_COMPONENT_KEYS } from '$lib/util/manageContext';
-import type Konva from 'konva';
-import { get } from 'svelte/store';
 
 // Mocks
 import { createMockParentContext } from './mocks/context';
+import './mocks/mouse';
+import type { MockStage } from './mocks/mouse';
 
 test('throws an error if not placed inside a Stage component', () => {
 	expect(() => {
@@ -62,6 +65,63 @@ test('is correctly added to the parent stage', () => {
 	}
 });
 
+test('Can listen to Konva events', () => {
+	const div = document.createElement('div');
+	const rendered = render(Layer, {
+		context: createMockParentContext(Container.Stage, div)
+	});
+
+	const component = rendered.component.$$;
+	const handle: Konva.Layer = component.ctx[component.props['handle']];
+
+	// As the layer only receives events if any of its children detects an event
+	// we need to create a shape as child of the layer and start the event on that shape
+	// in order to detect the event on the layer. Otherwise clicking on an empty layer only
+	// results in a stage event.
+	const rectangle = new Konva.Rect({ x: 0, y: 0, width: 100, height: 100 });
+	handle.add(rectangle);
+
+	const mockFn = jest.fn();
+	rendered.component.$on('mousedown', mockFn);
+
+	const stage = handle.getStage();
+
+	stage.draw();
+
+	(stage as MockStage).simulateMouseDown({ x: 50, y: 50 });
+
+	expect(mockFn).toHaveBeenCalledTimes(1);
+});
+
+test('Correctly updates bound config on dragend', () => {
+	const CONFIG = { x: 0, draggable: true };
+	const div = document.createElement('div');
+	const rendered = render(Layer, {
+		context: createMockParentContext(Container.Stage, div),
+		props: {
+			config: CONFIG
+		}
+	});
+
+	const component = rendered.component.$$;
+	const handle: Konva.Label = component.ctx[component.props['handle']];
+
+	const stage = handle.getStage()!;
+	const rectangle = new Konva.Rect({ x: 0, y: 0, width: 100, height: 100, fill: 'red' });
+
+	handle.add(rectangle);
+
+	stage.draw();
+
+	(stage as MockStage).simulateMouseDown({ x: 50, y: 50 });
+	(stage as MockStage).simulateMouseMove({ x: 100, y: 100 });
+	(stage as MockStage).simulateMouseUp({ x: 100, y: 100 });
+
+	const config = component.ctx[component.props['config']];
+
+	expect(config).toStrictEqual({ ...CONFIG, x: 50 });
+});
+
 test('sets the correct context', () => {
 	const div = document.createElement('div');
 	const rendered = render(Layer, {
@@ -90,4 +150,33 @@ test('nulls unused context', () => {
 	otherKeys.forEach((e) => {
 		expect(context.get(e)).toBe(null);
 	});
+});
+
+test('Konva instance is correctly destroyed on component unmount', () => {
+	const div = document.createElement('div');
+	const mockContext = createMockParentContext(Container.Stage, div);
+	const rendered = render(Layer, {
+		context: mockContext
+	});
+
+	const parent: Konva.Container = get(mockContext.get(CONTAINER_COMPONENT_KEYS[Container.Stage])!);
+
+	expect(parent.children).toBeTruthy();
+
+	if (parent.children) {
+		expect(parent.children.length).toBe(1);
+	}
+
+	rendered.unmount();
+
+	const component = rendered.component.$$;
+	const handle = component.ctx[component.props['handle']];
+
+	expect(parent.children).toBeTruthy();
+
+	if (parent.children) {
+		expect(parent.children.length).toBe(0);
+	}
+
+	expect(handle).toBeUndefined();
 });
