@@ -78,8 +78,7 @@ const COMPONENT_LIST = [
 		componentName: 'Arrow',
 		example:
 			'<Arrow config={{ x: 100, y: 100, points: [0, 0, 40, 40], pointerLength: 20, pointerWidth: 20, fill: "blue", stroke: "blue", strokeWidth: 6 }} />',
-		testConfig:
-			"{\n\t\t\t\t\tx: 0,\n\t\t\t\t\tpoints: [0, 0, 100, 100],\n\t\t\t\t\tpointerLength: 20,\n\t\t\t\t\tpointerWidth: 20,\n\t\t\t\t\tstrokeWidth: 10,\n\t\t\t\t\tstroke: 'black'\n\t\t\t\t}"
+		testConfig: "{ x: 0, points: [0, 0, 100, 100], strokeWidth: 10, stroke: 'black' }"
 	},
 	{
 		componentName: 'Shape',
