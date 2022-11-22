@@ -129,7 +129,7 @@
 			<ul class="menu menu-compact p-4 overflow-y-auto w-80 bg-base-200 text-base-content">
 				<!-- Sidebar content here -->
 				<li>
-					<Link href="">Home</Link>
+					<Link href="/">Home</Link>
 				</li>
 				<li />
 				<li class="menu-title"><span>docs</span></li>
