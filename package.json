@@ -82,7 +82,8 @@
 					"preprocess": "./svelte.config.js"
 				}
 			],
-			"^.+\\.ts$": "ts-jest"
+			"^.+\\.ts$": "ts-jest",
+			".+\\.(css|styl|less|sass|scss|png|jpg|svg|ttf|woff|woff2)$": "<rootDir>/src/tests/transformers/jestAssetTransform.cjs"
 		},
 		"moduleFileExtensions": [
 			"js",

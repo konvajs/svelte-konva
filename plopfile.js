@@ -88,7 +88,8 @@ const COMPONENT_LIST = [
 	{
 		componentName: 'Tag',
 		example:
-			'<Tag config={{ x: 10, y: 20, fill: "black", pointerDirection: "down", pointerWidth: 10, pointerHeight: 10, lineJoin: "round" }} />'
+			'<Tag config={{ x: 10, y: 20, fill: "black", pointerDirection: "down", pointerWidth: 10, pointerHeight: 10, lineJoin: "round" }} />',
+		testConfig: "{ x: 0, pointerDirection: 'down', pointerWidth: 500, pointerHeight: 200 }"
 	}
 ];
 
