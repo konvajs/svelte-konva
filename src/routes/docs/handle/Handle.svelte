@@ -16,6 +16,7 @@
 	let interval: NodeJS.Timer;
 
 	onMount(async () => {
+		// We need to wait a svelte tick before being able to access the arc handle
 		await tick();
 
 		tween = new Konva.Tween({
