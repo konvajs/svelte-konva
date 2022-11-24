@@ -82,8 +82,7 @@
 					"preprocess": "./svelte.config.js"
 				}
 			],
-			"^.+\\.ts$": "ts-jest",
-			".+\\.(css|styl|less|sass|scss|png|jpg|svg|ttf|woff|woff2)$": "<rootDir>/src/tests/transformers/jestAssetTransform.cjs"
+			"^.+\\.ts$": "ts-jest"
 		},
 		"moduleFileExtensions": [
 			"js",
@@ -93,6 +92,9 @@
 		"moduleNameMapper": {
 			"^\\$lib(.*)$": "<rootDir>/src/lib$1"
 		},
-		"testEnvironment": "jsdom"
+		"testEnvironment": "jsdom",
+		"testEnvironmentOptions": {
+			"resources": "usable"
+		}
 	}
 }
