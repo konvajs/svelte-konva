@@ -14,3 +14,6 @@ yarn.lock
 
 # Ignore templates
 /src/templates
+
+# Ignore coverage report
+/coverage

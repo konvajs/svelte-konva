@@ -17,7 +17,7 @@ const image =
 
 test('throws an error if not placed inside a Container (Layer, Group, Label) component', async () => {
 	const testImage = await new Promise((resolve, reject) => {
-		let img = new Image();
+		const img = new Image();
 		img.onload = () => resolve(img);
 		img.onerror = reject;
 		img.src = image;
@@ -48,7 +48,7 @@ test('throws an error if not placed inside a Container (Layer, Group, Label) com
 
 test('is correctly added to the parent Layer', async () => {
 	const testImage = await new Promise((resolve, reject) => {
-		let img = new Image();
+		const img = new Image();
 		img.onload = () => resolve(img);
 		img.onerror = reject;
 		img.src = image;
@@ -78,7 +78,7 @@ test('is correctly added to the parent Layer', async () => {
 
 test('is correctly added to the parent Group', async () => {
 	const testImage = await new Promise((resolve, reject) => {
-		let img = new Image();
+		const img = new Image();
 		img.onload = () => resolve(img);
 		img.onerror = reject;
 		img.src = image;
@@ -108,7 +108,7 @@ test('is correctly added to the parent Group', async () => {
 
 test('is correctly added to the parent Label', async () => {
 	const testImage = await new Promise((resolve, reject) => {
-		let img = new Image();
+		const img = new Image();
 		img.onload = () => resolve(img);
 		img.onerror = reject;
 		img.src = image;
@@ -138,7 +138,7 @@ test('is correctly added to the parent Label', async () => {
 
 test('Can listen to Konva events', async () => {
 	const testImage = await new Promise((resolve, reject) => {
-		let img = new Image();
+		const img = new Image();
 		img.onload = () => resolve(img);
 		img.onerror = reject;
 		img.src = image;
@@ -171,7 +171,7 @@ test('Can listen to Konva events', async () => {
 
 test('Correctly updates bound config on dragend', async () => {
 	const testImage = await new Promise((resolve, reject) => {
-		let img = new Image();
+		const img = new Image();
 		img.onload = () => resolve(img);
 		img.onerror = reject;
 		img.src = image;
@@ -208,7 +208,7 @@ test('Correctly updates bound config on dragend', async () => {
 
 test('Does not alter the context', async () => {
 	const testImage = await new Promise((resolve, reject) => {
-		let img = new Image();
+		const img = new Image();
 		img.onload = () => resolve(img);
 		img.onerror = reject;
 		img.src = image;
@@ -232,7 +232,7 @@ test('Does not alter the context', async () => {
 
 test('Konva instance is correctly destroyed on component unmount', async () => {
 	const testImage = await new Promise((resolve, reject) => {
-		let img = new Image();
+		const img = new Image();
 		img.onload = () => resolve(img);
 		img.onerror = reject;
 		img.src = image;
