@@ -19,6 +19,10 @@
 		{
 			name: 'Layering',
 			url: '/docs/layering'
+		},
+		{
+			name: 'Usage with SvelteKit',
+			url: '/docs/svelte-kit'
 		}
 	];
 
