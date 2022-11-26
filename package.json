@@ -1,8 +1,9 @@
 {
 	"name": "svelte-konva",
-	"version": "0.0.1",
+	"version": "0.1.0",
 	"author": {
-		"name": "TeyKey1"
+		"name": "TeyKey1",
+		"url": "https://github.com/TeyKey1"
 	},
 	"description": "A Svelte wrapper for Konva",
 	"homepage": "https://teykey1.github.io/svelte-konva",
@@ -12,7 +13,11 @@
 	"repository": "github:TeyKey1/svelte-konva",
 	"keywords": [
 		"konva",
+		"sveltejs",
 		"svelte",
+		"sveltekit",
+		"graphic",
+		"html5",
 		"canvas"
 	],
 	"license": "MIT",
@@ -35,7 +40,6 @@
 		"precoverage": "plop svelteKonvaComponentTests"
 	},
 	"peerDependencies": {
-		"canvas": ">=2",
 		"konva": ">=8"
 	},
 	"devDependencies": {
