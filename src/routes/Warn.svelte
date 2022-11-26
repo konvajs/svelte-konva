@@ -1,4 +1,4 @@
-<div class="alert alert-warning shadow-lg">
+<div class="alert alert-warning shadow-lg dark:prose-a-[black]" id="warn">
 	<div>
 		<svg
 			xmlns="http://www.w3.org/2000/svg"
@@ -15,3 +15,10 @@
 		<span><strong>Caution:</strong> <slot /></span>
 	</div>
 </div>
+
+<style global>
+	#warn a,
+	strong {
+		color: black !important;
+	}
+</style>
