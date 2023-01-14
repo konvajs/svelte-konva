@@ -12,3 +12,15 @@
 	worry about unintended execution on the server-side as svelte-konva only runs client-side code
 	inside the <code>onMount</code> and <code>onDestroy</code> hooks.
 </p>
+
+<h3>Prerendering</h3>
+
+<p>
+	If you want to use svelte-konva or Konva in any prerendered components you need to install <a
+		href="https://www.npmjs.com/package/canvas"
+		target="_blank"
+		rel="noreferrer">canvas</a
+	>
+	as an additional dev dependency (<code>npm i -D canvas</code>) as Konva requires canvas during the
+	build process of SvelteKit.
+</p>
