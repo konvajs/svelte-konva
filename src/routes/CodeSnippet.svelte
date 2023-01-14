@@ -13,18 +13,13 @@
 </svelte:head>
 
 <div
-	tabindex="0"
 	class={show
 		? 'collapse collapse-open collapse-arrow border border-base-300 bg-base-100 rounded-box'
 		: 'collapse collapse-close collapse-arrow border border-base-300 bg-base-100 rounded-box'}
 >
-	<div
-		class="collapse-title text-xl font-medium"
-		style="cursor: pointer;"
-		on:click={() => (show = !show)}
-	>
+	<button class="collapse-title text-xl font-medium" on:click={() => (show = !show)}>
 		{title}
-	</div>
+	</button>
 	<div class="collapse-content not-prose">
 		<HighlightSvelte {code} />
 	</div>

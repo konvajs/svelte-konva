@@ -10,7 +10,8 @@
 <p>
 	svelte-konva is a component based Svelte wrapper for the <a
 		href="https://konvajs.org/"
-		target="_blank">Konva</a
+		target="_blank"
+		rel="noreferrer">Konva</a
 	>
 	HTML 5 2D canvas library. It provides Svelte-components for the following shapes and containers:
 	<code>Stage</code> <code>Layer</code> <code>Group</code> <code>Arc</code> <code>Arrow</code>
@@ -27,8 +28,14 @@
 </p>
 
 <ul>
-	<li><a href="https://konvajs.org/docs/index.html" target="_blank">Konva Tutorials</a></li>
-	<li><a href="https://konvajs.org/api/Konva.html" target="_blank">Konva API docs</a></li>
+	<li>
+		<a href="https://konvajs.org/docs/index.html" target="_blank" rel="noreferrer"
+			>Konva Tutorials</a
+		>
+	</li>
+	<li>
+		<a href="https://konvajs.org/api/Konva.html" target="_blank" rel="noreferrer">Konva API docs</a>
+	</li>
 </ul>
 
 <h2>Why use svelte-konva</h2>

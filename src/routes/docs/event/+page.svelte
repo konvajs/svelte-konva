@@ -11,7 +11,8 @@
 	You can listen to all konva events using the Svelte on:event syntax. There is no need to manually
 	register event listeners yourself. For a list of all available konva events please consult the <a
 		href="https://konvajs.org/docs/events/Binding_Events.html"
-		target="_blank">Konva docs</a
+		target="_blank"
+		rel="noreferrer">Konva docs</a
 	>.
 </p>
 

@@ -53,7 +53,7 @@ test('creates a konva stage instance and passes config prop', () => {
 	});
 
 	const component = rendered.component.$$;
-	const handle = component.ctx[component.props['handle']];
+	const handle = component.ctx[component.props['handle'] as number];
 
 	expect(handle).toBeTruthy();
 
@@ -68,7 +68,7 @@ test('Can listen to Konva events', () => {
 	});
 
 	const component = rendered.component.$$;
-	const handle: MockStage = component.ctx[component.props['handle']];
+	const handle: MockStage = component.ctx[component.props['handle'] as number];
 
 	const mockFn = jest.fn();
 	rendered.component.$on('mousedown', mockFn);
@@ -85,13 +85,13 @@ test('Correctly updates bound config on dragend', () => {
 	});
 
 	const component = rendered.component.$$;
-	const handle: MockStage = component.ctx[component.props['handle']];
+	const handle: MockStage = component.ctx[component.props['handle'] as number];
 
 	handle.simulateMouseDown({ x: 50, y: 50 });
 	handle.simulateMouseMove({ x: 100, y: 100 });
 	handle.simulateMouseUp({ x: 100, y: 100 });
 
-	const config = component.ctx[component.props['config']];
+	const config = component.ctx[component.props['config'] as number];
 
 	expect(config).toStrictEqual({ ...CONFIG, x: 50 });
 });
@@ -103,7 +103,7 @@ test('sets the correct context', () => {
 
 	const component = rendered.component.$$;
 	const context = component.context;
-	const handle = component.ctx[component.props['handle']];
+	const handle = component.ctx[component.props['handle'] as number];
 
 	expect(get(context.get(CONTAINER_COMPONENT_KEYS[Container.Stage]))).toStrictEqual(handle);
 });
@@ -134,7 +134,7 @@ test('Konva instance is correctly destroyed on component unmount', () => {
 	rendered.unmount();
 
 	const component = rendered.component.$$;
-	const handle = component.ctx[component.props['handle']];
+	const handle = component.ctx[component.props['handle'] as number];
 
 	expect(Konva.stages.length).toBe(0);
 	expect(handle).toBeUndefined();

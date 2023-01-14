@@ -42,7 +42,7 @@ test('is correctly added to the parent Layer', () => {
 
 	const component = rendered.component.$$;
 	const parent: Konva.Container = get(mockContext.get(CONTAINER_COMPONENT_KEYS[Container.Layer])!);
-	const handle = component.ctx[component.props['handle']];
+	const handle = component.ctx[component.props['handle'] as number];
 
 	expect(parent.children).toBeTruthy();
 
@@ -63,7 +63,7 @@ test('is correctly added to the parent Group', () => {
 
 	const component = rendered.component.$$;
 	const parent: Konva.Container = get(mockContext.get(CONTAINER_COMPONENT_KEYS[Container.Group])!);
-	const handle = component.ctx[component.props['handle']];
+	const handle = component.ctx[component.props['handle'] as number];
 
 	expect(parent.children).toBeTruthy();
 
@@ -84,7 +84,7 @@ test('is correctly added to the parent Label', () => {
 
 	const component = rendered.component.$$;
 	const parent: Konva.Container = get(mockContext.get(CONTAINER_COMPONENT_KEYS[Container.Label])!);
-	const handle = component.ctx[component.props['handle']];
+	const handle = component.ctx[component.props['handle'] as number];
 
 	expect(parent.children).toBeTruthy();
 
@@ -103,7 +103,7 @@ test('Can listen to Konva events', () => {
 	});
 
 	const component = rendered.component.$$;
-	const handle: Konva.Label = component.ctx[component.props['handle']];
+	const handle: Konva.Label = component.ctx[component.props['handle'] as number];
 
 	const div = document.createElement('div');
 	const stage = new Konva.Stage({ container: div, width: 1000, height: 1000 });
@@ -130,7 +130,7 @@ test('Correctly updates bound config on dragend', () => {
 	});
 
 	const component = rendered.component.$$;
-	const handle: Konva.Label = component.ctx[component.props['handle']];
+	const handle: Konva.Label = component.ctx[component.props['handle'] as number];
 
 	const div = document.createElement('div');
 	const stage = new Konva.Stage({ container: div, width: 1000, height: 1000 });
@@ -143,7 +143,7 @@ test('Correctly updates bound config on dragend', () => {
 	(stage as MockStage).simulateMouseMove({ x: 100, y: 100 });
 	(stage as MockStage).simulateMouseUp({ x: 100, y: 100 });
 
-	const config = component.ctx[component.props['config']];
+	const config = component.ctx[component.props['config'] as number];
 
 	expect(config).toStrictEqual({ ...CONFIG, x: 50 });
 });
@@ -158,7 +158,7 @@ test('sets the correct context', () => {
 
 	const component = rendered.component.$$;
 	const context = component.context;
-	const handle = component.ctx[component.props['handle']];
+	const handle = component.ctx[component.props['handle'] as number];
 
 	expect(get(context.get(CONTAINER_COMPONENT_KEYS[Container.Label]))).toStrictEqual(handle);
 });
@@ -202,7 +202,7 @@ test('Konva instance is correctly destroyed on component unmount', () => {
 	rendered.unmount();
 
 	const component = rendered.component.$$;
-	const handle = component.ctx[component.props['handle']];
+	const handle = component.ctx[component.props['handle'] as number];
 
 	expect(parent.children).toBeTruthy();
 

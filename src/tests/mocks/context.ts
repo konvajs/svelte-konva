@@ -4,7 +4,7 @@ import { writable, type Writable } from 'svelte/store';
 
 /**
  * Currently testing in Svelte is very limited especially for special/unusual things like svelte-konva.
- * This is a workaround in order to tick a component into thinking that it is wrapped inside the provided svelte-konva parent container (but actually isn't).
+ * This is a workaround in order to trick a component into thinking that it is wrapped inside the provided svelte-konva parent container (but actually isn't).
  *
  * @param parent The mocked svelte-konva parent container kind
  * @param container HTML Div element (only required for Stage container)

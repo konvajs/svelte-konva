@@ -34,7 +34,8 @@
 	In order to understand the following explanations it is important to understand how Konva itself
 	handles layering. The Konva docs explain this <a
 		href="https://konvajs.org/docs/groups_and_layers/zIndex.html"
-		target="_blank">here</a
+		target="_blank"
+		rel="noreferrer">here</a
 	>.
 </p>
 
@@ -133,8 +134,10 @@
 
 <h3>Dynamic Layering using native Konva methods</h3>
 <p>
-	Using the <a href="https://konvajs.org/docs/groups_and_layers/Layering.html" target="_blank"
-		>Konva methods</a
+	Using the <a
+		href="https://konvajs.org/docs/groups_and_layers/Layering.html"
+		target="_blank"
+		rel="noreferrer">Konva methods</a
 	> for layering shapes and containers you can achieve virtually any functionality.
 </p>
 

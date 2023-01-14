@@ -1,6 +1,6 @@
 {
 	"name": "svelte-konva",
-	"version": "0.1.0",
+	"version": "0.1.1",
 	"author": {
 		"name": "TeyKey1",
 		"url": "https://github.com/TeyKey1"
@@ -40,19 +40,20 @@
 		"precoverage": "plop svelteKonvaComponentTests"
 	},
 	"peerDependencies": {
+		"svelte": ">=3",
 		"konva": ">=8"
 	},
 	"devDependencies": {
-		"@sveltejs/adapter-auto": "next",
-		"@sveltejs/adapter-static": "^1.0.0-next.44",
-		"@sveltejs/kit": "next",
-		"@sveltejs/package": "next",
+		"@sveltejs/adapter-static": "^1.0.2",
+		"@sveltejs/kit": "^1.1.0",
+		"@sveltejs/package": "^1.0.2",
 		"@tailwindcss/typography": "^0.5.7",
 		"@testing-library/svelte": "3.1.3",
 		"@types/jest": "^29.1.2",
 		"@types/lodash.clonedeep": "^4.5.7",
 		"@typescript-eslint/eslint-plugin": "^5.44.0",
 		"@typescript-eslint/parser": "^5.27.0",
+		"canvas": "^2.11.0",
 		"daisyui": "^2.31.0",
 		"eslint": "^8.28.0",
 		"eslint-config-prettier": "^8.3.0",
@@ -74,7 +75,7 @@
 		"ts-jest": "^29.0.3",
 		"tslib": "^2.3.1",
 		"typescript": "^4.8.4",
-		"vite": "^3.2.3"
+		"vite": "^4.0.0"
 	},
 	"type": "module",
 	"jest": {

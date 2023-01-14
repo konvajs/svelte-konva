@@ -21,5 +21,6 @@
 The source code can be found in the
 <a
 	href="https://github.com/TeyKey1/svelte-konva/tree/master/src/routes/examples/connectFour"
-	target="_blank">svelte-konva repository</a
+	target="_blank"
+	rel="noreferrer">svelte-konva repository</a
 >.

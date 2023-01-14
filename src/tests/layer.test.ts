@@ -41,7 +41,7 @@ test('passes the config prop', () => {
 	});
 
 	const component = rendered.component.$$;
-	const handle: Konva.Layer = component.ctx[component.props['handle']];
+	const handle: Konva.Layer = component.ctx[component.props['handle'] as number];
 
 	expect(handle.getAttrs()).toStrictEqual(CONFIG);
 });
@@ -55,7 +55,7 @@ test('is correctly added to the parent stage', () => {
 
 	const component = rendered.component.$$;
 	const parent: Konva.Container = get(mockContext.get(CONTAINER_COMPONENT_KEYS[Container.Stage])!);
-	const handle = component.ctx[component.props['handle']];
+	const handle = component.ctx[component.props['handle'] as number];
 
 	expect(parent.children).toBeTruthy();
 
@@ -72,7 +72,7 @@ test('Can listen to Konva events', () => {
 	});
 
 	const component = rendered.component.$$;
-	const handle: Konva.Layer = component.ctx[component.props['handle']];
+	const handle: Konva.Layer = component.ctx[component.props['handle'] as number];
 
 	// As the layer only receives events if any of its children detects an event
 	// we need to create a shape as child of the layer and start the event on that shape
@@ -104,7 +104,7 @@ test('Correctly updates bound config on dragend', () => {
 	});
 
 	const component = rendered.component.$$;
-	const handle: Konva.Label = component.ctx[component.props['handle']];
+	const handle: Konva.Label = component.ctx[component.props['handle'] as number];
 
 	const stage = handle.getStage()!;
 	const rectangle = new Konva.Rect({ x: 0, y: 0, width: 100, height: 100, fill: 'red' });
@@ -117,7 +117,7 @@ test('Correctly updates bound config on dragend', () => {
 	(stage as MockStage).simulateMouseMove({ x: 100, y: 100 });
 	(stage as MockStage).simulateMouseUp({ x: 100, y: 100 });
 
-	const config = component.ctx[component.props['config']];
+	const config = component.ctx[component.props['config'] as number];
 
 	expect(config).toStrictEqual({ ...CONFIG, x: 50 });
 });
@@ -130,7 +130,7 @@ test('sets the correct context', () => {
 
 	const component = rendered.component.$$;
 	const context = component.context;
-	const handle = component.ctx[component.props['handle']];
+	const handle = component.ctx[component.props['handle'] as number];
 
 	expect(get(context.get(CONTAINER_COMPONENT_KEYS[Container.Layer]))).toStrictEqual(handle);
 });
@@ -170,7 +170,7 @@ test('Konva instance is correctly destroyed on component unmount', () => {
 	rendered.unmount();
 
 	const component = rendered.component.$$;
-	const handle = component.ctx[component.props['handle']];
+	const handle = component.ctx[component.props['handle'] as number];
 
 	expect(parent.children).toBeTruthy();
 

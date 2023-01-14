@@ -78,7 +78,7 @@ test('is correctly added to the parent Layer', async () => {
 
 	const component = rendered.component.$$;
 	const parent: Konva.Container = get(mockContext.get(CONTAINER_COMPONENT_KEYS[Container.Layer])!);
-	const handle = component.ctx[component.props['handle']];
+	const handle = component.ctx[component.props['handle'] as number];
 
 	expect(parent.children).toBeTruthy();
 
@@ -112,7 +112,7 @@ test('is correctly added to the parent Group', async () => {
 
 	const component = rendered.component.$$;
 	const parent: Konva.Container = get(mockContext.get(CONTAINER_COMPONENT_KEYS[Container.Group])!);
-	const handle = component.ctx[component.props['handle']];
+	const handle = component.ctx[component.props['handle'] as number];
 
 	expect(parent.children).toBeTruthy();
 
@@ -146,7 +146,7 @@ test('is correctly added to the parent Label', async () => {
 
 	const component = rendered.component.$$;
 	const parent: Konva.Container = get(mockContext.get(CONTAINER_COMPONENT_KEYS[Container.Label])!);
-	const handle = component.ctx[component.props['handle']];
+	const handle = component.ctx[component.props['handle'] as number];
 
 	expect(parent.children).toBeTruthy();
 
@@ -178,7 +178,7 @@ test('Can listen to Konva events', async () => {
 	});
 
 	const component = rendered.component.$$;
-	const handle: Konva.Ring = component.ctx[component.props['handle']];
+	const handle: Konva.Ring = component.ctx[component.props['handle'] as number];
 
 	const div = document.createElement('div');
 	const stage = new Konva.Stage({ container: div, width: 1000, height: 1000 });
@@ -218,7 +218,7 @@ test('Correctly updates bound config on dragend', async () => {
 	});
 
 	const component = rendered.component.$$;
-	const handle: Konva.Ring = component.ctx[component.props['handle']];
+	const handle: Konva.Ring = component.ctx[component.props['handle'] as number];
 
 	const div = document.createElement('div');
 	const stage = new Konva.Stage({ container: div, width: 1000, height: 1000 });
@@ -229,7 +229,7 @@ test('Correctly updates bound config on dragend', async () => {
 	(stage as MockStage).simulateMouseMove({ x: 70, y: 70 });
 	(stage as MockStage).simulateMouseUp({ x: 70, y: 70 });
 
-	const config = component.ctx[component.props['config']];
+	const config = component.ctx[component.props['config'] as number];
 
 	expect(config).toStrictEqual({ ...CONFIG, x: 50 });
 });
@@ -295,7 +295,7 @@ test('Konva instance is correctly destroyed on component unmount', async () => {
 	rendered.unmount();
 
 	const component = rendered.component.$$;
-	const handle = component.ctx[component.props['handle']];
+	const handle = component.ctx[component.props['handle'] as number];
 
 	expect(parent.children).toBeTruthy();
 
