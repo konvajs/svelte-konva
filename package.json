@@ -44,7 +44,7 @@
 		"konva": ">=8"
 	},
 	"devDependencies": {
-		"@sveltejs/adapter-static": "^1.0.2",
+		"@sveltejs/adapter-static": "^2.0.1",
 		"@sveltejs/kit": "^1.1.0",
 		"@sveltejs/package": "^1.0.2",
 		"@tailwindcss/typography": "^0.5.7",
