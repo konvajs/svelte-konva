@@ -22,9 +22,6 @@ const config = {
 		}),
 		alias: {
 			'svelte-konva': 'src/lib'
-		},
-		paths: {
-			base: dev ? '' : '/svelte-konva'
 		}
 	}
 };
