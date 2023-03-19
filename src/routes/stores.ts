@@ -1,3 +1,3 @@
-import { writable } from 'svelte-local-storage-store';
+import { persisted } from 'svelte-local-storage-store';
 
-export const darkMode = writable('darkMode', false);
+export const darkMode = persisted('darkMode', false);
