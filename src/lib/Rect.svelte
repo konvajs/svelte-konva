@@ -15,16 +15,18 @@ Further information: [Konva API docs](https://konvajs.org/api/Konva.Rect.html), 
 	 */
 
 	import Konva from 'konva';
-	import { onMount, onDestroy, createEventDispatcher } from 'svelte';
+	import { onMount, onDestroy, beforeUpdate, createEventDispatcher } from 'svelte';
 	import type { Writable } from 'svelte/store';
 	import { registerEvents } from '$lib/util/events';
 	import { getParentContainer, type KonvaParent } from '$lib/util/manageContext';
 	import { copyExistingKeys } from '$lib/util/copy';
+	import { getOrderManager } from './util/manageOrder';
 
 	export let config: Konva.RectConfig;
 	export let handle = new Konva.Rect(config);
 
 	let parent: Writable<null | KonvaParent> = getParentContainer();
+	let parentOrderManager = getOrderManager();
 	let dispatcher = createEventDispatcher();
 
 	$: handle.setAttrs(config);
@@ -43,6 +45,10 @@ Further information: [Konva API docs](https://konvajs.org/api/Konva.Rect.html), 
 		});
 
 		registerEvents(dispatcher, handle);
+	});
+
+	beforeUpdate(() => {
+		parentOrderManager.signalComponentOrder(handle);
 	});
 
 	onDestroy(() => {

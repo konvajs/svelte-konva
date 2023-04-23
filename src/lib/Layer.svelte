@@ -17,16 +17,19 @@ Further information: [Konva API docs](https://konvajs.org/api/Konva.Layer.html),
 -->
 <script lang="ts">
 	import Konva from 'konva';
-	import { onMount, onDestroy, createEventDispatcher } from 'svelte';
+	import { onMount, onDestroy, beforeUpdate, createEventDispatcher } from 'svelte';
 	import { type Writable, writable } from 'svelte/store';
 	import { Container, getParentStage, setContainerContext } from '$lib/util/manageContext';
 	import { registerEvents } from '$lib/util/events';
 	import { copyExistingKeys } from './util/copy';
+	import { OrderManager, getOrderManager, setOrderManagerContext } from './util/manageOrder';
 
 	export let config: Konva.LayerConfig = {};
 	export let handle: Konva.Layer = new Konva.Layer(config);
 
 	let inner = writable<null | Konva.Layer>(null);
+	let parentOrderManager = getOrderManager();
+	let orderManager = new OrderManager(handle);
 
 	let dispatcher = createEventDispatcher();
 
@@ -58,12 +61,15 @@ Further information: [Konva API docs](https://konvajs.org/api/Konva.Layer.html),
 	});
 
 	onDestroy(() => {
-		if (handle) {
-			handle.destroy();
-		}
+		handle.destroy();
 	});
 
 	setContainerContext(Container.Layer, inner);
+	setOrderManagerContext(orderManager);
+
+	beforeUpdate(() => {
+		if (parentOrderManager) parentOrderManager.signalComponentOrder(handle);
+	});
 </script>
 
 {#if isReady}

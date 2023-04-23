@@ -28,7 +28,7 @@ export enum Container {
 	Label = 3
 }
 
-type KonvaContainer = Konva.Stage | Konva.Layer | Konva.Group | Konva.Label;
+export type KonvaContainer = Konva.Stage | Konva.Layer | Konva.Group | Konva.Label;
 export type KonvaParent = Konva.Layer | Konva.Group | Konva.Label;
 
 export const CONTAINER_ERROR =
