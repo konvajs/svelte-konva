@@ -7,7 +7,7 @@ The Arrow component needs to be placed either inside a svelte-konva Layer or Gro
 <Arrow config={{ x: 100, y: 100, points: [0, 0, 40, 40], pointerLength: 20, pointerWidth: 20, fill: "blue", stroke: "blue", strokeWidth: 6 }} />
 ```
 
-Further information: [Konva API docs](https://konvajs.org/api/Konva.Arrow.html), [svelte-konva docs](https://teykey1.github.io/svelte-konva)
+Further information: [Konva API docs](https://konvajs.org/api/Konva.Arrow.html), [svelte-konva docs](https://konvajs.org/docs/svelte)
 -->
 <script lang="ts">
 	/**

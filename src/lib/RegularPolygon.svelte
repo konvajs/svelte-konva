@@ -7,7 +7,7 @@ The RegularPolygon component needs to be placed either inside a svelte-konva Lay
 <RegularPolygon config={{ x: 100, y: 100, sides: 7, radius: 70, fill: "blue" }} />
 ```
 
-Further information: [Konva API docs](https://konvajs.org/api/Konva.RegularPolygon.html), [svelte-konva docs](https://teykey1.github.io/svelte-konva)
+Further information: [Konva API docs](https://konvajs.org/api/Konva.RegularPolygon.html), [svelte-konva docs](https://konvajs.org/docs/svelte)
 -->
 <script lang="ts">
 	/**

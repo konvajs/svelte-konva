@@ -7,7 +7,7 @@ The TextPath component needs to be placed either inside a svelte-konva Layer or 
 <TextPath config={{ x: 100, y: 100, fill: "#333", text: "some text", fontSize: 25, data: "M10 10 C0 0 10 150 100 100 S300 150 5.0.300" }} />
 ```
 
-Further information: [Konva API docs](https://konvajs.org/api/Konva.TextPath.html), [svelte-konva docs](https://teykey1.github.io/svelte-konva)
+Further information: [Konva API docs](https://konvajs.org/api/Konva.TextPath.html), [svelte-konva docs](https://konvajs.org/docs/svelte)
 -->
 <script lang="ts">
 	/**

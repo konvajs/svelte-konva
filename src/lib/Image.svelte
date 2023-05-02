@@ -7,7 +7,7 @@ The Image component needs to be placed either inside a svelte-konva Layer or Gro
 <Image config={{ x: 100, y: 100, image: imageObj, width: 100, height: 100 }} />
 ```
 
-Further information: [Konva API docs](https://konvajs.org/api/Konva.Image.html), [svelte-konva docs](https://teykey1.github.io/svelte-konva)
+Further information: [Konva API docs](https://konvajs.org/api/Konva.Image.html), [svelte-konva docs](https://konvajs.org/docs/svelte)
 -->
 <script lang="ts">
 	/**

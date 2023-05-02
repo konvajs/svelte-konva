@@ -11,7 +11,7 @@ The Group component automatically groups all components that are placed inside i
 </Group>
 ```
 
-Further information: [Konva API docs](https://konvajs.org/api/Konva.Group.html), [svelte-konva docs](https://teykey1.github.io/svelte-konva)
+Further information: [Konva API docs](https://konvajs.org/api/Konva.Group.html), [svelte-konva docs](https://konvajs.org/docs/svelte)
 -->
 <script lang="ts">
 	import Konva from 'konva';

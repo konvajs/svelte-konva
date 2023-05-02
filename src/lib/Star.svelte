@@ -7,7 +7,7 @@ The Star component needs to be placed either inside a svelte-konva Layer or Grou
 <Star config={{ x: 100, y: 100, innerRadius: 25, outerRadius: 50, numPoints: 5, fill: "blue" }} />
 ```
 
-Further information: [Konva API docs](https://konvajs.org/api/Konva.Star.html), [svelte-konva docs](https://teykey1.github.io/svelte-konva)
+Further information: [Konva API docs](https://konvajs.org/api/Konva.Star.html), [svelte-konva docs](https://konvajs.org/docs/svelte)
 -->
 <script lang="ts">
 	/**

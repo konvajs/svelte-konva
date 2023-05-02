@@ -7,7 +7,7 @@ The Sprite component needs to be placed either inside a svelte-konva Layer or Gr
 <Sprite config={{ x: 100, y: 100, image: imageObj, animation: "idle", animations: animations, frameRate: 7, frameIndex: 0 }} />
 ```
 
-Further information: [Konva API docs](https://konvajs.org/api/Konva.Sprite.html), [svelte-konva docs](https://teykey1.github.io/svelte-konva)
+Further information: [Konva API docs](https://konvajs.org/api/Konva.Sprite.html), [svelte-konva docs](https://konvajs.org/docs/svelte)
 -->
 <script lang="ts">
 	/**

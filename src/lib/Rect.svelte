@@ -7,7 +7,7 @@ The Rect component needs to be placed either inside a svelte-konva Layer or Grou
 <Rect config={{ x: 100, y: 100, width: 100, height: 50, fill: "blue" }} />
 ```
 
-Further information: [Konva API docs](https://konvajs.org/api/Konva.Rect.html), [svelte-konva docs](https://teykey1.github.io/svelte-konva)
+Further information: [Konva API docs](https://konvajs.org/api/Konva.Rect.html), [svelte-konva docs](https://konvajs.org/docs/svelte)
 -->
 <script lang="ts">
 	/**

@@ -77,7 +77,7 @@
 					<p class="normal-case text-xl font-bold">svelte-konva docs</p>
 				</div>
 				<div class="navbar-end">
-					<a href="https://github.com/TeyKey1/svelte-konva">
+					<a href="https://github.com/konvajs/svelte-konva">
 						<button class="btn btn-square btn-ghost">
 							<svg viewBox="0 0 24 24" aria-hidden="true" class="h-7 w-7 fill-base-content"
 								><path

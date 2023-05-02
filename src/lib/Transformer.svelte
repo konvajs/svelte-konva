@@ -16,7 +16,7 @@ Then use the `nodes()` function to add any shapes to the Transformer.
 <Transformer bind:handle={transformer} />
 ```
 
-Further information: [Konva API docs](https://konvajs.org/api/Konva.Transformer.html), [svelte-konva docs](https://teykey1.github.io/svelte-konva)
+Further information: [Konva API docs](https://konvajs.org/api/Konva.Transformer.html), [svelte-konva docs](https://konvajs.org/docs/svelte)
 -->
 <script lang="ts">
 	import Konva from 'konva';

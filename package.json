@@ -6,11 +6,11 @@
 		"url": "https://github.com/TeyKey1"
 	},
 	"description": "A Svelte wrapper for Konva",
-	"homepage": "https://teykey1.github.io/svelte-konva",
+	"homepage": "https://konvajs.org/docs/svelte",
 	"bugs": {
-		"url": "https://github.com/TeyKey1/svelte-konva/issues"
+		"url": "https://github.com/konvajs/svelte-konva/issues"
 	},
-	"repository": "github:TeyKey1/svelte-konva",
+	"repository": "github:konvajs/svelte-konva",
 	"keywords": [
 		"konva",
 		"sveltejs",

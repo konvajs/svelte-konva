@@ -7,7 +7,7 @@ The Ellipse component needs to be placed either inside a svelte-konva Layer or G
 <Ellipse config={{ x: 100, y: 100, radiusX: 50, radiusY: 25, fill: "blue" }} />
 ```
 
-Further information: [Konva API docs](https://konvajs.org/api/Konva.Ellipse.html), [svelte-konva docs](https://teykey1.github.io/svelte-konva)
+Further information: [Konva API docs](https://konvajs.org/api/Konva.Ellipse.html), [svelte-konva docs](https://konvajs.org/docs/svelte)
 -->
 <script lang="ts">
 	/**
