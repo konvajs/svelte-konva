@@ -112,6 +112,8 @@ With svelte-konva you can bind the config prop of a component to have its fields
 </Stage>
 ```
 
+For further examples please consult the [docs](https://konvajs.org/docs/svelte) or clone the repo and run `npm i && npm run examples`.
+
 ## Changelog
 
 Please refer to the [CHANGELOG.md](https://github.com/konvajs/svelte-konva/blob/master/CHANGELOG.md) or [releases](https://github.com/konvajs/svelte-konva/releases) page.
