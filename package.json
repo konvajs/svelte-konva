@@ -45,7 +45,7 @@
 	"devDependencies": {
 		"@sveltejs/adapter-static": "^2.0.1",
 		"@sveltejs/kit": "^1.12.0",
-		"@sveltejs/package": "^1.0.2",
+		"@sveltejs/package": "^2.0.2",
 		"@tailwindcss/typography": "^0.5.7",
 		"@testing-library/svelte": "3.1.3",
 		"@types/jest": "^29.1.2",
@@ -97,6 +97,201 @@
 		"testEnvironment": "jsdom",
 		"testEnvironmentOptions": {
 			"resources": "usable"
+		}
+	},
+	"exports": {
+		"./package.json": "./package.json",
+		"./Arc.svelte": {
+			"types": "./dist/Arc.svelte.d.ts",
+			"svelte": "./dist/Arc.svelte",
+			"default": "./dist/Arc.svelte"
+		},
+		"./Arrow.svelte": {
+			"types": "./dist/Arrow.svelte.d.ts",
+			"svelte": "./dist/Arrow.svelte",
+			"default": "./dist/Arrow.svelte"
+		},
+		"./Circle.svelte": {
+			"types": "./dist/Circle.svelte.d.ts",
+			"svelte": "./dist/Circle.svelte",
+			"default": "./dist/Circle.svelte"
+		},
+		"./Ellipse.svelte": {
+			"types": "./dist/Ellipse.svelte.d.ts",
+			"svelte": "./dist/Ellipse.svelte",
+			"default": "./dist/Ellipse.svelte"
+		},
+		"./Group.svelte": {
+			"types": "./dist/Group.svelte.d.ts",
+			"svelte": "./dist/Group.svelte",
+			"default": "./dist/Group.svelte"
+		},
+		"./Image.svelte": {
+			"types": "./dist/Image.svelte.d.ts",
+			"svelte": "./dist/Image.svelte",
+			"default": "./dist/Image.svelte"
+		},
+		".": {
+			"types": "./dist/index.d.ts",
+			"svelte": "./dist/index.js",
+			"default": "./dist/index.js"
+		},
+		"./Label.svelte": {
+			"types": "./dist/Label.svelte.d.ts",
+			"svelte": "./dist/Label.svelte",
+			"default": "./dist/Label.svelte"
+		},
+		"./Layer.svelte": {
+			"types": "./dist/Layer.svelte.d.ts",
+			"svelte": "./dist/Layer.svelte",
+			"default": "./dist/Layer.svelte"
+		},
+		"./Line.svelte": {
+			"types": "./dist/Line.svelte.d.ts",
+			"svelte": "./dist/Line.svelte",
+			"default": "./dist/Line.svelte"
+		},
+		"./Path.svelte": {
+			"types": "./dist/Path.svelte.d.ts",
+			"svelte": "./dist/Path.svelte",
+			"default": "./dist/Path.svelte"
+		},
+		"./Rect.svelte": {
+			"types": "./dist/Rect.svelte.d.ts",
+			"svelte": "./dist/Rect.svelte",
+			"default": "./dist/Rect.svelte"
+		},
+		"./RegularPolygon.svelte": {
+			"types": "./dist/RegularPolygon.svelte.d.ts",
+			"svelte": "./dist/RegularPolygon.svelte",
+			"default": "./dist/RegularPolygon.svelte"
+		},
+		"./Ring.svelte": {
+			"types": "./dist/Ring.svelte.d.ts",
+			"svelte": "./dist/Ring.svelte",
+			"default": "./dist/Ring.svelte"
+		},
+		"./Shape.svelte": {
+			"types": "./dist/Shape.svelte.d.ts",
+			"svelte": "./dist/Shape.svelte",
+			"default": "./dist/Shape.svelte"
+		},
+		"./Sprite.svelte": {
+			"types": "./dist/Sprite.svelte.d.ts",
+			"svelte": "./dist/Sprite.svelte",
+			"default": "./dist/Sprite.svelte"
+		},
+		"./Stage.svelte": {
+			"types": "./dist/Stage.svelte.d.ts",
+			"svelte": "./dist/Stage.svelte",
+			"default": "./dist/Stage.svelte"
+		},
+		"./Star.svelte": {
+			"types": "./dist/Star.svelte.d.ts",
+			"svelte": "./dist/Star.svelte",
+			"default": "./dist/Star.svelte"
+		},
+		"./Tag.svelte": {
+			"types": "./dist/Tag.svelte.d.ts",
+			"svelte": "./dist/Tag.svelte",
+			"default": "./dist/Tag.svelte"
+		},
+		"./Text.svelte": {
+			"types": "./dist/Text.svelte.d.ts",
+			"svelte": "./dist/Text.svelte",
+			"default": "./dist/Text.svelte"
+		},
+		"./TextPath.svelte": {
+			"types": "./dist/TextPath.svelte.d.ts",
+			"svelte": "./dist/TextPath.svelte",
+			"default": "./dist/TextPath.svelte"
+		},
+		"./Transformer.svelte": {
+			"types": "./dist/Transformer.svelte.d.ts",
+			"svelte": "./dist/Transformer.svelte",
+			"default": "./dist/Transformer.svelte"
+		},
+		"./Wedge.svelte": {
+			"types": "./dist/Wedge.svelte.d.ts",
+			"svelte": "./dist/Wedge.svelte",
+			"default": "./dist/Wedge.svelte"
+		}
+	},
+	"files": [
+		"dist"
+	],
+	"svelte": "./dist/index.js",
+	"typesVersions": {
+		">4.0": {
+			"Arc.svelte": [
+				"./dist/Arc.svelte.d.ts"
+			],
+			"Arrow.svelte": [
+				"./dist/Arrow.svelte.d.ts"
+			],
+			"Circle.svelte": [
+				"./dist/Circle.svelte.d.ts"
+			],
+			"Ellipse.svelte": [
+				"./dist/Ellipse.svelte.d.ts"
+			],
+			"Group.svelte": [
+				"./dist/Group.svelte.d.ts"
+			],
+			"Image.svelte": [
+				"./dist/Image.svelte.d.ts"
+			],
+			"index": [
+				"./dist/index.d.ts"
+			],
+			"Label.svelte": [
+				"./dist/Label.svelte.d.ts"
+			],
+			"Layer.svelte": [
+				"./dist/Layer.svelte.d.ts"
+			],
+			"Line.svelte": [
+				"./dist/Line.svelte.d.ts"
+			],
+			"Path.svelte": [
+				"./dist/Path.svelte.d.ts"
+			],
+			"Rect.svelte": [
+				"./dist/Rect.svelte.d.ts"
+			],
+			"RegularPolygon.svelte": [
+				"./dist/RegularPolygon.svelte.d.ts"
+			],
+			"Ring.svelte": [
+				"./dist/Ring.svelte.d.ts"
+			],
+			"Shape.svelte": [
+				"./dist/Shape.svelte.d.ts"
+			],
+			"Sprite.svelte": [
+				"./dist/Sprite.svelte.d.ts"
+			],
+			"Stage.svelte": [
+				"./dist/Stage.svelte.d.ts"
+			],
+			"Star.svelte": [
+				"./dist/Star.svelte.d.ts"
+			],
+			"Tag.svelte": [
+				"./dist/Tag.svelte.d.ts"
+			],
+			"Text.svelte": [
+				"./dist/Text.svelte.d.ts"
+			],
+			"TextPath.svelte": [
+				"./dist/TextPath.svelte.d.ts"
+			],
+			"Transformer.svelte": [
+				"./dist/Transformer.svelte.d.ts"
+			],
+			"Wedge.svelte": [
+				"./dist/Wedge.svelte.d.ts"
+			]
 		}
 	}
 }
