@@ -3,29 +3,6 @@
 	import Link from './Link.svelte';
 	import { darkMode } from './stores';
 
-	let docs = [
-		{
-			name: 'Events',
-			url: '/docs/event'
-		},
-		{
-			name: 'Accessing the underlying Konva object',
-			url: '/docs/handle'
-		},
-		{
-			name: 'Binding config prop',
-			url: '/docs/binding'
-		},
-		{
-			name: 'Layering',
-			url: '/docs/layering'
-		},
-		{
-			name: 'Usage with SvelteKit',
-			url: '/docs/svelte-kit'
-		}
-	];
-
 	let examples = [
 		{
 			name: 'Label',
@@ -74,10 +51,10 @@
 					>
 				</div>
 				<div class="navbar-center">
-					<p class="normal-case text-xl font-bold">svelte-konva docs</p>
+					<p class="normal-case text-xl font-bold">svelte-konva examples</p>
 				</div>
 				<div class="navbar-end">
-					<a href="https://github.com/TeyKey1/svelte-konva">
+					<a href="https://github.com/konvajs/svelte-konva">
 						<button class="btn btn-square btn-ghost">
 							<svg viewBox="0 0 24 24" aria-hidden="true" class="h-7 w-7 fill-base-content"
 								><path
@@ -135,14 +112,9 @@
 				<li>
 					<Link href="/">Home</Link>
 				</li>
-				<li />
-				<li class="menu-title"><span>docs</span></li>
-				{#each docs as page}
-					<li>
-						<Link href={page.url}>{page.name}</Link>
-					</li>
-				{/each}
-				<li />
+				<li>
+					<a href="https://konvajs.org/docs/svelte" rel="noreferrer">Documentation</a>
+				</li>
 				<li class="menu-title"><span>Examples</span></li>
 				{#each examples as page}
 					<li>

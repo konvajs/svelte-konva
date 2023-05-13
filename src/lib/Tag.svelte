@@ -7,7 +7,7 @@ The Tag component needs to be placed either inside a svelte-konva Layer or Group
 <Tag config={{ x: 10, y: 20, fill: "black", pointerDirection: "down", pointerWidth: 10, pointerHeight: 10, lineJoin: "round" }} />
 ```
 
-Further information: [Konva API docs](https://konvajs.org/api/Konva.Tag.html), [svelte-konva docs](https://teykey1.github.io/svelte-konva)
+Further information: [Konva API docs](https://konvajs.org/api/Konva.Tag.html), [svelte-konva docs](https://konvajs.org/docs/svelte)
 -->
 <script lang="ts">
 	/**

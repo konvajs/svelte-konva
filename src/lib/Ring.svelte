@@ -7,7 +7,7 @@ The Ring component needs to be placed either inside a svelte-konva Layer or Grou
 <Ring config={{ x: 100, y: 100, innerRadius: 25, outerRadius: 50, fill: "blue" }} />
 ```
 
-Further information: [Konva API docs](https://konvajs.org/api/Konva.Ring.html), [svelte-konva docs](https://teykey1.github.io/svelte-konva)
+Further information: [Konva API docs](https://konvajs.org/api/Konva.Ring.html), [svelte-konva docs](https://konvajs.org/docs/svelte)
 -->
 <script lang="ts">
 	/**

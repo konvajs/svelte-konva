@@ -13,7 +13,7 @@ The Layer component needs to be placed inside a svelte-konva Stage component.
 </Stage>
 ```
 
-Further information: [Konva API docs](https://konvajs.org/api/Konva.Layer.html), [svelte-konva docs](https://teykey1.github.io/svelte-konva)
+Further information: [Konva API docs](https://konvajs.org/api/Konva.Layer.html), [svelte-konva docs](https://konvajs.org/docs/svelte)
 -->
 <script lang="ts">
 	import Konva from 'konva';

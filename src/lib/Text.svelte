@@ -7,7 +7,7 @@ The Text component needs to be placed either inside a svelte-konva Layer or Grou
 <Text config={{ x: 100, y: 100, text: "some text", fontSize: 25 }} />
 ```
 
-Further information: [Konva API docs](https://konvajs.org/api/Konva.Text.html), [svelte-konva docs](https://teykey1.github.io/svelte-konva)
+Further information: [Konva API docs](https://konvajs.org/api/Konva.Text.html), [svelte-konva docs](https://konvajs.org/docs/svelte)
 -->
 <script lang="ts">
 	/**

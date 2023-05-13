@@ -10,7 +10,7 @@ Under the hood it creates a div element where the html canvas is attached to.
 </Stage>
 ```
 
-Further information: [Konva API docs](https://konvajs.org/api/Konva.Stage.html), [svelte-konva docs](https://teykey1.github.io/svelte-konva)
+Further information: [Konva API docs](https://konvajs.org/api/Konva.Stage.html), [svelte-konva docs](https://konvajs.org/docs/svelte)
 -->
 <script lang="ts">
 	import Konva from 'konva';

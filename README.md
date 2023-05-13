@@ -1,13 +1,13 @@
 # svelte-konva
 
 [![npm](https://img.shields.io/npm/v/svelte-konva?style=flat-square)](https://www.npmjs.com/package/svelte-konva)
-[![documentation](https://img.shields.io/badge/docs-svelte--konva-success?style=flat-square)](https://teykey1.github.io/svelte-konva)
+[![documentation](https://img.shields.io/badge/docs-svelte--konva-success?style=flat-square)](https://konvajs.org/docs/svelte)
 
-svelte-konva is a component-based svelte wrapper for the [Konva HTML5 2D canvas library](https://github.com/konvajs/konva). For further information and examples please visit the [docs](https://teykey1.github.io/svelte-konva).
+svelte-konva is a component-based svelte wrapper for the [Konva HTML5 2D canvas library](https://github.com/konvajs/konva). For further information and examples please visit the [docs](https://konvajs.org/docs/svelte).
 
 ## Compatibility
 
-Currently compatible with Svelte v3, SvelteKit v1 and Konva v8. (For more info on SvelteKit compatability visit the [docs](https://teykey1.github.io/svelte-konva/docs/svelte-kit))
+Currently compatible with Svelte v3, SvelteKit v1 and Konva v8. (For more info on SvelteKit compatability visit the [docs](https://konvajs.org/docs/svelte))
 
 ## Install
 
@@ -112,6 +112,8 @@ With svelte-konva you can bind the config prop of a component to have its fields
 </Stage>
 ```
 
+For further examples please consult the [docs](https://konvajs.org/docs/svelte) or clone the repo and run `npm i && npm run examples`.
+
 ## Changelog
 
-Please refer to the [CHANGELOG.md](https://github.com/TeyKey1/svelte-konva/blob/master/CHANGELOG.md) or [releases](https://github.com/TeyKey1/svelte-konva/releases) page.
+Please refer to the [CHANGELOG.md](https://github.com/konvajs/svelte-konva/blob/master/CHANGELOG.md) or [releases](https://github.com/konvajs/svelte-konva/releases) page.

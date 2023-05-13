@@ -7,7 +7,7 @@ The Line component needs to be placed either inside a svelte-konva Layer or Grou
 <Line config={{ points: [0, 0, 60, 30, 300, 90, 30, 100], stroke: "blue", strokeWidth: 10 }} />
 ```
 
-Further information: [Konva API docs](https://konvajs.org/api/Konva.Line.html), [svelte-konva docs](https://teykey1.github.io/svelte-konva)
+Further information: [Konva API docs](https://konvajs.org/api/Konva.Line.html), [svelte-konva docs](https://konvajs.org/docs/svelte)
 -->
 <script lang="ts">
 	/**

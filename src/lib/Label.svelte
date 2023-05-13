@@ -12,7 +12,7 @@ To work as intended it needs to contain a Tag component as well as a Text compon
 </Label>
 ```
 
-Further information: [Konva API docs](https://konvajs.org/api/Konva.Label.html), [svelte-konva docs](https://teykey1.github.io/svelte-konva)
+Further information: [Konva API docs](https://konvajs.org/api/Konva.Label.html), [svelte-konva docs](https://konvajs.org/docs/svelte)
 -->
 <script lang="ts">
 	import Konva from 'konva';
