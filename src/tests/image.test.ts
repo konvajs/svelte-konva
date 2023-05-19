@@ -154,7 +154,7 @@ test('Can listen to Konva events', async () => {
 	});
 
 	const component = rendered.component.$$;
-	const handle: Konva.Ring = component.ctx[component.props['handle'] as number];
+	const handle: Konva.Image = component.ctx[component.props['handle'] as number];
 
 	const div = document.createElement('div');
 	const stage = new Konva.Stage({ container: div, width: 1000, height: 1000 });
@@ -190,7 +190,7 @@ test('Correctly updates bound config on dragend', async () => {
 	});
 
 	const component = rendered.component.$$;
-	const handle: Konva.Ring = component.ctx[component.props['handle'] as number];
+	const handle: Konva.Image = component.ctx[component.props['handle'] as number];
 
 	const div = document.createElement('div');
 	const stage = new Konva.Stage({ container: div, width: 1000, height: 1000 });
@@ -204,6 +204,45 @@ test('Correctly updates bound config on dragend', async () => {
 	const config = component.ctx[component.props['config'] as number];
 
 	expect(config).toStrictEqual({ ...CONFIG, x: 50 });
+});
+
+test('Does not update config if instantiated with staticConfig prop', async () => {
+	const testImage = await new Promise((resolve, reject) => {
+		const img = new Image();
+		img.onload = () => resolve(img);
+		img.onerror = reject;
+		img.src = image;
+	});
+
+	const CONFIG = {
+		x: 0,
+		image: testImage,
+		draggable: true
+	};
+	const oldConfig = { ...CONFIG };
+	const rendered = render(KonvaImage, {
+		context: createMockParentContext(Container.Layer),
+		props: {
+			config: CONFIG,
+			staticConfig: true
+		}
+	});
+
+	const component = rendered.component.$$;
+	const handle: Konva.Image = component.ctx[component.props['handle'] as number];
+
+	const div = document.createElement('div');
+	const stage = new Konva.Stage({ container: div, width: 1000, height: 1000 });
+
+	stage.add(handle.getLayer()!);
+
+	(stage as MockStage).simulateMouseDown({ x: 50, y: 50 });
+	(stage as MockStage).simulateMouseMove({ x: 100, y: 100 });
+	(stage as MockStage).simulateMouseUp({ x: 100, y: 100 });
+
+	const config = component.ctx[component.props['config'] as number];
+
+	expect(config).toStrictEqual(oldConfig);
 });
 
 test('Does not alter the context', async () => {

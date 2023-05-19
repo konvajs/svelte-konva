@@ -12,13 +12,18 @@ To work as intended it needs to contain a Tag component as well as a Text compon
 </Label>
 ```
 
+### Static config:
+By default svelte-konva will automatically update your config prop on `dragend` and `transformend` events to match the config state (position, rotation, scale, ...) with the internal Konva state. 
+If you additionally bind the config prop your reactive blocks will also be triggered once this happens. 
+There might be cases where this behavior is not beneficial in this case you can disable it by passing the `staticConfig = true` prop to the component.
+
 Further information: [Konva API docs](https://konvajs.org/api/Konva.Label.html), [svelte-konva docs](https://konvajs.org/docs/svelte)
 -->
 <script lang="ts">
 	import Konva from 'konva';
 	import { onMount, onDestroy, createEventDispatcher } from 'svelte';
 	import { writable, type Writable } from 'svelte/store';
-	import { copyExistingKeys } from '$lib/util/copy';
+	import { copyExistingKeys } from '$lib/util/object';
 	import {
 		Container,
 		getParentContainer,
@@ -29,6 +34,7 @@ Further information: [Konva API docs](https://konvajs.org/api/Konva.Label.html),
 
 	export let config: Konva.LabelConfig;
 	export let handle = new Konva.Label(config);
+	export let staticConfig = false;
 
 	let inner = writable<null | Konva.Label>(null);
 
@@ -43,15 +49,17 @@ Further information: [Konva API docs](https://konvajs.org/api/Konva.Label.html),
 	onMount(() => {
 		$parent!.add(handle);
 
-		handle.on('transformend', () => {
-			copyExistingKeys(config, handle.getAttrs());
-			config = config;
-		});
+		if (!staticConfig) {
+			handle.on('transformend', () => {
+				copyExistingKeys(config, handle.getAttrs());
+				config = config;
+			});
 
-		handle.on('dragend', () => {
-			copyExistingKeys(config, handle.getAttrs());
-			config = config;
-		});
+			handle.on('dragend', () => {
+				copyExistingKeys(config, handle.getAttrs());
+				config = config;
+			});
+		}
 
 		registerEvents(dispatcher, handle);
 

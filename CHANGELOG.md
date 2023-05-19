@@ -1,6 +1,7 @@
 # Unreleased
 
-- Updated all links (docs, etc) to official Konva homepage"
+- Updated all links (docs, etc) to official Konva homepage
+- Added the `staticConfig` prop to all components. This prop controls whether svelte-konva dynamically updates the config prop on `dragend` and `transformend` events (See README for more details).
 - Various dependency updates
 
 # v0.1.1

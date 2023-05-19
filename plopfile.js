@@ -38,7 +38,7 @@ const COMPONENT_LIST = [
 	{
 		componentName: 'Text',
 		example: '<Text config={{ x: 100, y: 100, text: "some text", fontSize: 25 }} />',
-		testConfig: "{ x: 0, fontSize: 100, text: 'some text' }"
+		testConfig: "{ x: 0, fontSize: 100, text: 'some text', fill: 'black' }"
 	},
 	{
 		componentName: 'TextPath',

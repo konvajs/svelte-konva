@@ -7,6 +7,11 @@ The TextPath component needs to be placed either inside a svelte-konva Layer or 
 <TextPath config={{ x: 100, y: 100, fill: "#333", text: "some text", fontSize: 25, data: "M10 10 C0 0 10 150 100 100 S300 150 5.0.300" }} />
 ```
 
+### Static config:
+By default svelte-konva will automatically update your config prop on `dragend` and `transformend` events to match the config state (position, rotation, scale, ...) with the internal Konva state. 
+If you additionally bind the config prop your reactive blocks will also be triggered once this happens. 
+There might be cases where this behavior is not beneficial in this case you can disable it by passing the `staticConfig = true` prop to the component.
+
 Further information: [Konva API docs](https://konvajs.org/api/Konva.TextPath.html), [svelte-konva docs](https://konvajs.org/docs/svelte)
 -->
 <script lang="ts">
@@ -19,10 +24,11 @@ Further information: [Konva API docs](https://konvajs.org/api/Konva.TextPath.htm
 	import type { Writable } from 'svelte/store';
 	import { registerEvents } from '$lib/util/events';
 	import { getParentContainer, type KonvaParent } from '$lib/util/manageContext';
-	import { copyExistingKeys } from '$lib/util/copy';
+	import { copyExistingKeys } from '$lib/util/object';
 
 	export let config: Konva.TextPathConfig;
 	export let handle = new Konva.TextPath(config);
+	export let staticConfig = false;
 
 	let parent: Writable<null | KonvaParent> = getParentContainer();
 	let dispatcher = createEventDispatcher();
@@ -32,15 +38,17 @@ Further information: [Konva API docs](https://konvajs.org/api/Konva.TextPath.htm
 	onMount(() => {
 		$parent!.add(handle);
 
-		handle.on('transformend', () => {
-			copyExistingKeys(config, handle.getAttrs());
-			config = config;
-		});
+		if (!staticConfig) {
+			handle.on('transformend', () => {
+				copyExistingKeys(config, handle.getAttrs());
+				config = config;
+			});
 
-		handle.on('dragend', () => {
-			copyExistingKeys(config, handle.getAttrs());
-			config = config;
-		});
+			handle.on('dragend', () => {
+				copyExistingKeys(config, handle.getAttrs());
+				config = config;
+			});
+		}
 
 		registerEvents(dispatcher, handle);
 	});

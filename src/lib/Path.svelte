@@ -7,6 +7,11 @@ The Path component needs to be placed either inside a svelte-konva Layer or Grou
 <Path config={{ x: 100, y: 100, width: 100, height: 100, fill: "blue", data: "M213.1,6.7c-32.4-14.4-73.7,0-88.1,30.6C110.6,4.9,67.5-9.5,36.9,6.7C2.8,22.9-13.4,62.4,13.5,110.9C33.3,145.1,67.5,170.3,125,217c59.3-46.7,93.5-71.9,111.5-106.1C263.4,64.2,247.2,22.9,213.1,6.7z" }} />
 ```
 
+### Static config:
+By default svelte-konva will automatically update your config prop on `dragend` and `transformend` events to match the config state (position, rotation, scale, ...) with the internal Konva state. 
+If you additionally bind the config prop your reactive blocks will also be triggered once this happens. 
+There might be cases where this behavior is not beneficial in this case you can disable it by passing the `staticConfig = true` prop to the component.
+
 Further information: [Konva API docs](https://konvajs.org/api/Konva.Path.html), [svelte-konva docs](https://konvajs.org/docs/svelte)
 -->
 <script lang="ts">
@@ -19,10 +24,11 @@ Further information: [Konva API docs](https://konvajs.org/api/Konva.Path.html), 
 	import type { Writable } from 'svelte/store';
 	import { registerEvents } from '$lib/util/events';
 	import { getParentContainer, type KonvaParent } from '$lib/util/manageContext';
-	import { copyExistingKeys } from '$lib/util/copy';
+	import { copyExistingKeys } from '$lib/util/object';
 
 	export let config: Konva.PathConfig;
 	export let handle = new Konva.Path(config);
+	export let staticConfig = false;
 
 	let parent: Writable<null | KonvaParent> = getParentContainer();
 	let dispatcher = createEventDispatcher();
@@ -32,15 +38,17 @@ Further information: [Konva API docs](https://konvajs.org/api/Konva.Path.html), 
 	onMount(() => {
 		$parent!.add(handle);
 
-		handle.on('transformend', () => {
-			copyExistingKeys(config, handle.getAttrs());
-			config = config;
-		});
+		if (!staticConfig) {
+			handle.on('transformend', () => {
+				copyExistingKeys(config, handle.getAttrs());
+				config = config;
+			});
 
-		handle.on('dragend', () => {
-			copyExistingKeys(config, handle.getAttrs());
-			config = config;
-		});
+			handle.on('dragend', () => {
+				copyExistingKeys(config, handle.getAttrs());
+				config = config;
+			});
+		}
 
 		registerEvents(dispatcher, handle);
 	});

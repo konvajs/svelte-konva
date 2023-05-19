@@ -34,7 +34,7 @@
 		"prepack": "plop svelteKonvaComponents",
 		"test": "jest src",
 		"test:watch": "npm run test -- --watch",
-		"pretest": "plop svelteKonvaComponentTests",
+		"pretest": "plop svelteKonvaComponentTests&&plop svelteKonvaComponents",
 		"coverage": "jest src --coverage",
 		"precoverage": "plop svelteKonvaComponentTests"
 	},

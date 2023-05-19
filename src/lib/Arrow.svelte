@@ -7,6 +7,11 @@ The Arrow component needs to be placed either inside a svelte-konva Layer or Gro
 <Arrow config={{ x: 100, y: 100, points: [0, 0, 40, 40], pointerLength: 20, pointerWidth: 20, fill: "blue", stroke: "blue", strokeWidth: 6 }} />
 ```
 
+### Static config:
+By default svelte-konva will automatically update your config prop on `dragend` and `transformend` events to match the config state (position, rotation, scale, ...) with the internal Konva state. 
+If you additionally bind the config prop your reactive blocks will also be triggered once this happens. 
+There might be cases where this behavior is not beneficial in this case you can disable it by passing the `staticConfig = true` prop to the component.
+
 Further information: [Konva API docs](https://konvajs.org/api/Konva.Arrow.html), [svelte-konva docs](https://konvajs.org/docs/svelte)
 -->
 <script lang="ts">
@@ -19,10 +24,11 @@ Further information: [Konva API docs](https://konvajs.org/api/Konva.Arrow.html),
 	import type { Writable } from 'svelte/store';
 	import { registerEvents } from '$lib/util/events';
 	import { getParentContainer, type KonvaParent } from '$lib/util/manageContext';
-	import { copyExistingKeys } from '$lib/util/copy';
+	import { copyExistingKeys } from '$lib/util/object';
 
 	export let config: Konva.ArrowConfig;
 	export let handle = new Konva.Arrow(config);
+	export let staticConfig = false;
 
 	let parent: Writable<null | KonvaParent> = getParentContainer();
 	let dispatcher = createEventDispatcher();
@@ -32,15 +38,17 @@ Further information: [Konva API docs](https://konvajs.org/api/Konva.Arrow.html),
 	onMount(() => {
 		$parent!.add(handle);
 
-		handle.on('transformend', () => {
-			copyExistingKeys(config, handle.getAttrs());
-			config = config;
-		});
+		if (!staticConfig) {
+			handle.on('transformend', () => {
+				copyExistingKeys(config, handle.getAttrs());
+				config = config;
+			});
 
-		handle.on('dragend', () => {
-			copyExistingKeys(config, handle.getAttrs());
-			config = config;
-		});
+			handle.on('dragend', () => {
+				copyExistingKeys(config, handle.getAttrs());
+				config = config;
+			});
+		}
 
 		registerEvents(dispatcher, handle);
 	});

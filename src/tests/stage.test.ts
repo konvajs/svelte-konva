@@ -96,6 +96,26 @@ test('Correctly updates bound config on dragend', () => {
 	expect(config).toStrictEqual({ ...CONFIG, x: 50 });
 });
 
+test('Does not update config if instantiated with staticConfig prop', async () => {
+	const CONFIG = { x: 0, width: 1000, height: 1000, draggable: true };
+	const oldConfig = { ...CONFIG };
+	const rendered = render(Stage, {
+		config: CONFIG,
+		staticConfig: true
+	});
+
+	const component = rendered.component.$$;
+	const handle: MockStage = component.ctx[component.props['handle'] as number];
+
+	handle.simulateMouseDown({ x: 50, y: 50 });
+	handle.simulateMouseMove({ x: 100, y: 100 });
+	handle.simulateMouseUp({ x: 100, y: 100 });
+
+	const config = component.ctx[component.props['config'] as number];
+
+	expect(config).toStrictEqual(oldConfig);
+});
+
 test('sets the correct context', () => {
 	const rendered = render(Stage, {
 		config: { width: 1000, height: 1000 }

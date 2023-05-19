@@ -11,6 +11,11 @@ The Group component automatically groups all components that are placed inside i
 </Group>
 ```
 
+### Static config:
+By default svelte-konva will automatically update your config prop on `dragend` and `transformend` events to match the config state (position, rotation, scale, ...) with the internal Konva state. 
+If you additionally bind the config prop your reactive blocks will also be triggered once this happens. 
+There might be cases where this behavior is not beneficial in this case you can disable it by passing the `staticConfig = true` prop to the component.
+
 Further information: [Konva API docs](https://konvajs.org/api/Konva.Group.html), [svelte-konva docs](https://konvajs.org/docs/svelte)
 -->
 <script lang="ts">
@@ -24,10 +29,11 @@ Further information: [Konva API docs](https://konvajs.org/api/Konva.Group.html),
 		type KonvaParent
 	} from '$lib/util/manageContext';
 	import { registerEvents } from '$lib/util/events';
-	import { copyExistingKeys } from './util/copy';
+	import { copyExistingKeys } from './util/object';
 
 	export let config: Konva.GroupConfig = {};
 	export let handle: Konva.Group = new Konva.Group(config);
+	export let staticConfig = false;
 
 	let inner = writable<null | Konva.Group>(null);
 
@@ -44,15 +50,17 @@ Further information: [Konva API docs](https://konvajs.org/api/Konva.Group.html),
 	onMount(() => {
 		$parent!.add(handle);
 
-		handle.on('transformend', () => {
-			copyExistingKeys(config, handle.getAttrs());
-			config = config;
-		});
+		if (!staticConfig) {
+			handle.on('transformend', () => {
+				copyExistingKeys(config, handle.getAttrs());
+				config = config;
+			});
 
-		handle.on('dragend', () => {
-			copyExistingKeys(config, handle.getAttrs());
-			config = config;
-		});
+			handle.on('dragend', () => {
+				copyExistingKeys(config, handle.getAttrs());
+				config = config;
+			});
+		}
 
 		registerEvents(dispatcher, handle);
 

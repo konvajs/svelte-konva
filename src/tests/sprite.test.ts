@@ -178,7 +178,7 @@ test('Can listen to Konva events', async () => {
 	});
 
 	const component = rendered.component.$$;
-	const handle: Konva.Ring = component.ctx[component.props['handle'] as number];
+	const handle: Konva.Sprite = component.ctx[component.props['handle'] as number];
 
 	const div = document.createElement('div');
 	const stage = new Konva.Stage({ container: div, width: 1000, height: 1000 });
@@ -218,7 +218,7 @@ test('Correctly updates bound config on dragend', async () => {
 	});
 
 	const component = rendered.component.$$;
-	const handle: Konva.Ring = component.ctx[component.props['handle'] as number];
+	const handle: Konva.Sprite = component.ctx[component.props['handle'] as number];
 
 	const div = document.createElement('div');
 	const stage = new Konva.Stage({ container: div, width: 1000, height: 1000 });
@@ -232,6 +232,49 @@ test('Correctly updates bound config on dragend', async () => {
 	const config = component.ctx[component.props['config'] as number];
 
 	expect(config).toStrictEqual({ ...CONFIG, x: 50 });
+});
+
+test('Does not update config if instantiated with staticConfig prop', async () => {
+	const spriteImage = await new Promise((resolve, reject) => {
+		const img = new Image();
+		img.onload = () => resolve(img);
+		img.onerror = reject;
+		img.src = sprite;
+	});
+
+	const CONFIG = {
+		x: 0,
+		image: spriteImage,
+		animation: 'default',
+		animations: { default: [0, 0, 50, 100, 50, 0, 50, 100] },
+		frameRate: 7,
+		frameIndex: 0,
+		draggable: true
+	};
+	const oldConfig = { ...CONFIG };
+	const rendered = render(Sprite, {
+		context: createMockParentContext(Container.Layer),
+		props: {
+			config: CONFIG,
+			staticConfig: true
+		}
+	});
+
+	const component = rendered.component.$$;
+	const handle: Konva.Sprite = component.ctx[component.props['handle'] as number];
+
+	const div = document.createElement('div');
+	const stage = new Konva.Stage({ container: div, width: 1000, height: 1000 });
+
+	stage.add(handle.getLayer()!);
+
+	(stage as MockStage).simulateMouseDown({ x: 20, y: 20 });
+	(stage as MockStage).simulateMouseMove({ x: 70, y: 70 });
+	(stage as MockStage).simulateMouseUp({ x: 70, y: 70 });
+
+	const config = component.ctx[component.props['config'] as number];
+
+	expect(config).toStrictEqual(oldConfig);
 });
 
 test('Does not alter the context', async () => {

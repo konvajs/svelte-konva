@@ -148,6 +148,36 @@ test('Correctly updates bound config on dragend', () => {
 	expect(config).toStrictEqual({ ...CONFIG, x: 50 });
 });
 
+test('Does not update config if instantiated with staticConfig prop', async () => {
+	const CONFIG = { x: 0, draggable: true };
+	const oldConfig = { ...CONFIG };
+	const rendered = render(Label, {
+		context: createMockParentContext(Container.Layer),
+		props: {
+			config: CONFIG,
+			staticConfig: true
+		}
+	});
+
+	const component = rendered.component.$$;
+	const handle: Konva.Label = component.ctx[component.props['handle'] as number];
+
+	const div = document.createElement('div');
+	const stage = new Konva.Stage({ container: div, width: 1000, height: 1000 });
+	const rectangle = new Konva.Rect({ x: 0, y: 0, width: 100, height: 100 });
+
+	handle.add(rectangle);
+	stage.add(handle.getLayer()!);
+
+	(stage as MockStage).simulateMouseDown({ x: 50, y: 50 });
+	(stage as MockStage).simulateMouseMove({ x: 100, y: 100 });
+	(stage as MockStage).simulateMouseUp({ x: 100, y: 100 });
+
+	const config = component.ctx[component.props['config'] as number];
+
+	expect(config).toStrictEqual(oldConfig);
+});
+
 test('sets the correct context', () => {
 	const rendered = render(Label, {
 		context: createMockParentContext(Container.Layer),
