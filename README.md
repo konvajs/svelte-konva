@@ -7,7 +7,7 @@ svelte-konva is a component-based svelte wrapper for the [Konva HTML5 2D canvas 
 
 ## Compatibility
 
-Currently compatible with Svelte v3, SvelteKit v1 and Konva v8. (For more info on SvelteKit compatability visit the [docs](https://konvajs.org/docs/svelte))
+Currently compatible with Svelte v3, SvelteKit v1 and Konva v8+.
 
 ## Install
 
@@ -85,7 +85,7 @@ In various cases it is useful and required to be able to access the underlying K
 
 ### Binding the config prop
 
-With svelte-konva you can bind the config prop of a component to have its fields automatically updated on `dragend` and `transformend` events.
+By default svelte-konva keeps your config in sync (position, rotation, scale, etc.) with the Konva node after `dragend` and `transformend` events. If you bind the config prop any reactive blocks depending on the config will also be triggered once such changes happen. In case you don't want svelte-konva to sync those changes you can pass the `staticConfig` prop to the component.
 
 ```html
 <script>

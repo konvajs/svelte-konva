@@ -1,6 +1,6 @@
 {
 	"name": "svelte-konva",
-	"version": "0.1.1",
+	"version": "0.2.0",
 	"author": {
 		"name": "TeyKey1",
 		"url": "https://github.com/TeyKey1"
@@ -31,7 +31,7 @@
 		"lint": "prettier --plugin-search-dir . --check . && eslint .",
 		"format": "prettier --plugin-search-dir . --write .",
 		"plop": "plop",
-		"prepack": "plop svelteKonvaComponents",
+		"prepack": "plop svelteKonvaComponents&&npm run build",
 		"test": "jest src",
 		"test:watch": "npm run test -- --watch",
 		"pretest": "plop svelteKonvaComponentTests&&plop svelteKonvaComponents",
