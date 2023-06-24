@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 
 import type Konva from 'konva';
-import type { DispatchOptions } from 'svelte/internal';
+import type { EventDispatcher } from 'svelte';
 
 const KONVA_EVENTS = [
 	'mouseover',
@@ -44,11 +44,7 @@ const KONVA_EVENTS = [
  * @param node
  */
 export function registerEvents(
-	dispatch: <EventKey extends string>(
-		type: EventKey,
-		detail?: any,
-		options?: DispatchOptions | undefined
-	) => boolean,
+	dispatch: EventDispatcher<any>, // TODO: Check if the Konva payloads can be fully typed
 	node: Konva.Node
 ) {
 	KONVA_EVENTS.forEach((event) => {

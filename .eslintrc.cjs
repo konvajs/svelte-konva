@@ -1,13 +1,31 @@
 module.exports = {
 	root: true,
+	extends: [
+		'eslint:recommended',
+		'plugin:@typescript-eslint/recommended',
+		'plugin:svelte/recommended',
+		'prettier'
+	],
 	parser: '@typescript-eslint/parser',
-	extends: ['eslint:recommended', 'plugin:@typescript-eslint/recommended', 'prettier'],
-	plugins: ['svelte3', '@typescript-eslint'],
+	plugins: ['@typescript-eslint'],
+	parserOptions: {
+		sourceType: 'module',
+		ecmaVersion: 2020,
+		extraFileExtensions: ['.svelte']
+	},
+	env: {
+		browser: true,
+		es2017: true,
+		node: true
+	},
 	ignorePatterns: ['*.cjs'],
 	overrides: [
 		{
 			files: ['*.svelte'],
-			processor: 'svelte3/svelte3'
+			parser: 'svelte-eslint-parser',
+			parserOptions: {
+				parser: '@typescript-eslint/parser'
+			}
 		},
 		{
 			files: ['*.ts', '*.svelte'],
@@ -16,19 +34,8 @@ module.exports = {
 			}
 		}
 	],
-	settings: {
-		'svelte3/typescript': () => require('typescript')
-	},
-	parserOptions: {
-		sourceType: 'module',
-		ecmaVersion: 2020
-	},
-	env: {
-		browser: true,
-		es2017: true,
-		node: true
-	},
 	rules: {
-		'@typescript-eslint/no-non-null-assertion': 'off'
+		'@typescript-eslint/no-non-null-assertion': 'off',
+		'svelte/no-at-html-tags': 'off'
 	}
 };

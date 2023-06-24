@@ -52,9 +52,7 @@
 {#if showCopySuccess}
 	<div class="toast mr-2">
 		<div class="alert alert-success">
-			<div>
-				<span>Copied code to clipboard</span>
-			</div>
+			<span>Copied code to clipboard</span>
 		</div>
 	</div>
 {/if}

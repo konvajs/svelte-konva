@@ -1,3 +1,4 @@
+import { test, expect, vi } from 'vitest';
 import { render } from '@testing-library/svelte';
 import { get } from 'svelte/store';
 import Konva from 'konva';
@@ -185,7 +186,7 @@ test('Can listen to Konva events', async () => {
 
 	stage.add(handle.getLayer()!);
 
-	const mockFn = jest.fn();
+	const mockFn = vi.fn();
 	rendered.component.$on('mousedown', mockFn);
 
 	(stage as MockStage).simulateMouseDown({ x: 20, y: 20 });

@@ -1,3 +1,4 @@
+import { test, expect, vi } from 'vitest';
 import { render } from '@testing-library/svelte';
 import { get } from 'svelte/store';
 import Konva from 'konva';
@@ -70,7 +71,7 @@ test('Can listen to Konva events', () => {
 	const component = rendered.component.$$;
 	const handle: MockStage = component.ctx[component.props['handle'] as number];
 
-	const mockFn = jest.fn();
+	const mockFn = vi.fn();
 	rendered.component.$on('mousedown', mockFn);
 
 	handle.simulateMouseDown({ x: 50, y: 50 });
@@ -145,17 +146,20 @@ test('nulls unused context', () => {
 });
 
 test('Konva instance is correctly destroyed on component unmount', () => {
+	// TODO: Currently a workaround as all tests run inside the same worker thus resulting in multiple stages
+	const previousStageCount = Konva.stages.length;
+
 	const rendered = render(Stage, {
 		config: { width: 1000, height: 1000 }
 	});
 
-	expect(Konva.stages.length).toBe(1);
+	expect(Konva.stages.length).toBe(previousStageCount + 1);
 
 	rendered.unmount();
 
 	const component = rendered.component.$$;
 	const handle = component.ctx[component.props['handle'] as number];
 
-	expect(Konva.stages.length).toBe(0);
+	expect(Konva.stages.length).toBe(previousStageCount);
 	expect(handle).toBeUndefined();
 });

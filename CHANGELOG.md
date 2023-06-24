@@ -1,6 +1,9 @@
 # Unreleased
 
-- -
+- Tighten peer dependencies to only match specific major versions instead of matching all major versions starting from a certain version. This avoids svelte-konva being used in future major versions of Svelte or Konva which might break it
+- Updated to Svelte 4
+- Change Testing from Jest to Vitest which simplifies the configuration a lot
+- Various dependency updates
 
 # v0.2.0
 

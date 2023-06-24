@@ -28,7 +28,7 @@
 </script>
 
 <div data-theme={$darkMode ? 'dark' : 'bumblebee'}>
-	<div class="drawer drawer-mobile">
+	<div class="drawer lg:drawer-open">
 		<input id="my-drawer-2" type="checkbox" class="drawer-toggle" />
 		<div class="drawer-content flex flex-col items-center">
 			<div class="navbar">
@@ -107,7 +107,7 @@
 		</div>
 		<div class="drawer-side shadow">
 			<label for="my-drawer-2" class="drawer-overlay" />
-			<ul class="menu menu-compact p-4 overflow-y-auto w-80 bg-base-200 text-base-content">
+			<ul class="menu menu-compact p-4 overflow-y-auto w-80 bg-base-200 text-base-content h-full">
 				<!-- Sidebar content here -->
 				<li>
 					<Link href="/">Home</Link>

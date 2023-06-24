@@ -1,3 +1,4 @@
+import { test, expect, vi } from 'vitest';
 import { render } from '@testing-library/svelte';
 import Konva from 'konva';
 import { get } from 'svelte/store';
@@ -81,7 +82,7 @@ test('Can listen to Konva events', () => {
 	const rectangle = new Konva.Rect({ x: 0, y: 0, width: 100, height: 100 });
 	handle.add(rectangle);
 
-	const mockFn = jest.fn();
+	const mockFn = vi.fn();
 	rendered.component.$on('mousedown', mockFn);
 
 	const stage = handle.getStage();
