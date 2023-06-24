@@ -7,7 +7,7 @@ svelte-konva is a component-based svelte wrapper for the [Konva HTML5 2D canvas 
 
 ## Compatibility
 
-Currently compatible with Svelte v3, SvelteKit v1 and Konva v8+.
+Currently compatible with Svelte v3 & 4, SvelteKit v1 and Konva v8 & 9.
 
 ## Install
 
