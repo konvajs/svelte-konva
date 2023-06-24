@@ -10,7 +10,6 @@ const config: UserConfig = {
 	test: {
 		include: ['src/tests/*.{test,spec}.{js,mjs,cjs,ts,mts,cts,jsx,tsx}'],
 		threads: false, // Workaround as testing with threads causes segfaults (likely vitest bug) Caution: ith this in place tests are not running in isolated threads!
-		maxConcurrency: 1,
 		environment: 'jsdom',
 		environmentOptions: {
 			jsdom: {

@@ -21,9 +21,11 @@ Further information: [Konva API docs](https://konvajs.org/api/Konva.Stage.html),
 	import Konva from 'konva';
 	import { onMount, onDestroy, createEventDispatcher } from 'svelte';
 	import { writable } from 'svelte/store';
-	import { registerEvents } from '$lib/util/events';
+	import { registerEvents, type KonvaEvents } from '$lib/util/events';
 	import { Container, setContainerContext } from '$lib/util/manageContext';
 	import { copyExistingKeys } from './util/object';
+
+	interface $$Events extends KonvaEvents {}
 
 	export let config: Konva.ContainerConfig;
 	export let handle: null | Konva.Stage = null;

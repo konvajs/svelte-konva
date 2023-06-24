@@ -1,5 +1,6 @@
 <script lang="ts">
 	import Konva from 'konva';
+	import type { KonvaMouseEvent } from 'svelte-konva';
 	import Stage from '../../ResponsiveStage.svelte';
 	import type { KonvaEventObject } from 'konva/lib/Node';
 	import { getRealPointerPos } from '../../util';
@@ -128,7 +129,7 @@
 	}
 
 	// Cancel active selection if mouse cursor leaves stage area
-	function selectMouseOut(e: CustomEvent<KonvaEventObject<PointerEvent>>) {
+	function selectMouseOut(e: KonvaMouseEvent) {
 		const konvaEvent = e.detail;
 
 		// Check if event target is stage (eg. user clicked on empty part of the stage and not any shape)

@@ -25,8 +25,10 @@ Further information: [Konva API docs](https://konvajs.org/api/Konva.Layer.html),
 	import { onMount, onDestroy, createEventDispatcher } from 'svelte';
 	import { type Writable, writable } from 'svelte/store';
 	import { Container, getParentStage, setContainerContext } from '$lib/util/manageContext';
-	import { registerEvents } from '$lib/util/events';
+	import { registerEvents, type KonvaEvents } from '$lib/util/events';
 	import { copyExistingKeys } from './util/object';
+
+	interface $$Events extends KonvaEvents {}
 
 	export let config: Konva.LayerConfig = {};
 	export let handle: Konva.Layer = new Konva.Layer(config);

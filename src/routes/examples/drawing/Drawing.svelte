@@ -1,5 +1,6 @@
 <script lang="ts">
 	import type Konva from 'konva';
+	import type { KonvaMouseEvent } from 'svelte-konva';
 	import Stage from '../../ResponsiveStage.svelte';
 	import type { KonvaEventObject } from 'konva/lib/Node';
 	import { getRealPointerPos } from '../../util';
@@ -85,7 +86,7 @@
 		drawTimeoutRunning = false;
 	}
 
-	function drawMouseOut(e: CustomEvent<KonvaEventObject<PointerEvent>>) {
+	function drawMouseOut(e: KonvaMouseEvent) {
 		const konvaEvent = e.detail;
 
 		// Check if event target is stage (eg. user clicked on empty part of the stage and not any shape)

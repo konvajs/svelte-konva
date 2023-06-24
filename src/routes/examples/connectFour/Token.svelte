@@ -3,6 +3,7 @@
 	 * token/stone used in the game
 	 */
 	import Circle from 'svelte-konva/Circle.svelte';
+	import type { KonvaDragTransformEvent } from 'svelte-konva';
 	import Konva from 'konva';
 	import {
 		GAME_BASE_SIZE,
@@ -86,7 +87,7 @@
 	}
 
 	// On dragend we need to check if the token/stone has been moved into a position where it can be dropped into the game grid
-	function handleDragEnd(e: CustomEvent<Konva.KonvaEventObject<MouseEvent>>) {
+	function handleDragEnd(e: KonvaDragTransformEvent) {
 		// stop propagation as the event handling is done in this component
 		e.stopPropagation();
 

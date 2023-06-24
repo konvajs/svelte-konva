@@ -21,6 +21,14 @@ import Transformer from './Transformer.svelte';
 import Wedge from './Wedge.svelte';
 import Tag from './Tag.svelte';
 
+import type {
+	KonvaDragTransformEvent,
+	KonvaPointerEvent,
+	KonvaTouchEvent,
+	KonvaMouseEvent,
+	KonvaWheelEvent
+} from './util/events';
+
 export {
 	Arc,
 	Arrow,
@@ -44,4 +52,12 @@ export {
 	Transformer,
 	Wedge,
 	Tag
+};
+
+export {
+	KonvaDragTransformEvent,
+	KonvaPointerEvent,
+	KonvaTouchEvent,
+	KonvaMouseEvent,
+	KonvaWheelEvent
 };

@@ -27,9 +27,11 @@ Further information: [Konva API docs](https://konvajs.org/api/Konva.Transformer.
 	import Konva from 'konva';
 	import { onMount, onDestroy, createEventDispatcher } from 'svelte';
 	import type { Writable } from 'svelte/store';
-	import { registerEvents } from '$lib/util/events';
+	import { registerEvents, type KonvaEvents } from '$lib/util/events';
 	import { getParentContainer, type KonvaParent } from '$lib/util/manageContext';
 	import { copyExistingKeys } from './util/object';
+
+	interface $$Events extends KonvaEvents {}
 
 	export let config: Konva.TransformerConfig = {};
 	export let handle = new Konva.Transformer(config);

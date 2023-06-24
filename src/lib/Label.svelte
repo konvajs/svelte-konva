@@ -30,7 +30,9 @@ Further information: [Konva API docs](https://konvajs.org/api/Konva.Label.html),
 		setContainerContext,
 		type KonvaParent
 	} from '$lib/util/manageContext';
-	import { registerEvents } from '$lib/util/events';
+	import { registerEvents, type KonvaEvents } from '$lib/util/events';
+
+	interface $$Events extends KonvaEvents {}
 
 	export let config: Konva.LabelConfig;
 	export let handle = new Konva.Label(config);

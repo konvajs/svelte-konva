@@ -28,8 +28,10 @@ Further information: [Konva API docs](https://konvajs.org/api/Konva.Group.html),
 		setContainerContext,
 		type KonvaParent
 	} from '$lib/util/manageContext';
-	import { registerEvents } from '$lib/util/events';
+	import { registerEvents, type KonvaEvents } from '$lib/util/events';
 	import { copyExistingKeys } from './util/object';
+
+	interface $$Events extends KonvaEvents {}
 
 	export let config: Konva.GroupConfig = {};
 	export let handle: Konva.Group = new Konva.Group(config);
