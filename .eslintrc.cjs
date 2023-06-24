@@ -36,6 +36,18 @@ module.exports = {
 	],
 	rules: {
 		'@typescript-eslint/no-non-null-assertion': 'off',
-		'svelte/no-at-html-tags': 'off'
+		'svelte/no-at-html-tags': 'off',
+		'@typescript-eslint/no-empty-interface': [
+			'error',
+			{
+				allowSingleExtends: true
+			}
+		],
+		'@typescript-eslint/no-unused-vars': [
+			'warn',
+			{
+				varsIgnorePattern: '\\$\\$Events'
+			}
+		]
 	}
 };

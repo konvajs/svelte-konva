@@ -2,7 +2,6 @@
 	import type Konva from 'konva';
 	import type { KonvaMouseEvent } from 'svelte-konva';
 	import Stage from '../../ResponsiveStage.svelte';
-	import type { KonvaEventObject } from 'konva/lib/Node';
 	import { getRealPointerPos } from '../../util';
 
 	// svelte-konva components
