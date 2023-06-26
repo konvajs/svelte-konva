@@ -47,7 +47,7 @@
 		"@sveltejs/kit": "^1.20.5",
 		"@sveltejs/package": "^2.1.0",
 		"@tailwindcss/typography": "^0.5.7",
-		"@testing-library/svelte": "4.0.0",
+		"@testing-library/svelte": "4.0.1",
 		"@types/lodash.clonedeep": "^4.5.7",
 		"@typescript-eslint/eslint-plugin": "^5.45.0",
 		"@typescript-eslint/parser": "^5.45.0",
