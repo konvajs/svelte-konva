@@ -49,7 +49,7 @@
 		"@tailwindcss/typography": "^0.5.7",
 		"@testing-library/svelte": "4.0.0",
 		"@types/lodash.clonedeep": "^4.5.7",
-		"@typescript-eslint/eslint-plugin": "^5.45.0",
+		"@typescript-eslint/eslint-plugin": "^6.2.0",
 		"@typescript-eslint/parser": "^5.45.0",
 		"daisyui": "^3.1.6",
 		"eslint": "^8.28.0",
