@@ -17,7 +17,7 @@ npm i svelte-konva konva
 
 ## Quick start
 
-```html
+```svelte
 <script>
   import { Stage, Layer, Rect } from 'svelte-konva';
 </script>
@@ -33,7 +33,7 @@ npm i svelte-konva konva
 
 You can listen to Konva events by using the Svelte `on:event` Syntax. All [Konva events](https://konvajs.org/docs/events/Binding_Events.html) are supported.
 
-```html
+```svelte
 <script>
   import { Stage, Layer, Rect } from 'svelte-konva';
 
@@ -57,7 +57,7 @@ You can listen to Konva events by using the Svelte `on:event` Syntax. All [Konva
 
 In various cases it is useful and required to be able to access the underlying Konva node object. In svelte-konva you can do this by binding the `handle` prop.
 
-```html
+```svelte
 <script>
   import { onMount, tick } from 'svelte';
   import { Stage, Layer, Rect } from 'svelte-konva';
@@ -87,7 +87,7 @@ In various cases it is useful and required to be able to access the underlying K
 
 By default svelte-konva keeps your config in sync (position, rotation, scale, etc.) with the Konva node after `dragend` and `transformend` events. If you bind the config prop any reactive blocks depending on the config will also be triggered once such changes happen. In case you don't want svelte-konva to sync those changes you can pass the `staticConfig` prop to the component.
 
-```html
+```svelte
 <script>
   import { Stage, Layer, Rect } from 'svelte-konva';
 
@@ -97,7 +97,7 @@ By default svelte-konva keeps your config in sync (position, rotation, scale, et
     width: 400,
     height: 200,
     fill: 'blue',
-    draggable: true,
+    draggable: true
   };
 
   $: console.log(
@@ -136,12 +136,14 @@ A better approach is to dynamically import your svelte-konva canvas on the clien
 
 _MyCanvas.svelte_
 
-```html
+```svelte
 <script>
   import { Stage, Layer, Rect } from 'svelte-konva';
-  import OtherComponentUsingSvelteKonva from "./OtherComponentUsingSvelteKonva.svelte";
+  import OtherComponentUsingSvelteKonva from './OtherComponentUsingSvelteKonva.svelte';
 
- const rectangleConfig = {...};
+  const rectangleConfig = {
+    /*...*/
+  };
 </script>
 
 <Stage config={{ width: 1000, height: 1000 }}>
@@ -157,27 +159,27 @@ To use this component inside a SvelteKit prerendered/SSR page you can dynamicall
 
 _+page.svelte_
 
-```html
+```svelte
 <script>
-	import { onMount } from 'svelte';
-	// typescript:
-	// import type MyCanvasComponent from "$lib/MyCanvas.svelte";
+  import { onMount } from 'svelte';
+  // typescript:
+  // import type MyCanvasComponent from '$lib/MyCanvas.svelte';
 
-	let MyCanvas;
-	// typescript:
-	// let MyCanvas: typeof MyCanvasComponent;
+  let MyCanvas;
+  // typescript:
+  // let MyCanvas: typeof MyCanvasComponent;
 
-	onMount(async () => {
-		// Dynamically import your canvas component encapsulating all svelte-konva functionality inside onMount()
-		MyCanvas = (await import('$lib/MyCanvas.svelte')).default;
-	});
+  onMount(async () => {
+    // Dynamically import your canvas component encapsulating all svelte-konva functionality inside onMount()
+    MyCanvas = (await import('$lib/MyCanvas.svelte')).default;
+  });
 </script>
 
 <div>
-	<p>This is my fancy server side rendered (or prerendered) page.</p>
+  <p>This is my fancy server side rendered (or prerendered) page.</p>
 
-	<!-- Use your dynamically imported svelte-konva canvas component with a svelte:component block, you can pass any component props as usual -->
-	<svelte:component this="{MyCanvas}" someProp="SomeString" />
+  <!-- Use your dynamically imported svelte-konva canvas component with a svelte:component block, you can pass any component props as usual -->
+  <svelte:component this={MyCanvas} someProp="SomeString" />
 </div>
 ```
 
@@ -187,19 +189,19 @@ The [vite-plugin-iso-import](https://www.npmjs.com/package/vite-plugin-iso-impor
 
 _+page.svelte_
 
-```html
+```svelte
 <script>
-	import MyCanvasComponent from "$lib/MyCanvas.svelte?client"; // Client-side only import
+  import MyCanvasComponent from '$lib/MyCanvas.svelte?client'; // Client-side only import
 
-	// Set component variable to null if page is rendered in SSR, otherwise use client-side only import
-	let MyCanvas = import.meta.env.SSR ? null : MyCanvasComponent;
+  // Set component variable to null if page is rendered in SSR, otherwise use client-side only import
+  let MyCanvas = import.meta.env.SSR ? null : MyCanvasComponent;
 </script>
 
 <div>
-	<p>This is my fancy server side rendered (or prerendered) page.</p>
+  <p>This is my fancy server side rendered (or prerendered) page.</p>
 
-	<!-- Use your dynamically imported svelte-konva canvas component with a svelte:component block, you can pass any component props as usual -->
-	<svelte:component this="{MyCanvas}" someProp="SomeString" />
+  <!-- Use your dynamically imported svelte-konva canvas component with a svelte:component block, you can pass any component props as usual -->
+  <svelte:component this={MyCanvas} someProp="SomeString" />
 </div>
 ```
 
