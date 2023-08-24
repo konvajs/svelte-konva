@@ -112,6 +112,93 @@ By default svelte-konva keeps your config in sync (position, rotation, scale, et
 </Stage>
 ```
 
+### Usage with SvelteKit
+
+Generally svelte-konva is a client-side only library. When using SvelteKit, special care needs to be taken if svelte-konva/Konva functionality is used on prerendered and server side rendered (SSR) components. Prerendering and SSR happens in a Node.js environment which causes Konva to require the [canvas](https://www.npmjs.com/package/canvas) library as Konva can also be used in Node.js environments. When you use svelte-konva in such conditions you'll likely run into the following error:
+> Error: Cannot find module 'canvas'
+
+There are multiple solutions to this problem:
+
+**Installing canvas:**
+
+Simplest solution is to install canvas:
+
+`npm i canvas`
+
+This will satisfy the canvas dependency of Konva and you can use svelte-konva components in prerendered and SSR SvelteKit pages. The solution is a bit messy though, as you now have installed a package you don't really need which adds unnecessary overhead. Alternatively use one of the following solutions:
+
+**Dynamically import your svelte-konva stage:**
+
+A better approach is to dynamically import your svelte-konva canvas on the client-side only. Suppose you have a Svelte component containing your stage with various svelte-konva components:
+
+*MyCanvas.svelte*
+```html
+<script>
+  import { Stage, Layer, Rect } from 'svelte-konva';
+  import OtherComponentUsingSvelteKonva from "./OtherComponentUsingSvelteKonva.svelte";
+
+ const rectangleConfig = {...};
+</script>
+
+<Stage config={{ width: 1000, height: 1000 }}>
+  <Layer>
+    <Rect bind:config={rectangleConfig} />
+
+    <OtherComponentUsingSvelteKonva />
+  </Layer>
+</Stage>
+```
+
+To use this component inside a SvelteKit prerendered/SSR page you can dynamically import it inside `onMount()` and render it using `<svelte:component>`:
+
+*+page.svelte*
+```html
+<script>
+  import { onMount } from "svelte";
+  // typescript:
+  // import type MyCanvasComponent from "$lib/MyCanvas.svelte";
+
+  let MyCanvas;
+  // typescript:
+  // let MyCanvas: typeof MyCanvasComponent;
+
+  onMount(async () => {
+		// Dynamically import your canvas component encapsulating all svelte-konva functionality inside onMount()
+		MyCanvas = (await import("$lib/MyCanvas.svelte")).default;
+	});
+</script>
+
+<div>
+  <p>This is my fancy server side rendered (or prerendered) page.</p>
+
+  <!-- Use your dynamically imported svelte-konva canvas component with a svelte:component block, you can pass any component props as usual -->
+	<svelte:component this={MyCanvas} someProp="SomeString" />
+</div>
+```
+
+**Dynamically import svelte-konva using vite:**
+
+The [vite-plugin-iso-import](https://www.npmjs.com/package/vite-plugin-iso-import) allows you to make client-side only imports without needing the manual approach in `onMount()` described above. Please follow the installation instructions in the [README](https://www.npmjs.com/package/vite-plugin-iso-import) then you can dynamically import your component like so:
+
+*+page.svelte*
+```html
+<script>
+	import MyCanvasComponent from "$lib/MyCanvas.svelte?client"; // Client-side only import
+
+	// Set component variable to null if page is rendered in SSR, otherwise use client-side only import
+	let MyCanvas = import.meta.env.SSR ? null : MyCanvasComponent;
+</script>
+
+<div>
+  <p>This is my fancy server side rendered (or prerendered) page.</p>
+
+  <!-- Use your dynamically imported svelte-konva canvas component with a svelte:component block, you can pass any component props as usual -->
+	<svelte:component this={MyCanvas} someProp="SomeString" />
+</div>
+```
+
+Currently vite-plugin-iso-import cannot automatically fix intellisense inside .svelte files with TypeScript. Consult the [README](https://www.npmjs.com/package/vite-plugin-iso-import) for a workaround to this problem.
+
 For further examples please consult the [docs](https://konvajs.org/docs/svelte) or clone the repo and run `npm i && npm run examples`.
 
 ## Changelog
