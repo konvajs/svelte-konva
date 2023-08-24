@@ -2,6 +2,13 @@
 
 - -
 
+# v0.3.1
+
+**Version bump to update README, functionality remains unchanged**
+
+- Added SvelteKit instructions to README.md
+- Various dependency updates
+
 # v0.3.0
 
 - Added component event typings. This should significantly improve autocompletion and suggestions when using the on:event syntax for Konva events
