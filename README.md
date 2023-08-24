@@ -124,7 +124,9 @@ There are multiple solutions to this problem:
 
 Simplest solution is to install canvas:
 
-`npm i canvas`
+```npm
+npm i canvas
+```
 
 This will satisfy the canvas dependency of Konva and you can use svelte-konva components in prerendered and SSR SvelteKit pages. The solution is a bit messy though, as you now have installed a package you don't really need which adds unnecessary overhead. Alternatively use one of the following solutions:
 
