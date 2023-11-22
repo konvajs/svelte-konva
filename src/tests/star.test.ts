@@ -232,5 +232,5 @@ test('Overwriting the handle of the component from outside should have no effect
 		}
 	});
 
-	rendered.component.$set({ handle: undefined }) // Overwrite handle from outside, should not throw as internal handle is still intact
+	rendered.component.$set({ handle: undefined }); // Overwrite handle from outside, should not throw as internal handle is still intact
 });
