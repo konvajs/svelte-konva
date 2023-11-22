@@ -302,3 +302,22 @@ test('Konva instance is correctly destroyed on component unmount', () => {
 
 	expect(handle).toBeUndefined();
 });
+
+test('Overwriting the handle of the component from outside should have no effect', () => {
+	const rendered = render(Shape, {
+		context: createMockParentContext(Container.Layer),
+		props: {
+			config: {
+				width: 100,
+				height: 100,
+				sceneFunc: function (context: Konva.Context, shape: Konva.Shape) {
+					context.beginPath();
+					context.rect(0, 0, shape.getAttr('width'), shape.getAttr('height'));
+					context.fillStrokeShape(shape);
+				}
+			}
+		}
+	});
+
+	rendered.component.$set({ handle: undefined }); // Overwrite handle from outside, should not throw as internal handle is still intact
+});

@@ -29,33 +29,34 @@ Further information: [Konva API docs](https://konvajs.org/api/Konva.Shape.html),
 	interface $$Events extends KonvaEvents {}
 
 	export let config: Konva.ShapeConfig;
-	export let handle = new Konva.Shape(config);
+	const _handle = new Konva.Shape(config); // Hide inner handle behind a shadow variable to prevent users from overwriting it
+	export const handle = _handle;
 	export let staticConfig = false;
 
-	let parent: Writable<null | KonvaParent> = getParentContainer();
-	let dispatcher = createEventDispatcher();
+	const parent: Writable<null | KonvaParent> = getParentContainer();
+	const dispatcher = createEventDispatcher();
 
-	$: handle.setAttrs(config);
+	$: _handle.setAttrs(config);
 
 	onMount(() => {
-		$parent!.add(handle);
+		$parent!.add(_handle);
 
 		if (!staticConfig) {
-			handle.on('transformend', () => {
-				copyExistingKeys(config, handle.getAttrs());
+			_handle.on('transformend', () => {
+				copyExistingKeys(config, _handle.getAttrs());
 				config = config;
 			});
 
-			handle.on('dragend', () => {
-				copyExistingKeys(config, handle.getAttrs());
+			_handle.on('dragend', () => {
+				copyExistingKeys(config, _handle.getAttrs());
 				config = config;
 			});
 		}
 
-		registerEvents(dispatcher, handle);
+		registerEvents(dispatcher, _handle);
 	});
 
 	onDestroy(() => {
-		handle.destroy();
+		_handle.destroy();
 	});
 </script>

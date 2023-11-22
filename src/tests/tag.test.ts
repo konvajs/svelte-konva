@@ -223,3 +223,14 @@ test('Konva instance is correctly destroyed on component unmount', () => {
 
 	expect(handle).toBeUndefined();
 });
+
+test('Overwriting the handle of the component from outside should have no effect', () => {
+	const rendered = render(Tag, {
+		context: createMockParentContext(Container.Layer),
+		props: {
+			config: { x: 0, pointerDirection: 'down', pointerWidth: 500, pointerHeight: 200 }
+		}
+	});
+
+	rendered.component.$set({ handle: undefined }) // Overwrite handle from outside, should not throw as internal handle is still intact
+});

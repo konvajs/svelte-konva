@@ -34,46 +34,43 @@ Further information: [Konva API docs](https://konvajs.org/api/Konva.Group.html),
 	interface $$Events extends KonvaEvents {}
 
 	export let config: Konva.GroupConfig = {};
-	export let handle: Konva.Group = new Konva.Group(config);
+	const _handle = new Konva.Group(config); // Hide inner handle behind a shadow variable to prevent users from overwriting it
+	export const handle = _handle;
 	export let staticConfig = false;
 
-	let inner = writable<null | Konva.Group>(null);
+	const inner = writable<null | Konva.Group>(null);
 
-	let dispatcher = createEventDispatcher();
+	const dispatcher = createEventDispatcher();
 
 	let isReady = false;
 
-	$: if (handle) {
-		handle.setAttrs(config);
-	}
+	$: _handle.setAttrs(config);
 
-	let parent: Writable<null | KonvaParent> = getParentContainer();
+	const parent: Writable<null | KonvaParent> = getParentContainer();
 
 	onMount(() => {
-		$parent!.add(handle);
+		$parent!.add(_handle);
 
 		if (!staticConfig) {
-			handle.on('transformend', () => {
-				copyExistingKeys(config, handle.getAttrs());
+			_handle.on('transformend', () => {
+				copyExistingKeys(config, _handle.getAttrs());
 				config = config;
 			});
 
-			handle.on('dragend', () => {
-				copyExistingKeys(config, handle.getAttrs());
+			_handle.on('dragend', () => {
+				copyExistingKeys(config, _handle.getAttrs());
 				config = config;
 			});
 		}
 
-		registerEvents(dispatcher, handle);
+		registerEvents(dispatcher, _handle);
 
-		inner.set(handle);
+		inner.set(_handle);
 		isReady = true;
 	});
 
 	onDestroy(() => {
-		if (handle) {
-			handle.destroy();
-		}
+		_handle.destroy();
 	});
 
 	setContainerContext(Container.Group, inner);
