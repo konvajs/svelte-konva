@@ -35,42 +35,43 @@ Further information: [Konva API docs](https://konvajs.org/api/Konva.Label.html),
 	interface $$Events extends KonvaEvents {}
 
 	export let config: Konva.LabelConfig;
-	export let handle = new Konva.Label(config);
+	const _handle = new Konva.Label(config); // Hide inner handle behind a shadow variable to prevent users from overwriting it
+	export const handle = _handle;
 	export let staticConfig = false;
 
-	let inner = writable<null | Konva.Label>(null);
+	const inner = writable<null | Konva.Label>(null);
 
-	let dispatcher = createEventDispatcher();
+	const dispatcher = createEventDispatcher();
 
 	let isReady = false;
 
-	$: handle.setAttrs(config);
+	$: _handle.setAttrs(config);
 
-	let parent: Writable<null | KonvaParent> = getParentContainer();
+	const parent: Writable<null | KonvaParent> = getParentContainer();
 
 	onMount(() => {
-		$parent!.add(handle);
+		$parent!.add(_handle);
 
 		if (!staticConfig) {
-			handle.on('transformend', () => {
-				copyExistingKeys(config, handle.getAttrs());
+			_handle.on('transformend', () => {
+				copyExistingKeys(config, _handle.getAttrs());
 				config = config;
 			});
 
-			handle.on('dragend', () => {
-				copyExistingKeys(config, handle.getAttrs());
+			_handle.on('dragend', () => {
+				copyExistingKeys(config, _handle.getAttrs());
 				config = config;
 			});
 		}
 
-		registerEvents(dispatcher, handle);
+		registerEvents(dispatcher, _handle);
 
-		inner.set(handle);
+		inner.set(_handle);
 		isReady = true;
 	});
 
 	onDestroy(() => {
-		handle.destroy();
+		_handle.destroy();
 	});
 
 	setContainerContext(Container.Label, inner);

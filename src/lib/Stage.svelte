@@ -28,43 +28,46 @@ Further information: [Konva API docs](https://konvajs.org/api/Konva.Stage.html),
 	interface $$Events extends KonvaEvents {}
 
 	export let config: Konva.ContainerConfig;
-	export let handle: null | Konva.Stage = null;
+	let _handle: null | Konva.Stage = null;
+	export let handle: null | Konva.Stage = _handle;
 	export let staticConfig = false;
 
-	let inner = writable<null | Konva.Stage>(null);
+	const inner = writable<null | Konva.Stage>(null);
 
 	let stage: HTMLDivElement;
 
-	let dispatcher = createEventDispatcher();
+	const dispatcher = createEventDispatcher();
 
 	let isReady = false;
 
-	$: if (handle) {
-		handle.setAttrs(config);
+	$: if (_handle) {
+		_handle.setAttrs(config);
 	}
 
 	onMount(() => {
-		handle = new Konva.Stage({
+		_handle = new Konva.Stage({
 			container: stage,
 			...config
 		});
 
+		handle = _handle;
+
 		if (!staticConfig) {
-			handle.on('dragend', () => {
-				copyExistingKeys(config, handle!.getAttrs());
+			_handle.on('dragend', () => {
+				copyExistingKeys(config, _handle!.getAttrs());
 				config = config;
 			});
 		}
 
-		registerEvents(dispatcher, handle);
+		registerEvents(dispatcher, _handle);
 
-		inner.set(handle);
+		inner.set(_handle);
 		isReady = true;
 	});
 
 	onDestroy(() => {
-		if (handle) {
-			handle.destroy();
+		if (_handle) {
+			_handle.destroy();
 		}
 	});
 
