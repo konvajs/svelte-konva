@@ -51,7 +51,7 @@
 		"@types/lodash.clonedeep": "^4.5.7",
 		"@typescript-eslint/eslint-plugin": "^6.4.1",
 		"@typescript-eslint/parser": "^6.4.0",
-		"daisyui": "^3.1.6",
+		"daisyui": "^4.4.2",
 		"eslint": "^8.28.0",
 		"eslint-config-prettier": "^8.5.0",
 		"eslint-plugin-svelte": "^2.31.0",
