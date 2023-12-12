@@ -27,7 +27,7 @@ const config: UserConfig = {
 						replacement: path.join(__dirname, 'node_modules/svelte/src/runtime/index.js')
 					}
 				]
-		  }
+			}
 		: {}
 };
 
