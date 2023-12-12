@@ -267,12 +267,7 @@ test('Konva instance is correctly destroyed on component unmount', async () => {
 });
 
 test('Overwriting the handle of the component from outside should have no effect', async () => {
-	const testImage = await new Promise((resolve, reject) => {
-		const img = new Image();
-		img.onload = () => resolve(img);
-		img.onerror = reject;
-		img.src = image;
-	});
+	const testImage = await loadImage(image);
 
 	const rendered = render(KonvaImage, {
 		context: createMockParentContext(Container.Layer),
