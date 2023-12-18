@@ -55,7 +55,7 @@
 		"eslint": "^8.28.0",
 		"eslint-config-prettier": "^8.5.0",
 		"eslint-plugin-svelte": "^2.31.0",
-		"jsdom": "^22.1.0",
+		"jsdom": "^23.0.1",
 		"konva": "^9.2.0",
 		"lodash.clonedeep": "^4.5.0",
 		"plop": "^3.1.2",
