@@ -163,3 +163,11 @@ test('Konva instance is correctly destroyed on component unmount', () => {
 	expect(Konva.stages.length).toBe(previousStageCount);
 	expect(handle).toBeUndefined();
 });
+
+test('Overwriting the handle of the component from outside should have no effect', async () => {
+	const rendered = render(Stage, {
+		config: { width: 1000, height: 1000 }
+	});
+
+	rendered.component.$set({ _handle: undefined }); // Overwrite handle from outside, should not throw as internal handle is still intact
+});

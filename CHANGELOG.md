@@ -1,6 +1,6 @@
 # Unreleased
 
-- -
+- Improved handle prop safety by preventing the user from overwriting the internal handle of the svelte-konva components (see #136)
 
 # v0.3.1
 
