@@ -1,6 +1,8 @@
 # Unreleased
 
 - Improved handle prop safety by preventing the user from overwriting the internal handle of the svelte-konva components (see #136)
+- Update to SvelteKit v2
+- Various dependency updates
 
 # v0.3.1
 
