@@ -9,11 +9,12 @@ const config: UserConfig = {
 	},
 	test: {
 		include: ['src/tests/*.{test,spec}.{js,mjs,cjs,ts,mts,cts,jsx,tsx}'],
-		threads: false, // Workaround as testing with threads causes segfaults (likely vitest bug) Caution: ith this in place tests are not running in isolated threads!
+		pool: "forks", // Workaround as testing with threads causes segfaults (likely vitest bug) Caution: with this in place tests are not running in isolated threads!
 		environment: 'jsdom',
 		environmentOptions: {
 			jsdom: {
 				resources: 'usable'
+
 			}
 		}
 	},
@@ -21,13 +22,13 @@ const config: UserConfig = {
 	// By directly importing the runtime we force Svelte to call it without onMount being replaced by noop
 	resolve: process.env.TEST
 		? {
-				alias: [
-					{
-						find: /^svelte$/,
-						replacement: path.join(__dirname, 'node_modules/svelte/src/runtime/index.js')
-					}
-				]
-			}
+			alias: [
+				{
+					find: /^svelte$/,
+					replacement: path.join(__dirname, 'node_modules/svelte/src/runtime/index.js')
+				}
+			]
+		}
 		: {}
 };
 
