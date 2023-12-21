@@ -54,7 +54,7 @@ export {
 	Tag
 };
 
-export {
+export type {
 	KonvaDragTransformEvent,
 	KonvaPointerEvent,
 	KonvaTouchEvent,
