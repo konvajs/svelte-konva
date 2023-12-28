@@ -59,7 +59,7 @@
 		"jsdom": "^23.0.1",
 		"konva": "^9.2.0",
 		"lodash.clonedeep": "^4.5.0",
-		"plop": "^3.1.2",
+		"plop": "^4.0.1",
 		"prettier": "^3.1.1",
 		"prettier-plugin-svelte": "^3.1.2",
 		"svelte": "^4.2.8",
