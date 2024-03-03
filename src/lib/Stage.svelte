@@ -23,18 +23,12 @@ Further information: [Konva API docs](https://konvajs.org/api/Konva.Stage.html),
 	import { writable } from 'svelte/store';
 	import { registerEvents, type KonvaEvents } from '$lib/util/events';
 	import { Container, setContainerContext } from '$lib/util/manageContext';
-	import { copyExistingKeys } from './util/object';
+	import { copyExistingKeys } from '$lib/util/object';
+	import { type StageProps } from '$lib/util/props';
 
 	interface $$Events extends KonvaEvents {}
 
-	type Props = {
-		config: Konva.ContainerConfig;
-		readonly handle?: null | Konva.Stage;
-		staticConfig?: boolean;
-		[key: string]: any;
-	};
-
-	let { config, handle = null, staticConfig = false, ...restProps } = $props<Props>();
+	let { config, handle = null, staticConfig = false, ...restProps } = $props<StageProps>();
 
 	const inner = writable<null | Konva.Stage>(null);
 
@@ -59,7 +53,6 @@ Further information: [Konva API docs](https://konvajs.org/api/Konva.Stage.html),
 		if (!staticConfig) {
 			handle.on('dragend', () => {
 				copyExistingKeys(config, handle!.getAttrs());
-				config = config;
 			});
 		}
 

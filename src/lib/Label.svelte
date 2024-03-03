@@ -31,16 +31,13 @@ Further information: [Konva API docs](https://konvajs.org/api/Konva.Label.html),
 		type KonvaParent
 	} from '$lib/util/manageContext';
 	import { registerEvents, type KonvaEvents } from '$lib/util/events';
+	import { type Props } from '$lib/util/props';
 
 	interface $$Events extends KonvaEvents {}
 
-	type Props = {
-		config: Konva.LabelConfig;
-		readonly handle?: Konva.Label;
-		staticConfig?: boolean;
-	};
+	let { config, staticConfig = false } = $props<Props<Konva.LabelConfig>>();
 
-	let { config, handle = new Konva.Label(config), staticConfig = false } = $props<Props>();
+	export const handle = new Konva.Label(config);
 
 	const inner = writable<null | Konva.Label>(null);
 
@@ -60,12 +57,10 @@ Further information: [Konva API docs](https://konvajs.org/api/Konva.Label.html),
 		if (!staticConfig) {
 			handle.on('transformend', () => {
 				copyExistingKeys(config, handle.getAttrs());
-				config = config;
 			});
 
 			handle.on('dragend', () => {
 				copyExistingKeys(config, handle.getAttrs());
-				config = config;
 			});
 		}
 

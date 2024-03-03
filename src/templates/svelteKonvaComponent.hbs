@@ -25,16 +25,13 @@ Further information: [Konva API docs](https://konvajs.org/api/Konva.{{ component
 	import { registerEvents, type KonvaEvents } from '$lib/util/events';
 	import { getParentContainer, type KonvaParent } from '$lib/util/manageContext';
 	import { copyExistingKeys } from '$lib/util/object';
+	import { type Props } from '$lib/util/props';
 
 	interface $$Events extends KonvaEvents {}
 
-	type Props = {
-		config: Konva.{{ componentName }}Config;
-		readonly handle?: Konva.{{ componentName }};
-		staticConfig?: boolean;
-	};
+	let { config, staticConfig = false } = $props<Props<Konva.{{ componentName }}Config>>();
 
-	let { config, handle = new Konva.{{ componentName }}(config), staticConfig = false } = $props<Props>();
+	export const handle = new Konva.{{ componentName }}(config);
 
 	const parent: Writable<null | KonvaParent> = getParentContainer();
 	const dispatcher = createEventDispatcher();
@@ -49,12 +46,10 @@ Further information: [Konva API docs](https://konvajs.org/api/Konva.{{ component
 		if (!staticConfig) {
 			handle.on('transformend', () => {
 				copyExistingKeys(config, handle.getAttrs());
-				config = config;
 			});
 
 			handle.on('dragend', () => {
 				copyExistingKeys(config, handle.getAttrs());
-				config = config;
 			});
 		}
 

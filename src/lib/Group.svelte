@@ -29,17 +29,14 @@ Further information: [Konva API docs](https://konvajs.org/api/Konva.Group.html),
 		type KonvaParent
 	} from '$lib/util/manageContext';
 	import { registerEvents, type KonvaEvents } from '$lib/util/events';
-	import { copyExistingKeys } from './util/object';
+	import { copyExistingKeys } from '$lib/util/object';
+	import { type Props } from '$lib/util/props';
 
 	interface $$Events extends KonvaEvents {}
 
-	type Props = {
-		config: Konva.GroupConfig;
-		readonly handle?: Konva.Group;
-		staticConfig?: boolean;
-	};
+	let { config = {}, staticConfig = false } = $props<Props<Konva.GroupConfig | undefined>>();
 
-	let { config, handle = new Konva.Group(config), staticConfig = false } = $props<Props>();
+	export const handle = new Konva.Group(config);
 
 	const inner = writable<null | Konva.Group>(null);
 
@@ -59,12 +56,10 @@ Further information: [Konva API docs](https://konvajs.org/api/Konva.Group.html),
 		if (!staticConfig) {
 			handle.on('transformend', () => {
 				copyExistingKeys(config, handle.getAttrs());
-				config = config;
 			});
 
 			handle.on('dragend', () => {
 				copyExistingKeys(config, handle.getAttrs());
-				config = config;
 			});
 		}
 

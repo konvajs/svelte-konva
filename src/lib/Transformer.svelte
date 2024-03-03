@@ -29,17 +29,14 @@ Further information: [Konva API docs](https://konvajs.org/api/Konva.Transformer.
 	import type { Writable } from 'svelte/store';
 	import { registerEvents, type KonvaEvents } from '$lib/util/events';
 	import { getParentContainer, type KonvaParent } from '$lib/util/manageContext';
-	import { copyExistingKeys } from './util/object';
+	import { copyExistingKeys } from '$lib/util/object';
+	import { type Props } from '$lib/util/props';
 
 	interface $$Events extends KonvaEvents {}
 
-	type Props = {
-		config: Konva.TransformerConfig;
-		readonly handle?: Konva.Transformer;
-		staticConfig?: boolean;
-	};
+	let { config = {}, staticConfig = false } = $props<Props<Konva.TransformerConfig | undefined>>();
 
-	let { config, handle = new Konva.Transformer(config), staticConfig = false } = $props<Props>();
+	export const handle = new Konva.Transformer(config);
 
 	const parent: Writable<null | KonvaParent> = getParentContainer();
 	const dispatcher = createEventDispatcher();
@@ -54,12 +51,10 @@ Further information: [Konva API docs](https://konvajs.org/api/Konva.Transformer.
 		if (!staticConfig) {
 			handle.on('transformend', () => {
 				copyExistingKeys(config, handle.getAttrs());
-				config = config;
 			});
 
 			handle.on('dragend', () => {
 				copyExistingKeys(config, handle.getAttrs());
-				config = config;
 			});
 		}
 

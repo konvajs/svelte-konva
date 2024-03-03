@@ -25,16 +25,13 @@ Further information: [Konva API docs](https://konvajs.org/api/Konva.Ellipse.html
 	import { registerEvents, type KonvaEvents } from '$lib/util/events';
 	import { getParentContainer, type KonvaParent } from '$lib/util/manageContext';
 	import { copyExistingKeys } from '$lib/util/object';
+	import { type Props } from '$lib/util/props';
 
 	interface $$Events extends KonvaEvents {}
 
-	type Props = {
-		config: Konva.EllipseConfig;
-		readonly handle?: Konva.Ellipse;
-		staticConfig?: boolean;
-	};
+	let { config, staticConfig = false } = $props<Props<Konva.EllipseConfig>>();
 
-	let { config, handle = new Konva.Ellipse(config), staticConfig = false } = $props<Props>();
+	export const handle = new Konva.Ellipse(config);
 
 	const parent: Writable<null | KonvaParent> = getParentContainer();
 	const dispatcher = createEventDispatcher();
@@ -49,12 +46,10 @@ Further information: [Konva API docs](https://konvajs.org/api/Konva.Ellipse.html
 		if (!staticConfig) {
 			handle.on('transformend', () => {
 				copyExistingKeys(config, handle.getAttrs());
-				config = config;
 			});
 
 			handle.on('dragend', () => {
 				copyExistingKeys(config, handle.getAttrs());
-				config = config;
 			});
 		}
 
