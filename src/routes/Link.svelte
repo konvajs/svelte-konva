@@ -9,8 +9,12 @@
 	import { base } from '$app/paths';
 	import { page as appPage } from '$app/stores';
 
-	export let href: string;
-	export let target = '_self';
+	type Props = {
+		href: string;
+		target?: string;
+	};
+
+	let { href, target = '_self' } = $props<Props>();
 </script>
 
 <a href="{base}{href}" {target} class={$appPage.url.pathname === `${base}${href}` ? 'active' : ''}>

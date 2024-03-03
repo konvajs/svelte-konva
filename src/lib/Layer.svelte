@@ -30,19 +30,23 @@ Further information: [Konva API docs](https://konvajs.org/api/Konva.Layer.html),
 
 	interface $$Events extends KonvaEvents {}
 
-	export let config: Konva.LayerConfig = {};
-	export let handle: Konva.Layer = new Konva.Layer(config);
-	export let staticConfig = false;
+	type Props = {
+		config: Konva.LayerConfig;
+		readonly handle?: Konva.Layer;
+		staticConfig?: boolean;
+	};
+
+	let { config, handle = new Konva.Layer(config), staticConfig = false } = $props<Props>();
 
 	let inner = writable<null | Konva.Layer>(null);
 
 	let dispatcher = createEventDispatcher();
 
-	let isReady = false;
+	let isReady = $state(false);
 
-	$: if (handle) {
+	$effect(() => {
 		handle.setAttrs(config);
-	}
+	});
 
 	let parent: Writable<null | Konva.Stage> = getParentStage();
 

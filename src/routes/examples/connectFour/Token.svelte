@@ -15,9 +15,13 @@
 	import { gameScale, gameState } from './store';
 	import { createEventDispatcher } from 'svelte';
 
-	export let player: Player;
+	type Props = {
+		player: Player;
+	};
 
-	let token: Konva.Circle;
+	let { player } = $props<Props>();
+
+	let token = $state<Konva.Circle>();
 	let dispatch = createEventDispatcher();
 
 	const TOKEN_RED_INITIAL_POS = { x: 80, y: 80 };
@@ -35,14 +39,14 @@
 
 	const initialTokenPos = getInitialTokenPos();
 
-	let config: Konva.CircleConfig = {
+	let config = $state<Konva.CircleConfig>({
 		x: initialTokenPos.x,
 		y: initialTokenPos.y,
 		radius: TOKEN_RADIUS,
 		fill: player,
 		draggable: true,
 		dragBoundFunc: limitTokenDrag
-	};
+	});
 
 	/**
 	 * Get the initial position of the token once it enters the game
@@ -138,7 +142,7 @@
 
 		// Create a tween to animate the drop
 		const tween = new Konva.Tween({
-			node: token,
+			node: token!,
 			duration: 1,
 			y: GAME_GRID_ROW_POSITIONS[rowPos!],
 			easing: Konva.Easings.BounceEaseOut,

@@ -27,10 +27,14 @@ Further information: [Konva API docs](https://konvajs.org/api/Konva.Stage.html),
 
 	interface $$Events extends KonvaEvents {}
 
-	export let config: Konva.ContainerConfig;
-	let _handle: null | Konva.Stage = null;
-	export let handle: null | Konva.Stage = _handle;
-	export let staticConfig = false;
+	type Props = {
+		config: Konva.ContainerConfig;
+		readonly handle?: null | Konva.Stage;
+		staticConfig?: boolean;
+		[key: string]: any;
+	};
+
+	let { config, handle = null, staticConfig = false, ...restProps } = $props<Props>();
 
 	const inner = writable<null | Konva.Stage>(null);
 
@@ -38,43 +42,43 @@ Further information: [Konva API docs](https://konvajs.org/api/Konva.Stage.html),
 
 	const dispatcher = createEventDispatcher();
 
-	let isReady = false;
+	let isReady = $state(false);
 
-	$: if (_handle) {
-		_handle.setAttrs(config);
-	}
+	$effect(() => {
+		if (handle) handle.setAttrs(config);
+	});
 
 	onMount(() => {
-		_handle = new Konva.Stage({
+		handle = new Konva.Stage({
 			container: stage,
 			...config
 		});
 
-		handle = _handle;
+		handle = handle;
 
 		if (!staticConfig) {
-			_handle.on('dragend', () => {
-				copyExistingKeys(config, _handle!.getAttrs());
+			handle.on('dragend', () => {
+				copyExistingKeys(config, handle!.getAttrs());
 				config = config;
 			});
 		}
 
-		registerEvents(dispatcher, _handle);
+		registerEvents(dispatcher, handle);
 
-		inner.set(_handle);
+		inner.set(handle);
 		isReady = true;
 	});
 
 	onDestroy(() => {
-		if (_handle) {
-			_handle.destroy();
+		if (handle) {
+			handle.destroy();
 		}
 	});
 
 	setContainerContext(Container.Stage, inner);
 </script>
 
-<div bind:this={stage} {...$$restProps}>
+<div bind:this={stage} {...restProps}>
 	{#if isReady}
 		<slot />
 	{/if}

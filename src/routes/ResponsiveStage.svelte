@@ -3,7 +3,11 @@
 	import Stage from 'svelte-konva/Stage.svelte';
 	import { onMount } from 'svelte';
 
-	export let handle: null | Konva.Stage = null;
+	type Props = {
+		handle?: null | Konva.Stage;
+	};
+
+	let { handle } = $props<Props>();
 
 	let container: HTMLDivElement;
 

@@ -3,9 +3,13 @@
 	import 'svelte-highlight/styles/github.css';
 	import solarizedDark from 'svelte-highlight/styles/solarized-dark';
 
-	export let code: string;
+	type Props = {
+		code: string;
+	};
 
-	let showCopySuccess = false;
+	let { code } = $props<Props>();
+
+	let showCopySuccess = $state(false);
 
 	function copyCode() {
 		if (!navigator) {

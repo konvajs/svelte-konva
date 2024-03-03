@@ -28,35 +28,40 @@ Further information: [Konva API docs](https://konvajs.org/api/Konva.Line.html), 
 
 	interface $$Events extends KonvaEvents {}
 
-	export let config: Konva.LineConfig;
-	const _handle = new Konva.Line(config); // Hide inner handle behind a shadow variable to prevent users from overwriting it
-	export const handle = _handle;
-	export let staticConfig = false;
+	type Props = {
+		config: Konva.LineConfig;
+		readonly handle?: Konva.Line;
+		staticConfig?: boolean;
+	};
+
+	let { config, handle = new Konva.Line(config), staticConfig = false } = $props<Props>();
 
 	const parent: Writable<null | KonvaParent> = getParentContainer();
 	const dispatcher = createEventDispatcher();
 
-	$: _handle.setAttrs(config);
+	$effect(() => {
+		handle.setAttrs(config);
+	});
 
 	onMount(() => {
-		$parent!.add(_handle);
+		$parent!.add(handle);
 
 		if (!staticConfig) {
-			_handle.on('transformend', () => {
-				copyExistingKeys(config, _handle.getAttrs());
+			handle.on('transformend', () => {
+				copyExistingKeys(config, handle.getAttrs());
 				config = config;
 			});
 
-			_handle.on('dragend', () => {
-				copyExistingKeys(config, _handle.getAttrs());
+			handle.on('dragend', () => {
+				copyExistingKeys(config, handle.getAttrs());
 				config = config;
 			});
 		}
 
-		registerEvents(dispatcher, _handle);
+		registerEvents(dispatcher, handle);
 	});
 
 	onDestroy(() => {
-		_handle.destroy();
+		handle.destroy();
 	});
 </script>

@@ -13,10 +13,10 @@
 	import Transformer from 'svelte-konva/Transformer.svelte';
 	import Rect from 'svelte-konva/Rect.svelte';
 
-	let stage: Konva.Stage;
-	let layer: Konva.Layer;
-	let transformer: Konva.Transformer;
-	let selectionRectangle: Konva.Rect;
+	let stage = $state<Konva.Stage>();
+	let layer = $state<Konva.Layer>();
+	let transformer = $state<Konva.Transformer>();
+	let selectionRectangle = $state<Konva.Rect>();
 
 	const SELECTION_RECTANGLE_NAME = 'selection-rectangle';
 
@@ -60,6 +60,8 @@
 	let selectionActive = false; // If the transformer is active eg. something is selected
 
 	function selectStart(e: CustomEvent<KonvaEventObject<PointerEvent>>) {
+		if (!transformer || !stage) return;
+
 		const konvaEvent = e.detail;
 
 		// Check if event target is stage (eg. user clicked on empty part of the stage and not any shape)
@@ -86,6 +88,7 @@
 	}
 
 	function selectDrag() {
+		if (!stage) return;
 		if (!selectionRectangleConfig.visible) {
 			// Currently no selection is active (eg. user is just moving the cursor around)
 			return;
@@ -103,6 +106,7 @@
 	}
 
 	function selectEnd() {
+		if (!layer || !transformer || !selectionRectangle) return;
 		if (!selectionRectangleConfig.visible) {
 			// Currently no selection is active (eg. user clicked on non empty part of the stage)
 			return;
@@ -112,7 +116,7 @@
 			const selectedEntities = layer!.children.filter(
 				(child) =>
 					child.name() !== SELECTION_RECTANGLE_NAME &&
-					Konva.Util.haveIntersection(selectionRectangle.getClientRect(), child.getClientRect())
+					Konva.Util.haveIntersection(selectionRectangle!.getClientRect(), child.getClientRect())
 			);
 
 			if (selectedEntities.length !== 0) {
@@ -150,8 +154,8 @@
 >
 	<Layer bind:handle={layer}>
 		<Group config={{ draggable: true }}>
-			{#each configs as config}
-				<Circle bind:config />
+			{#each configs as _, idx}
+				<Circle bind:config={configs[idx]} />
 			{/each}
 		</Group>
 

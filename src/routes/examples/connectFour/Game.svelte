@@ -8,8 +8,8 @@
 	import Circle from 'svelte-konva/Circle.svelte';
 	import { onDestroy } from 'svelte';
 
-	let activePlayer = Player.Red;
-	let tokens: Array<Player> = [activePlayer];
+	let activePlayer = $state(Player.Red);
+	let tokens: Array<Player> = $state([activePlayer]);
 
 	/**
 	 * Handle the end of a single player move
@@ -198,15 +198,15 @@
 		return null;
 	}
 
-	let isDraw = false;
+	let isDraw = $state(false);
 
 	function handleDraw() {
 		isDraw = true;
 	}
 
-	let isWon = false;
+	let isWon = $state(false);
 
-	let winningTokenPositions: Array<Konva.Vector2d> = [];
+	let winningTokenPositions = $state<Array<Konva.Vector2d>>([]);
 
 	function handleWin(winningTokens: Array<TokenPos>) {
 		winningTokens.forEach((tokenPos) => {
@@ -220,7 +220,7 @@
 	}
 
 	// Flag used to trigger Token reinstantiation
-	let reset = false;
+	let reset = $state(false);
 
 	function resetGame() {
 		isWon = false;

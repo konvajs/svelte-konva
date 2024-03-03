@@ -19,8 +19,8 @@
 		scaleY: $gameScale
 	};
 
-	let gameGrid: HTMLImageElement;
-	let gridImageAvailable = false;
+	let gameGrid = $state<HTMLImageElement>();
+	let gridImageAvailable = $state(false);
 
 	/**
 	 * Resize the game grid scale and size if the container element changes in size
