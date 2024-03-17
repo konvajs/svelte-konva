@@ -14,7 +14,7 @@
 		target?: string;
 	};
 
-	let { href, target = '_self' } = $props<Props>();
+	let { href, target = '_self' }: Props = $props();
 </script>
 
 <a href="{base}{href}" {target} class={$appPage.url.pathname === `${base}${href}` ? 'active' : ''}>

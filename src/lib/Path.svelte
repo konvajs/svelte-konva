@@ -29,7 +29,7 @@ Further information: [Konva API docs](https://konvajs.org/api/Konva.Path.html), 
 
 	interface $$Events extends KonvaEvents {}
 
-	let { config, staticConfig = false } = $props<Props<Konva.PathConfig>>();
+	let { config, staticConfig = false }: Props<Konva.PathConfig> = $props();
 
 	export const handle = new Konva.Path(config);
 

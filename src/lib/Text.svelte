@@ -29,7 +29,7 @@ Further information: [Konva API docs](https://konvajs.org/api/Konva.Text.html), 
 
 	interface $$Events extends KonvaEvents {}
 
-	let { config, staticConfig = false } = $props<Props<Konva.TextConfig>>();
+	let { config, staticConfig = false }: Props<Konva.TextConfig> = $props();
 
 	export const handle = new Konva.Text(config);
 

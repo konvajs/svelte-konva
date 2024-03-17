@@ -29,7 +29,7 @@ Further information: [Konva API docs](https://konvajs.org/api/Konva.Line.html), 
 
 	interface $$Events extends KonvaEvents {}
 
-	let { config, staticConfig = false } = $props<Props<Konva.LineConfig>>();
+	let { config, staticConfig = false }: Props<Konva.LineConfig> = $props();
 
 	export const handle = new Konva.Line(config);
 

@@ -31,7 +31,7 @@ Further information: [Konva API docs](https://konvajs.org/api/Konva.Layer.html),
 
 	interface $$Events extends KonvaEvents {}
 
-	let { config = {}, staticConfig = false } = $props<Props<Konva.LayerConfig | undefined>>();
+	let { config = {}, staticConfig = false }: Props<Konva.LayerConfig | undefined> = $props();
 
 	export const handle = new Konva.Layer(config);
 

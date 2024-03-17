@@ -29,7 +29,7 @@ Further information: [Konva API docs](https://konvajs.org/api/Konva.Star.html), 
 
 	interface $$Events extends KonvaEvents {}
 
-	let { config, staticConfig = false } = $props<Props<Konva.StarConfig>>();
+	let { config, staticConfig = false }: Props<Konva.StarConfig> = $props();
 
 	export const handle = new Konva.Star(config);
 

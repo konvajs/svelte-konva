@@ -29,7 +29,7 @@ Further information: [Konva API docs](https://konvajs.org/api/Konva.Shape.html),
 
 	interface $$Events extends KonvaEvents {}
 
-	let { config, staticConfig = false } = $props<Props<Konva.ShapeConfig>>();
+	let { config, staticConfig = false }: Props<Konva.ShapeConfig> = $props();
 
 	export const handle = new Konva.Shape(config);
 

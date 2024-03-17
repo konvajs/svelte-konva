@@ -35,7 +35,7 @@ Further information: [Konva API docs](https://konvajs.org/api/Konva.Label.html),
 
 	interface $$Events extends KonvaEvents {}
 
-	let { config, staticConfig = false } = $props<Props<Konva.LabelConfig>>();
+	let { config, staticConfig = false }: Props<Konva.LabelConfig> = $props();
 
 	export const handle = new Konva.Label(config);
 

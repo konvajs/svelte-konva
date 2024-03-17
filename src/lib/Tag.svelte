@@ -29,7 +29,7 @@ Further information: [Konva API docs](https://konvajs.org/api/Konva.Tag.html), [
 
 	interface $$Events extends KonvaEvents {}
 
-	let { config, staticConfig = false } = $props<Props<Konva.TagConfig>>();
+	let { config, staticConfig = false }: Props<Konva.TagConfig> = $props();
 
 	export const handle = new Konva.Tag(config);
 

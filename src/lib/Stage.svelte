@@ -28,7 +28,7 @@ Further information: [Konva API docs](https://konvajs.org/api/Konva.Stage.html),
 
 	interface $$Events extends KonvaEvents {}
 
-	let { config, handle, staticConfig = false, ...restProps } = $props<StageProps>();
+	let { config, handle, staticConfig = false, ...restProps }: StageProps = $props();
 	handle = null; // A bit of a workaround as bindings on fallback values are disallowed in runes mode (https://github.com/sveltejs/svelte/issues/9764)
 	let _handle: Konva.Stage | null = null; // Hide inner handle behind a shadow variable to prevent users from overwriting it
 

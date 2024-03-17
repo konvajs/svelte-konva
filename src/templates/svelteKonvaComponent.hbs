@@ -29,7 +29,7 @@ Further information: [Konva API docs](https://konvajs.org/api/Konva.{{ component
 
 	interface $$Events extends KonvaEvents {}
 
-	let { config, staticConfig = false } = $props<Props<Konva.{{ componentName }}Config>>();
+	let { config, staticConfig = false }: Props<Konva.{{ componentName }}Config> = $props();
 
 	export const handle = new Konva.{{ componentName }}(config);
 

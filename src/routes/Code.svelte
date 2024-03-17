@@ -7,7 +7,7 @@
 		code: string;
 	};
 
-	let { code } = $props<Props>();
+	let { code }: Props = $props();
 
 	let showCopySuccess = $state(false);
 

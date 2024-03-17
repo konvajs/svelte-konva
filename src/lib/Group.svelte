@@ -34,7 +34,7 @@ Further information: [Konva API docs](https://konvajs.org/api/Konva.Group.html),
 
 	interface $$Events extends KonvaEvents {}
 
-	let { config = {}, staticConfig = false } = $props<Props<Konva.GroupConfig | undefined>>();
+	let { config = {}, staticConfig = false }: Props<Konva.GroupConfig | undefined> = $props();
 
 	export const handle = new Konva.Group(config);
 

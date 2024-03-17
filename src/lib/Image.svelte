@@ -29,7 +29,7 @@ Further information: [Konva API docs](https://konvajs.org/api/Konva.Image.html),
 
 	interface $$Events extends KonvaEvents {}
 
-	let { config, staticConfig = false } = $props<Props<Konva.ImageConfig>>();
+	let { config, staticConfig = false }: Props<Konva.ImageConfig> = $props();
 
 	export const handle = new Konva.Image(config);
 

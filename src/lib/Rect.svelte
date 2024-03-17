@@ -29,7 +29,7 @@ Further information: [Konva API docs](https://konvajs.org/api/Konva.Rect.html), 
 
 	interface $$Events extends KonvaEvents {}
 
-	let { config, staticConfig = false } = $props<Props<Konva.RectConfig>>();
+	let { config, staticConfig = false }: Props<Konva.RectConfig> = $props();
 
 	export const handle = new Konva.Rect(config);
 

@@ -7,7 +7,7 @@
 		handle?: null | Konva.Stage;
 	};
 
-	let { handle } = $props<Props>();
+	let { handle }: Props = $props();
 
 	let container: HTMLDivElement;
 

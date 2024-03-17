@@ -19,7 +19,7 @@
 		player: Player;
 	};
 
-	let { player } = $props<Props>();
+	let { player }: Props = $props();
 
 	let token = $state<Konva.Circle>();
 	let dispatch = createEventDispatcher();
