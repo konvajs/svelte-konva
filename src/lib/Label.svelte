@@ -31,47 +31,47 @@ Further information: [Konva API docs](https://konvajs.org/api/Konva.Label.html),
 		type KonvaParent
 	} from '$lib/util/manageContext';
 	import { registerEvents, type KonvaEvents } from '$lib/util/events';
+	import { type Props } from '$lib/util/props';
 
 	interface $$Events extends KonvaEvents {}
 
-	export let config: Konva.LabelConfig;
-	const _handle = new Konva.Label(config); // Hide inner handle behind a shadow variable to prevent users from overwriting it
-	export const handle = _handle;
-	export let staticConfig = false;
+	let { config, staticConfig = false }: Props<Konva.LabelConfig> = $props();
+
+	export const handle = new Konva.Label(config);
 
 	const inner = writable<null | Konva.Label>(null);
 
 	const dispatcher = createEventDispatcher();
 
-	let isReady = false;
+	let isReady = $state(false);
 
-	$: _handle.setAttrs(config);
+	$effect(() => {
+		handle.setAttrs(config);
+	});
 
 	const parent: Writable<null | KonvaParent> = getParentContainer();
 
 	onMount(() => {
-		$parent!.add(_handle);
+		$parent!.add(handle);
 
 		if (!staticConfig) {
-			_handle.on('transformend', () => {
-				copyExistingKeys(config, _handle.getAttrs());
-				config = config;
+			handle.on('transformend', () => {
+				copyExistingKeys(config, handle.getAttrs());
 			});
 
-			_handle.on('dragend', () => {
-				copyExistingKeys(config, _handle.getAttrs());
-				config = config;
+			handle.on('dragend', () => {
+				copyExistingKeys(config, handle.getAttrs());
 			});
 		}
 
-		registerEvents(dispatcher, _handle);
+		registerEvents(dispatcher, handle);
 
-		inner.set(_handle);
+		inner.set(handle);
 		isReady = true;
 	});
 
 	onDestroy(() => {
-		_handle.destroy();
+		handle.destroy();
 	});
 
 	setContainerContext(Container.Label, inner);

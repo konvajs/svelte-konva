@@ -26,23 +26,24 @@ Further information: [Konva API docs](https://konvajs.org/api/Konva.Layer.html),
 	import { type Writable, writable } from 'svelte/store';
 	import { Container, getParentStage, setContainerContext } from '$lib/util/manageContext';
 	import { registerEvents, type KonvaEvents } from '$lib/util/events';
-	import { copyExistingKeys } from './util/object';
+	import { copyExistingKeys } from '$lib/util/object';
+	import { type Props } from '$lib/util/props';
 
 	interface $$Events extends KonvaEvents {}
 
-	export let config: Konva.LayerConfig = {};
-	export let handle: Konva.Layer = new Konva.Layer(config);
-	export let staticConfig = false;
+	let { config = {}, staticConfig = false }: Props<Konva.LayerConfig | undefined> = $props();
 
-	let inner = writable<null | Konva.Layer>(null);
+	export const handle = new Konva.Layer(config);
 
-	let dispatcher = createEventDispatcher();
+	const inner = writable<null | Konva.Layer>(null);
 
-	let isReady = false;
+	const dispatcher = createEventDispatcher();
 
-	$: if (handle) {
+	let isReady = $state(false);
+
+	$effect(() => {
 		handle.setAttrs(config);
-	}
+	});
 
 	let parent: Writable<null | Konva.Stage> = getParentStage();
 
@@ -52,12 +53,10 @@ Further information: [Konva API docs](https://konvajs.org/api/Konva.Layer.html),
 		if (!staticConfig) {
 			handle.on('transformend', () => {
 				copyExistingKeys(config, handle.getAttrs());
-				config = config;
 			});
 
 			handle.on('dragend', () => {
 				copyExistingKeys(config, handle.getAttrs());
-				config = config;
 			});
 		}
 

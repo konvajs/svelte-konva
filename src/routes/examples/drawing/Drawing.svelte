@@ -9,7 +9,7 @@
 	import Line from 'svelte-konva/Line.svelte';
 	import type { LineCap, LineJoin } from 'konva/lib/Shape';
 
-	let stage: Konva.Stage;
+	let stage = $state<Konva.Stage | null>(null);
 
 	const DRAW_TIMEOUT_MS = 5;
 
@@ -18,14 +18,16 @@
 		Eraser
 	}
 
-	let strokes: Array<Konva.LineConfig> = []; // This array stores all pen and eraser strokes that have been made
-	let selectedTool = Tools.Pen;
-	let strokeWidth = 10;
+	let strokes = $state<Array<Konva.LineConfig>>([]); // This array stores all pen and eraser strokes that have been made
+	let selectedTool = $state(Tools.Pen);
+	let strokeWidth = $state(10);
 	let isDrawing = false; // Flag is active if the user is currently drawing/erasing
 	let drawTimeout: NodeJS.Timeout | null; // Timeout used to limit the pointermove event to not save too much data for the stroke points
 	let drawTimeoutRunning = false; // Used to indicate wether the timeout is currently in progress or not
 
 	function startDraw() {
+		if (!stage) return;
+
 		const pointerPos = getRealPointerPos(stage.getPointerPosition()!, stage);
 
 		const lineConfig = {
@@ -50,9 +52,7 @@
 	}
 
 	function draw() {
-		if (!isDrawing) {
-			return;
-		}
+		if (!isDrawing || !stage) return;
 
 		if (drawTimeout) {
 			if (drawTimeoutRunning) {
@@ -76,9 +76,7 @@
 	}
 
 	function stopDraw() {
-		if (!isDrawing) {
-			return;
-		}
+		if (!isDrawing) return;
 
 		isDrawing = false;
 		drawTimeout = null;

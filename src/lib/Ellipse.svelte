@@ -25,38 +25,38 @@ Further information: [Konva API docs](https://konvajs.org/api/Konva.Ellipse.html
 	import { registerEvents, type KonvaEvents } from '$lib/util/events';
 	import { getParentContainer, type KonvaParent } from '$lib/util/manageContext';
 	import { copyExistingKeys } from '$lib/util/object';
+	import { type Props } from '$lib/util/props';
 
 	interface $$Events extends KonvaEvents {}
 
-	export let config: Konva.EllipseConfig;
-	const _handle = new Konva.Ellipse(config); // Hide inner handle behind a shadow variable to prevent users from overwriting it
-	export const handle = _handle;
-	export let staticConfig = false;
+	let { config, staticConfig = false }: Props<Konva.EllipseConfig> = $props();
+
+	export const handle = new Konva.Ellipse(config);
 
 	const parent: Writable<null | KonvaParent> = getParentContainer();
 	const dispatcher = createEventDispatcher();
 
-	$: _handle.setAttrs(config);
+	$effect(() => {
+		handle.setAttrs(config);
+	});
 
 	onMount(() => {
-		$parent!.add(_handle);
+		$parent!.add(handle);
 
 		if (!staticConfig) {
-			_handle.on('transformend', () => {
-				copyExistingKeys(config, _handle.getAttrs());
-				config = config;
+			handle.on('transformend', () => {
+				copyExistingKeys(config, handle.getAttrs());
 			});
 
-			_handle.on('dragend', () => {
-				copyExistingKeys(config, _handle.getAttrs());
-				config = config;
+			handle.on('dragend', () => {
+				copyExistingKeys(config, handle.getAttrs());
 			});
 		}
 
-		registerEvents(dispatcher, _handle);
+		registerEvents(dispatcher, handle);
 	});
 
 	onDestroy(() => {
-		_handle.destroy();
+		handle.destroy();
 	});
 </script>

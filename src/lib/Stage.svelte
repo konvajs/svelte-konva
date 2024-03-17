@@ -23,14 +23,14 @@ Further information: [Konva API docs](https://konvajs.org/api/Konva.Stage.html),
 	import { writable } from 'svelte/store';
 	import { registerEvents, type KonvaEvents } from '$lib/util/events';
 	import { Container, setContainerContext } from '$lib/util/manageContext';
-	import { copyExistingKeys } from './util/object';
+	import { copyExistingKeys } from '$lib/util/object';
+	import { type StageProps } from '$lib/util/props';
 
 	interface $$Events extends KonvaEvents {}
 
-	export let config: Konva.ContainerConfig;
-	let _handle: null | Konva.Stage = null;
-	export let handle: null | Konva.Stage = _handle;
-	export let staticConfig = false;
+	let { config, handle, staticConfig = false, ...restProps }: StageProps = $props();
+	handle = null; // A bit of a workaround as bindings on fallback values are disallowed in runes mode (https://github.com/sveltejs/svelte/issues/9764)
+	let _handle: Konva.Stage | null = null; // Hide inner handle behind a shadow variable to prevent users from overwriting it
 
 	const inner = writable<null | Konva.Stage>(null);
 
@@ -38,11 +38,11 @@ Further information: [Konva API docs](https://konvajs.org/api/Konva.Stage.html),
 
 	const dispatcher = createEventDispatcher();
 
-	let isReady = false;
+	let isReady = $state(false);
 
-	$: if (_handle) {
-		_handle.setAttrs(config);
-	}
+	$effect(() => {
+		if (_handle) _handle.setAttrs(config);
+	});
 
 	onMount(() => {
 		_handle = new Konva.Stage({
@@ -55,7 +55,6 @@ Further information: [Konva API docs](https://konvajs.org/api/Konva.Stage.html),
 		if (!staticConfig) {
 			_handle.on('dragend', () => {
 				copyExistingKeys(config, _handle!.getAttrs());
-				config = config;
 			});
 		}
 
@@ -74,7 +73,7 @@ Further information: [Konva API docs](https://konvajs.org/api/Konva.Stage.html),
 	setContainerContext(Container.Stage, inner);
 </script>
 
-<div bind:this={stage} {...$$restProps}>
+<div bind:this={stage} {...restProps}>
 	{#if isReady}
 		<slot />
 	{/if}
