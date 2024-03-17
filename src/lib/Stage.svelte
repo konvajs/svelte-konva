@@ -30,6 +30,7 @@ Further information: [Konva API docs](https://konvajs.org/api/Konva.Stage.html),
 
 	let { config, handle, staticConfig = false, ...restProps } = $props<StageProps>();
 	handle = null; // A bit of a workaround as bindings on fallback values are disallowed in runes mode (https://github.com/sveltejs/svelte/issues/9764)
+	let _handle: Konva.Stage | null = null; // Hide inner handle behind a shadow variable to prevent users from overwriting it
 
 	const inner = writable<null | Konva.Stage>(null);
 
@@ -40,32 +41,32 @@ Further information: [Konva API docs](https://konvajs.org/api/Konva.Stage.html),
 	let isReady = $state(false);
 
 	$effect(() => {
-		if (handle) handle.setAttrs(config);
+		if (_handle) _handle.setAttrs(config);
 	});
 
 	onMount(() => {
-		handle = new Konva.Stage({
+		_handle = new Konva.Stage({
 			container: stage,
 			...config
 		});
 
-		handle = handle;
+		handle = _handle;
 
 		if (!staticConfig) {
-			handle.on('dragend', () => {
-				copyExistingKeys(config, handle!.getAttrs());
+			_handle.on('dragend', () => {
+				copyExistingKeys(config, _handle!.getAttrs());
 			});
 		}
 
-		registerEvents(dispatcher, handle);
+		registerEvents(dispatcher, _handle);
 
-		inner.set(handle);
+		inner.set(_handle);
 		isReady = true;
 	});
 
 	onDestroy(() => {
-		if (handle) {
-			handle.destroy();
+		if (_handle) {
+			_handle.destroy();
 		}
 	});
 
