@@ -28,7 +28,8 @@ Further information: [Konva API docs](https://konvajs.org/api/Konva.Stage.html),
 
 	interface $$Events extends KonvaEvents {}
 
-	let { config, handle = null, staticConfig = false, ...restProps } = $props<StageProps>();
+	let { config, handle, staticConfig = false, ...restProps } = $props<StageProps>();
+	handle = null; // A bit of a workaround as bindings on fallback values are disallowed in runes mode (https://github.com/sveltejs/svelte/issues/9764)
 
 	const inner = writable<null | Konva.Stage>(null);
 
