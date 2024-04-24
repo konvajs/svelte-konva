@@ -1,9 +1,10 @@
 import { sveltekit } from '@sveltejs/kit/vite';
+import { svelteTesting } from '@testing-library/svelte/vite';
 import type { UserConfig } from 'vite';
 import path from 'path';
 
 const config: UserConfig = {
-	plugins: [sveltekit()],
+	plugins: [sveltekit(), svelteTesting()],
 	optimizeDeps: {
 		include: ['highlight.js', 'highlight.js/lib/core']
 	},
@@ -15,6 +16,10 @@ const config: UserConfig = {
 			jsdom: {
 				resources: 'usable'
 			}
+		},
+		// TODO: Alias to enable Svelte 5 support on testing-library, can be removed once stable
+		alias: {
+			'@testing-library/svelte': '@testing-library/svelte/svelte5'
 		}
 	},
 	// Workaround as in svelte tests onMount is not called due to being in nodejs environment (SSR) see: https://github.com/testing-library/svelte-testing-library/issues/222#issuecomment-1588987135
