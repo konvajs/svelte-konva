@@ -19,14 +19,12 @@ Further information: [Konva API docs](https://konvajs.org/api/Konva.Stage.html),
 -->
 <script lang="ts">
 	import Konva from 'konva';
-	import { onMount, onDestroy, createEventDispatcher } from 'svelte';
+	import { onMount, onDestroy } from 'svelte';
 	import { writable } from 'svelte/store';
-	import { registerEvents, type KonvaEvents } from '$lib/util/events';
+	import { registerEvents } from '$lib/util/events';
 	import { Container, setContainerContext } from '$lib/util/manageContext';
 	import { copyExistingKeys } from '$lib/util/object';
 	import { type StageProps } from '$lib/util/props';
-
-	interface $$Events extends KonvaEvents {}
 
 	let {
 		children,
@@ -41,8 +39,6 @@ Further information: [Konva API docs](https://konvajs.org/api/Konva.Stage.html),
 	const inner = writable<null | Konva.Stage>(null);
 
 	let stage: HTMLDivElement;
-
-	const dispatcher = createEventDispatcher();
 
 	let isReady = $state(false);
 
@@ -64,7 +60,7 @@ Further information: [Konva API docs](https://konvajs.org/api/Konva.Stage.html),
 			});
 		}
 
-		registerEvents(dispatcher, _handle);
+		registerEvents(restProps, _handle);
 
 		inner.set(_handle);
 		isReady = true;

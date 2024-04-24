@@ -93,7 +93,7 @@
 	// On dragend we need to check if the token/stone has been moved into a position where it can be dropped into the game grid
 	function handleDragEnd(e: KonvaDragTransformEvent) {
 		// stop propagation as the event handling is done in this component
-		e.stopPropagation();
+		e.cancelBubble = true;
 
 		// as the circle config is bound we already know the current position of the circle and do not need to extract it from the event manually
 		if (config.y! < TOKEN_DROP_THRESHOLD_Y) {
@@ -159,4 +159,4 @@
 	}
 </script>
 
-<Circle bind:config on:dragend={handleDragEnd} bind:handle={token} />
+<Circle bind:config ondragend={handleDragEnd} bind:handle={token} />

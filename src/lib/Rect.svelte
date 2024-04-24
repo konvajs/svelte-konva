@@ -20,21 +20,22 @@ Further information: [Konva API docs](https://konvajs.org/api/Konva.Rect.html), 
 	 */
 
 	import Konva from 'konva';
-	import { onMount, onDestroy, createEventDispatcher } from 'svelte';
-	import type { Writable } from 'svelte/store';
-	import { registerEvents, type KonvaEvents } from '$lib/util/events';
+	import { onMount, onDestroy } from 'svelte';
+	import { type Writable } from 'svelte/store';
+	import { registerEvents } from '$lib/util/events';
 	import { getParentContainer, type KonvaParent } from '$lib/util/manageContext';
 	import { copyExistingKeys } from '$lib/util/object';
 	import { type Props } from '$lib/util/props';
 
-	interface $$Events extends KonvaEvents {}
-
-	let { config = $bindable(), staticConfig = false }: Props<Konva.RectConfig> = $props();
+	let {
+		config = $bindable(),
+		staticConfig = false,
+		...eventHooks
+	}: Props<Konva.RectConfig> = $props();
 
 	export const handle = new Konva.Rect(config);
 
 	const parent: Writable<null | KonvaParent> = getParentContainer();
-	const dispatcher = createEventDispatcher();
 
 	$effect(() => {
 		handle.setAttrs(config);
@@ -53,7 +54,7 @@ Further information: [Konva API docs](https://konvajs.org/api/Konva.Rect.html), 
 			});
 		}
 
-		registerEvents(dispatcher, handle);
+		registerEvents(eventHooks, handle);
 	});
 
 	onDestroy(() => {

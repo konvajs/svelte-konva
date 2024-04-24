@@ -25,22 +25,22 @@ Further information: [Konva API docs](https://konvajs.org/api/Konva.Transformer.
 -->
 <script lang="ts">
 	import Konva from 'konva';
-	import { onMount, onDestroy, createEventDispatcher } from 'svelte';
+	import { onMount, onDestroy } from 'svelte';
 	import type { Writable } from 'svelte/store';
-	import { registerEvents, type KonvaEvents } from '$lib/util/events';
+	import { registerEvents } from '$lib/util/events';
 	import { getParentContainer, type KonvaParent } from '$lib/util/manageContext';
 	import { copyExistingKeys } from '$lib/util/object';
 	import { type Props } from '$lib/util/props';
 
-	interface $$Events extends KonvaEvents {}
-
-	let { config = $bindable({}), staticConfig = false }: Props<Konva.TransformerConfig | undefined> =
-		$props();
+	let {
+		config = $bindable({}),
+		staticConfig = false,
+		...eventHooks
+	}: Props<Konva.TransformerConfig | undefined> = $props();
 
 	export const handle = new Konva.Transformer(config);
 
 	const parent: Writable<null | KonvaParent> = getParentContainer();
-	const dispatcher = createEventDispatcher();
 
 	$effect(() => {
 		handle.setAttrs(config);
@@ -59,7 +59,7 @@ Further information: [Konva API docs](https://konvajs.org/api/Konva.Transformer.
 			});
 		}
 
-		registerEvents(dispatcher, handle);
+		registerEvents(eventHooks, handle);
 	});
 
 	onDestroy(() => {

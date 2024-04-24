@@ -20,7 +20,7 @@ Further information: [Konva API docs](https://konvajs.org/api/Konva.Group.html),
 -->
 <script lang="ts">
 	import Konva from 'konva';
-	import { onMount, onDestroy, createEventDispatcher } from 'svelte';
+	import { onMount, onDestroy } from 'svelte';
 	import { type Writable, writable } from 'svelte/store';
 	import {
 		Container,
@@ -28,23 +28,20 @@ Further information: [Konva API docs](https://konvajs.org/api/Konva.Group.html),
 		setContainerContext,
 		type KonvaParent
 	} from '$lib/util/manageContext';
-	import { registerEvents, type KonvaEvents } from '$lib/util/events';
+	import { registerEvents } from '$lib/util/events';
 	import { copyExistingKeys } from '$lib/util/object';
 	import { type PropsContainer } from '$lib/util/props';
-
-	interface $$Events extends KonvaEvents {}
 
 	let {
 		children,
 		config = $bindable({}),
-		staticConfig = false
+		staticConfig = false,
+		...eventHooks
 	}: PropsContainer<Konva.GroupConfig | undefined> = $props();
 
 	export const handle = new Konva.Group(config);
 
 	const inner = writable<null | Konva.Group>(null);
-
-	const dispatcher = createEventDispatcher();
 
 	let isReady = $state(false);
 
@@ -67,7 +64,7 @@ Further information: [Konva API docs](https://konvajs.org/api/Konva.Group.html),
 			});
 		}
 
-		registerEvents(dispatcher, handle);
+		registerEvents(eventHooks, handle);
 
 		inner.set(handle);
 		isReady = true;

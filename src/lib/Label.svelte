@@ -21,7 +21,7 @@ Further information: [Konva API docs](https://konvajs.org/api/Konva.Label.html),
 -->
 <script lang="ts">
 	import Konva from 'konva';
-	import { onMount, onDestroy, createEventDispatcher } from 'svelte';
+	import { onMount, onDestroy } from 'svelte';
 	import { writable, type Writable } from 'svelte/store';
 	import { copyExistingKeys } from '$lib/util/object';
 	import {
@@ -30,22 +30,19 @@ Further information: [Konva API docs](https://konvajs.org/api/Konva.Label.html),
 		setContainerContext,
 		type KonvaParent
 	} from '$lib/util/manageContext';
-	import { registerEvents, type KonvaEvents } from '$lib/util/events';
+	import { registerEvents } from '$lib/util/events';
 	import { type PropsContainer } from '$lib/util/props';
-
-	interface $$Events extends KonvaEvents {}
 
 	let {
 		children,
 		config = $bindable(),
-		staticConfig = false
+		staticConfig = false,
+		...eventHooks
 	}: PropsContainer<Konva.LabelConfig> = $props();
 
 	export const handle = new Konva.Label(config);
 
 	const inner = writable<null | Konva.Label>(null);
-
-	const dispatcher = createEventDispatcher();
 
 	let isReady = $state(false);
 
@@ -68,7 +65,7 @@ Further information: [Konva API docs](https://konvajs.org/api/Konva.Label.html),
 			});
 		}
 
-		registerEvents(dispatcher, handle);
+		registerEvents(eventHooks, handle);
 
 		inner.set(handle);
 		isReady = true;

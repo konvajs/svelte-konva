@@ -84,10 +84,8 @@
 	}
 
 	function drawMouseOut(e: KonvaMouseEvent) {
-		const konvaEvent = e.detail;
-
 		// Check if event target is stage (eg. user clicked on empty part of the stage and not any shape)
-		if (konvaEvent.target.getType() !== 'Stage') {
+		if (e.target.getType() !== 'Stage') {
 			return;
 		}
 
@@ -113,10 +111,10 @@
 </div>
 
 <Stage
-	on:pointerdown={startDraw}
-	on:pointermove={draw}
-	on:pointerup={stopDraw}
-	on:mouseout={drawMouseOut}
+	onpointerdown={startDraw}
+	onpointermove={draw}
+	onpointerup={stopDraw}
+	onmouseout={drawMouseOut}
 	bind:handle={stage}
 >
 	<Layer>

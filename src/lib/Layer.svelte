@@ -22,26 +22,23 @@ Further information: [Konva API docs](https://konvajs.org/api/Konva.Layer.html),
 -->
 <script lang="ts">
 	import Konva from 'konva';
-	import { onMount, onDestroy, createEventDispatcher } from 'svelte';
+	import { onMount, onDestroy } from 'svelte';
 	import { type Writable, writable } from 'svelte/store';
 	import { Container, getParentStage, setContainerContext } from '$lib/util/manageContext';
-	import { registerEvents, type KonvaEvents } from '$lib/util/events';
+	import { registerEvents } from '$lib/util/events';
 	import { copyExistingKeys } from '$lib/util/object';
 	import { type PropsContainer } from '$lib/util/props';
-
-	interface $$Events extends KonvaEvents {}
 
 	let {
 		children,
 		config = $bindable({}),
-		staticConfig = false
+		staticConfig = false,
+		...eventHooks
 	}: PropsContainer<Konva.LayerConfig | undefined> = $props();
 
 	export const handle = new Konva.Layer(config);
 
 	const inner = writable<null | Konva.Layer>(null);
-
-	const dispatcher = createEventDispatcher();
 
 	let isReady = $state(false);
 
@@ -64,7 +61,7 @@ Further information: [Konva API docs](https://konvajs.org/api/Konva.Layer.html),
 			});
 		}
 
-		registerEvents(dispatcher, handle);
+		registerEvents(eventHooks, handle);
 
 		inner.set(handle);
 		isReady = true;

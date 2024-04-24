@@ -1,6 +1,6 @@
 <script lang="ts">
 	import Konva from 'konva';
-	import type { KonvaMouseEvent } from 'svelte-konva';
+	import type { KonvaMouseEvent, KonvaPointerEvent } from 'svelte-konva';
 	import Stage from '../../ResponsiveStage.svelte';
 	import type { KonvaEventObject } from 'konva/lib/Node';
 	import { getRealPointerPos } from '../../util';
@@ -59,13 +59,11 @@
 
 	let selectionActive = false; // If the transformer is active eg. something is selected
 
-	function selectStart(e: CustomEvent<KonvaEventObject<PointerEvent>>) {
+	function selectStart(e: KonvaPointerEvent) {
 		if (!transformer || !stage) return;
 
-		const konvaEvent = e.detail;
-
 		// Check if event target is stage (eg. user clicked on empty part of the stage and not any shape)
-		if (konvaEvent.target.getType() !== 'Stage') {
+		if (e.target.getType() !== 'Stage') {
 			return;
 		}
 
@@ -134,10 +132,8 @@
 
 	// Cancel active selection if mouse cursor leaves stage area
 	function selectMouseOut(e: KonvaMouseEvent) {
-		const konvaEvent = e.detail;
-
 		// Check if event target is stage (eg. user clicked on empty part of the stage and not any shape)
-		if (konvaEvent.target.getType() !== 'Stage') {
+		if (e.target.getType() !== 'Stage') {
 			return;
 		}
 
@@ -146,10 +142,10 @@
 </script>
 
 <Stage
-	on:pointerdown={selectStart}
-	on:pointermove={selectDrag}
-	on:pointerup={selectEnd}
-	on:mouseout={selectMouseOut}
+	onpointerdown={selectStart}
+	onpointermove={selectDrag}
+	onpointerup={selectEnd}
+	onmouseout={selectMouseOut}
 	bind:handle={stage}
 >
 	<Layer bind:handle={layer}>

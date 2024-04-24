@@ -2,13 +2,14 @@
 	import type Konva from 'konva';
 	import Stage from 'svelte-konva/Stage.svelte';
 	import { onMount, type Snippet } from 'svelte';
+	import type { KonvaEventHooks } from 'svelte-konva/util/events';
 
 	type Props = {
 		children: Snippet;
 		handle?: null | Konva.Stage;
-	};
+	} & KonvaEventHooks;
 
-	let { children, handle = $bindable() }: Props = $props();
+	let { children, handle = $bindable(), ...restProps }: Props = $props();
 
 	let container: HTMLDivElement;
 
@@ -42,16 +43,7 @@
 </script>
 
 <div bind:this={container} style="max-height: 70vh;">
-	<Stage
-		{config}
-		style="border: solid grey 5px;"
-		bind:handle
-		on:pointerdblclick
-		on:pointerdown
-		on:pointerup
-		on:pointermove
-		on:mouseout
-	>
+	<Stage {config} style="border: solid grey 5px;" bind:handle {...restProps}>
 		{@render children()}
 	</Stage>
 </div>
