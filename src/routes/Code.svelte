@@ -31,7 +31,7 @@
 
 <div class="flex flex-row justify-between items-end">
 	<h3>Source Code:</h3>
-	<button class="btn btn-circle btn-outline mb-2" on:click={copyCode}>
+	<button class="btn btn-circle btn-outline mb-2" onclick={copyCode}>
 		<svg
 			xmlns="http://www.w3.org/2000/svg"
 			fill="none"

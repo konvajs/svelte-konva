@@ -44,7 +44,7 @@
 	},
 	"devDependencies": {
 		"@sveltejs/adapter-static": "^3.0.1",
-		"@sveltejs/kit": "^2.0.4",
+		"@sveltejs/kit": "^2.5.7",
 		"@sveltejs/package": "^2.1.0",
 		"@tailwindcss/typography": "^0.5.7",
 		"@testing-library/svelte": "^5.1.0",
@@ -61,7 +61,7 @@
 		"lodash.clonedeep": "^4.5.0",
 		"plop": "^4.0.1",
 		"prettier": "^3.1.1",
-		"prettier-plugin-svelte": "^3.1.2",
+		"prettier-plugin-svelte": "^3.2.3",
 		"svelte": "5.0.0-next.114",
 		"svelte-check": "^3.6.9",
 		"svelte-highlight": "^7.3.0",

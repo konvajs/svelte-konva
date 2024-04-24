@@ -29,7 +29,7 @@ Further information: [Konva API docs](https://konvajs.org/api/Konva.Wedge.html),
 
 	interface $$Events extends KonvaEvents {}
 
-	let { config, staticConfig = false }: Props<Konva.WedgeConfig> = $props();
+	let { config = $bindable(), staticConfig = false }: Props<Konva.WedgeConfig> = $props();
 
 	export const handle = new Konva.Wedge(config);
 

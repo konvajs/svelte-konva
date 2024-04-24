@@ -29,7 +29,7 @@ Further information: [Konva API docs](https://konvajs.org/api/Konva.Arrow.html),
 
 	interface $$Events extends KonvaEvents {}
 
-	let { config, staticConfig = false }: Props<Konva.ArrowConfig> = $props();
+	let { config = $bindable(), staticConfig = false }: Props<Konva.ArrowConfig> = $props();
 
 	export const handle = new Konva.Arrow(config);
 

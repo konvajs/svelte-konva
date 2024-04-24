@@ -30,11 +30,15 @@ Further information: [Konva API docs](https://konvajs.org/api/Konva.Group.html),
 	} from '$lib/util/manageContext';
 	import { registerEvents, type KonvaEvents } from '$lib/util/events';
 	import { copyExistingKeys } from '$lib/util/object';
-	import { type Props } from '$lib/util/props';
+	import { type PropsContainer } from '$lib/util/props';
 
 	interface $$Events extends KonvaEvents {}
 
-	let { config = {}, staticConfig = false }: Props<Konva.GroupConfig | undefined> = $props();
+	let {
+		children,
+		config = $bindable({}),
+		staticConfig = false
+	}: PropsContainer<Konva.GroupConfig | undefined> = $props();
 
 	export const handle = new Konva.Group(config);
 
@@ -76,6 +80,6 @@ Further information: [Konva API docs](https://konvajs.org/api/Konva.Group.html),
 	setContainerContext(Container.Group, inner);
 </script>
 
-{#if isReady}
-	<slot />
+{#if isReady && children}
+	{@render children()}
 {/if}

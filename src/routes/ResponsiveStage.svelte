@@ -1,13 +1,14 @@
 <script lang="ts">
 	import type Konva from 'konva';
 	import Stage from 'svelte-konva/Stage.svelte';
-	import { onMount } from 'svelte';
+	import { onMount, type Snippet } from 'svelte';
 
 	type Props = {
+		children: Snippet;
 		handle?: null | Konva.Stage;
 	};
 
-	let { handle }: Props = $props();
+	let { children, handle = $bindable() }: Props = $props();
 
 	let container: HTMLDivElement;
 
@@ -51,6 +52,6 @@
 		on:pointermove
 		on:mouseout
 	>
-		<slot />
+		{@render children()}
 	</Stage>
 </div>

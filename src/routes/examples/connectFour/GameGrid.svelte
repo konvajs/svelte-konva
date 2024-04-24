@@ -3,12 +3,18 @@
 	import Layer from 'svelte-konva/Layer.svelte';
 	import Stage from 'svelte-konva/Stage.svelte';
 	import type Konva from 'konva';
-	import { onMount } from 'svelte';
+	import { onMount, type Snippet } from 'svelte';
 	import { gameScale } from './store';
 
 	// Assets
 	import grid from './assets/grid.svg';
 	import { GAME_BASE_SIZE } from './constants';
+
+	type Props = {
+		children: Snippet;
+	};
+
+	let { children }: Props = $props();
 
 	let container: HTMLDivElement;
 
@@ -61,7 +67,7 @@
 	<Stage config={stageConfig}>
 		<!--This layer is used to display the interactive/reactive game elements (tokens/stones)-->
 		<Layer>
-			<slot />
+			{@render children()}
 		</Layer>
 
 		<!--This Layer is used to display the game grid. It is not interactive in any way-->

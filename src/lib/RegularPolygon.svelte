@@ -29,7 +29,7 @@ Further information: [Konva API docs](https://konvajs.org/api/Konva.RegularPolyg
 
 	interface $$Events extends KonvaEvents {}
 
-	let { config, staticConfig = false }: Props<Konva.RegularPolygonConfig> = $props();
+	let { config = $bindable(), staticConfig = false }: Props<Konva.RegularPolygonConfig> = $props();
 
 	export const handle = new Konva.RegularPolygon(config);
 

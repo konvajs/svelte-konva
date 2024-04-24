@@ -104,7 +104,7 @@
 			</div>
 		</div>
 		<div class="drawer-side shadow">
-			<label for="my-drawer-2" class="drawer-overlay" />
+			<label for="my-drawer-2" class="drawer-overlay"></label>
 			<ul class="menu menu-compact p-4 overflow-y-auto w-80 bg-base-200 text-base-content h-full">
 				<!-- Sidebar content here -->
 				<li>

@@ -99,11 +99,11 @@
 	<div class="btn-group">
 		<button
 			class={selectedTool === Tools.Pen ? 'btn btn-active' : 'btn'}
-			on:click={() => (selectedTool = Tools.Pen)}>Pen</button
+			onclick={() => (selectedTool = Tools.Pen)}>Pen</button
 		>
 		<button
 			class={selectedTool === Tools.Eraser ? 'btn btn-active' : 'btn'}
-			on:click={() => (selectedTool = Tools.Eraser)}>Eraser</button
+			onclick={() => (selectedTool = Tools.Eraser)}>Eraser</button
 		>
 	</div>
 	<div class="flex flex-col justify-around align-middle">

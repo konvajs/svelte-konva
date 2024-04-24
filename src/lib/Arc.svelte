@@ -29,7 +29,7 @@ Further information: [Konva API docs](https://konvajs.org/api/Konva.Arc.html), [
 
 	interface $$Events extends KonvaEvents {}
 
-	let { config, staticConfig = false }: Props<Konva.ArcConfig> = $props();
+	let { config = $bindable(), staticConfig = false }: Props<Konva.ArcConfig> = $props();
 
 	export const handle = new Konva.Arc(config);
 

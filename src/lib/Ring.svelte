@@ -29,7 +29,7 @@ Further information: [Konva API docs](https://konvajs.org/api/Konva.Ring.html), 
 
 	interface $$Events extends KonvaEvents {}
 
-	let { config, staticConfig = false }: Props<Konva.RingConfig> = $props();
+	let { config = $bindable(), staticConfig = false }: Props<Konva.RingConfig> = $props();
 
 	export const handle = new Konva.Ring(config);
 

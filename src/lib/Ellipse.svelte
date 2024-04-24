@@ -29,7 +29,7 @@ Further information: [Konva API docs](https://konvajs.org/api/Konva.Ellipse.html
 
 	interface $$Events extends KonvaEvents {}
 
-	let { config, staticConfig = false }: Props<Konva.EllipseConfig> = $props();
+	let { config = $bindable(), staticConfig = false }: Props<Konva.EllipseConfig> = $props();
 
 	export const handle = new Konva.Ellipse(config);
 

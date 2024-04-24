@@ -29,7 +29,7 @@ Further information: [Konva API docs](https://konvajs.org/api/Konva.TextPath.htm
 
 	interface $$Events extends KonvaEvents {}
 
-	let { config, staticConfig = false }: Props<Konva.TextPathConfig> = $props();
+	let { config = $bindable(), staticConfig = false }: Props<Konva.TextPathConfig> = $props();
 
 	export const handle = new Konva.TextPath(config);
 

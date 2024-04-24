@@ -8,15 +8,17 @@
 <script lang="ts">
 	import { base } from '$app/paths';
 	import { page as appPage } from '$app/stores';
+	import type { Snippet } from 'svelte';
 
 	type Props = {
+		children: Snippet;
 		href: string;
 		target?: string;
 	};
 
-	let { href, target = '_self' }: Props = $props();
+	let { children, href, target = '_self' }: Props = $props();
 </script>
 
 <a href="{base}{href}" {target} class={$appPage.url.pathname === `${base}${href}` ? 'active' : ''}>
-	<slot />
+	{@render children()}
 </a>

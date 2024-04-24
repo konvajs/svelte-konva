@@ -29,7 +29,7 @@ Further information: [Konva API docs](https://konvajs.org/api/Konva.Sprite.html)
 
 	interface $$Events extends KonvaEvents {}
 
-	let { config, staticConfig = false }: Props<Konva.SpriteConfig> = $props();
+	let { config = $bindable(), staticConfig = false }: Props<Konva.SpriteConfig> = $props();
 
 	export const handle = new Konva.Sprite(config);
 

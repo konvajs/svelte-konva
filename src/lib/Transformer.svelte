@@ -34,7 +34,8 @@ Further information: [Konva API docs](https://konvajs.org/api/Konva.Transformer.
 
 	interface $$Events extends KonvaEvents {}
 
-	let { config = {}, staticConfig = false }: Props<Konva.TransformerConfig | undefined> = $props();
+	let { config = $bindable({}), staticConfig = false }: Props<Konva.TransformerConfig | undefined> =
+		$props();
 
 	export const handle = new Konva.Transformer(config);
 

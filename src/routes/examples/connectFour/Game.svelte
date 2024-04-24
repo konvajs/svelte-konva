@@ -245,7 +245,7 @@
 </script>
 
 <div class="flex justify-center">
-	<button class="btn btn-primary" on:click={resetGame}>Restart</button>
+	<button class="btn btn-primary" onclick={resetGame}>Restart</button>
 </div>
 
 <div class="flex justify-center mt-1">

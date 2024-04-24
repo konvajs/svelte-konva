@@ -29,7 +29,7 @@ Further information: [Konva API docs](https://konvajs.org/api/Konva.Circle.html)
 
 	interface $$Events extends KonvaEvents {}
 
-	let { config, staticConfig = false }: Props<Konva.CircleConfig> = $props();
+	let { config = $bindable(), staticConfig = false }: Props<Konva.CircleConfig> = $props();
 
 	export const handle = new Konva.Circle(config);
 

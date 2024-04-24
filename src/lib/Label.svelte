@@ -31,11 +31,15 @@ Further information: [Konva API docs](https://konvajs.org/api/Konva.Label.html),
 		type KonvaParent
 	} from '$lib/util/manageContext';
 	import { registerEvents, type KonvaEvents } from '$lib/util/events';
-	import { type Props } from '$lib/util/props';
+	import { type PropsContainer } from '$lib/util/props';
 
 	interface $$Events extends KonvaEvents {}
 
-	let { config, staticConfig = false }: Props<Konva.LabelConfig> = $props();
+	let {
+		children,
+		config = $bindable(),
+		staticConfig = false
+	}: PropsContainer<Konva.LabelConfig> = $props();
 
 	export const handle = new Konva.Label(config);
 
@@ -77,6 +81,6 @@ Further information: [Konva API docs](https://konvajs.org/api/Konva.Label.html),
 	setContainerContext(Container.Label, inner);
 </script>
 
-{#if isReady}
-	<slot />
+{#if isReady && children}
+	{@render children()}
 {/if}
