@@ -37,42 +37,45 @@ Further information: [Konva API docs](https://konvajs.org/api/Konva.Label.html),
 		children,
 		config = $bindable(),
 		staticConfig = false,
+		handle = $bindable(),
 		...eventHooks
-	}: PropsContainer<Konva.LabelConfig> = $props();
+	}: PropsContainer<Konva.Label, Konva.LabelConfig> = $props();
 
-	export const handle = new Konva.Label(config);
+	// Hide inner handle behind a shadow variable to prevent users from overwriting it
+	const _handle = new Konva.Label(config);
+	handle = _handle;
 
 	const inner = writable<null | Konva.Label>(null);
 
 	let isReady = $state(false);
 
 	$effect(() => {
-		handle.setAttrs(config);
+		_handle.setAttrs(config);
 	});
 
 	const parent: Writable<null | KonvaParent> = getParentContainer();
 
 	onMount(() => {
-		$parent!.add(handle);
+		$parent!.add(_handle);
 
 		if (!staticConfig) {
-			handle.on('transformend', () => {
-				copyExistingKeys(config, handle.getAttrs());
+			_handle.on('transformend', () => {
+				copyExistingKeys(config, _handle.getAttrs());
 			});
 
-			handle.on('dragend', () => {
-				copyExistingKeys(config, handle.getAttrs());
+			_handle.on('dragend', () => {
+				copyExistingKeys(config, _handle.getAttrs());
 			});
 		}
 
-		registerEvents(eventHooks, handle);
+		registerEvents(eventHooks, _handle);
 
-		inner.set(handle);
+		inner.set(_handle);
 		isReady = true;
 	});
 
 	onDestroy(() => {
-		handle.destroy();
+		_handle.destroy();
 	});
 
 	setContainerContext(Container.Label, inner);

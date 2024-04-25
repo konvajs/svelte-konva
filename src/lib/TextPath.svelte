@@ -30,34 +30,37 @@ Further information: [Konva API docs](https://konvajs.org/api/Konva.TextPath.htm
 	let {
 		config = $bindable(),
 		staticConfig = false,
+		handle = $bindable(),
 		...eventHooks
-	}: Props<Konva.TextPathConfig> = $props();
+	}: Props<Konva.TextPath, Konva.TextPathConfig> = $props();
 
-	export const handle = new Konva.TextPath(config);
+	// Hide inner handle behind a shadow variable to prevent users from overwriting it
+	const _handle = new Konva.TextPath(config);
+	handle = _handle;
 
 	const parent: Writable<null | KonvaParent> = getParentContainer();
 
 	$effect(() => {
-		handle.setAttrs(config);
+		_handle.setAttrs(config);
 	});
 
 	onMount(() => {
-		$parent!.add(handle);
+		$parent!.add(_handle);
 
 		if (!staticConfig) {
-			handle.on('transformend', () => {
-				copyExistingKeys(config, handle.getAttrs());
+			_handle.on('transformend', () => {
+				copyExistingKeys(config, _handle.getAttrs());
 			});
 
-			handle.on('dragend', () => {
-				copyExistingKeys(config, handle.getAttrs());
+			_handle.on('dragend', () => {
+				copyExistingKeys(config, _handle.getAttrs());
 			});
 		}
 
-		registerEvents(eventHooks, handle);
+		registerEvents(eventHooks, _handle);
 	});
 
 	onDestroy(() => {
-		handle.destroy();
+		_handle.destroy();
 	});
 </script>

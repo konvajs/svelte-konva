@@ -30,34 +30,37 @@ Further information: [Konva API docs](https://konvajs.org/api/Konva.Path.html), 
 	let {
 		config = $bindable(),
 		staticConfig = false,
+		handle = $bindable(),
 		...eventHooks
-	}: Props<Konva.PathConfig> = $props();
+	}: Props<Konva.Path, Konva.PathConfig> = $props();
 
-	export const handle = new Konva.Path(config);
+	// Hide inner handle behind a shadow variable to prevent users from overwriting it
+	const _handle = new Konva.Path(config);
+	handle = _handle;
 
 	const parent: Writable<null | KonvaParent> = getParentContainer();
 
 	$effect(() => {
-		handle.setAttrs(config);
+		_handle.setAttrs(config);
 	});
 
 	onMount(() => {
-		$parent!.add(handle);
+		$parent!.add(_handle);
 
 		if (!staticConfig) {
-			handle.on('transformend', () => {
-				copyExistingKeys(config, handle.getAttrs());
+			_handle.on('transformend', () => {
+				copyExistingKeys(config, _handle.getAttrs());
 			});
 
-			handle.on('dragend', () => {
-				copyExistingKeys(config, handle.getAttrs());
+			_handle.on('dragend', () => {
+				copyExistingKeys(config, _handle.getAttrs());
 			});
 		}
 
-		registerEvents(eventHooks, handle);
+		registerEvents(eventHooks, _handle);
 	});
 
 	onDestroy(() => {
-		handle.destroy();
+		_handle.destroy();
 	});
 </script>

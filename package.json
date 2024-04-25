@@ -45,7 +45,7 @@
 	"devDependencies": {
 		"@sveltejs/adapter-static": "^3.0.1",
 		"@sveltejs/kit": "^2.5.7",
-		"@sveltejs/package": "^2.1.0",
+		"@sveltejs/package": "^2.3.1",
 		"@tailwindcss/typography": "^0.5.7",
 		"@testing-library/svelte": "^5.1.0",
 		"@types/lodash.clonedeep": "^4.5.7",

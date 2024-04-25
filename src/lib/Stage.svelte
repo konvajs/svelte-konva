@@ -29,8 +29,8 @@ Further information: [Konva API docs](https://konvajs.org/api/Konva.Stage.html),
 	let {
 		children,
 		config = $bindable(),
-		handle = $bindable(),
 		staticConfig = false,
+		handle = $bindable(),
 		...restProps
 	}: StageProps = $props();
 	handle = null; // A bit of a workaround as bindings on fallback values are disallowed in runes mode (https://github.com/sveltejs/svelte/issues/9764)
