@@ -91,7 +91,42 @@ Further information: [Konva API docs](https://konvajs.org/api/Konva.Stage.html),
 			});
 		}
 
-		registerEvents(restProps, _handle);
+		registerEvents(
+			{
+				onclick,
+				ondblclick,
+				ondbltap,
+				ondragend,
+				ondragmove,
+				ondragstart,
+				onmousedown,
+				onmouseenter,
+				onmouseleave,
+				onmousemove,
+				onmouseout,
+				onmouseover,
+				onmouseup,
+				onpointercancel,
+				onpointerclick,
+				onpointerdblclick,
+				onpointerdown,
+				onpointerenter,
+				onpointerleave,
+				onpointermove,
+				onpointerout,
+				onpointerover,
+				onpointerup,
+				ontap,
+				ontouchend,
+				ontouchmove,
+				ontouchstart,
+				ontransform,
+				ontransformend,
+				ontransformstart,
+				onwheel
+			},
+			_handle
+		);
 
 		inner.set(_handle);
 		isReady = true;
