@@ -9,7 +9,7 @@
 	import { onDestroy } from 'svelte';
 
 	let activePlayer = $state(Player.Red);
-	let tokens: Array<Player> = $state([activePlayer]);
+	let tokens: Array<Player> = $state([Player.Red]);
 
 	/**
 	 * Handle the end of a single player move
