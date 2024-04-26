@@ -30,7 +30,7 @@ Further information: [Konva API docs](https://konvajs.org/api/Konva.Group.html),
 	} from '$lib/util/manageContext';
 	import { registerEvents } from '$lib/util/events';
 	import { copyExistingKeys } from '$lib/util/object';
-	import { type PropsContainer } from '$lib/util/props';
+	import { type PropsContainer, type PropsOptionalConfig } from '$lib/util/props';
 
 	let {
 		children,
@@ -38,7 +38,7 @@ Further information: [Konva API docs](https://konvajs.org/api/Konva.Group.html),
 		staticConfig = false,
 		handle = $bindable(),
 		...eventHooks
-	}: PropsContainer<Konva.Group, Konva.GroupConfig | undefined> = $props();
+	}: PropsOptionalConfig<Konva.Group, Konva.GroupConfig> & PropsContainer = $props();
 
 	// Hide inner handle behind a shadow variable to prevent users from overwriting it
 	const _handle = new Konva.Group(config);

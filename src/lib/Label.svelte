@@ -31,7 +31,7 @@ Further information: [Konva API docs](https://konvajs.org/api/Konva.Label.html),
 		type KonvaParent
 	} from '$lib/util/manageContext';
 	import { registerEvents } from '$lib/util/events';
-	import { type PropsContainer } from '$lib/util/props';
+	import { type Props, type PropsContainer } from '$lib/util/props';
 
 	let {
 		children,
@@ -39,7 +39,7 @@ Further information: [Konva API docs](https://konvajs.org/api/Konva.Label.html),
 		staticConfig = false,
 		handle = $bindable(),
 		...eventHooks
-	}: PropsContainer<Konva.Label, Konva.LabelConfig> = $props();
+	}: Props<Konva.Label, Konva.LabelConfig> & PropsContainer = $props();
 
 	// Hide inner handle behind a shadow variable to prevent users from overwriting it
 	const _handle = new Konva.Label(config);

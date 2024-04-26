@@ -24,7 +24,7 @@ Further information: [Konva API docs](https://konvajs.org/api/Konva.Stage.html),
 	import { registerEvents } from '$lib/util/events';
 	import { Container, setContainerContext } from '$lib/util/manageContext';
 	import { copyExistingKeys } from '$lib/util/object';
-	import { type StageProps } from '$lib/util/props';
+	import { type Props, type PropsContainer, type PropsStage } from '$lib/util/props';
 
 	let {
 		children,
@@ -32,7 +32,7 @@ Further information: [Konva API docs](https://konvajs.org/api/Konva.Stage.html),
 		staticConfig = false,
 		handle = $bindable(),
 		...restProps
-	}: StageProps = $props();
+	}: Props<Konva.Stage | null, Konva.ContainerConfig> & PropsContainer & PropsStage = $props();
 	handle = null; // A bit of a workaround as bindings on fallback values are disallowed in runes mode (https://github.com/sveltejs/svelte/issues/9764)
 	let _handle: Konva.Stage | null = null; // Hide inner handle behind a shadow variable to prevent users from overwriting it
 

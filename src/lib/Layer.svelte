@@ -27,7 +27,7 @@ Further information: [Konva API docs](https://konvajs.org/api/Konva.Layer.html),
 	import { Container, getParentStage, setContainerContext } from '$lib/util/manageContext';
 	import { registerEvents } from '$lib/util/events';
 	import { copyExistingKeys } from '$lib/util/object';
-	import { type PropsContainer } from '$lib/util/props';
+	import { type PropsContainer, type PropsOptionalConfig } from '$lib/util/props';
 
 	let {
 		children,
@@ -35,7 +35,7 @@ Further information: [Konva API docs](https://konvajs.org/api/Konva.Layer.html),
 		staticConfig = false,
 		handle = $bindable(),
 		...eventHooks
-	}: PropsContainer<Konva.Layer, Konva.LayerConfig | undefined> = $props();
+	}: PropsOptionalConfig<Konva.Layer, Konva.LayerConfig> & PropsContainer = $props();
 
 	// Hide inner handle behind a shadow variable to prevent users from overwriting it
 	const _handle = new Konva.Layer(config);
