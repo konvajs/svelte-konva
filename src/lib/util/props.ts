@@ -19,17 +19,16 @@ export type PropsOptionalConfig<Node, Config> = {
 	handle?: Node;
 } & KonvaEventHooks;
 
-
 /**
  * Props extension for konva container types which can hold more konva nodes
  */
 export type PropsContainer = {
 	children?: Snippet;
-}
+};
 
 /**
  * Special props extension for svelte-konva Stage (Forwards rest props to canvas div container)
  */
 export type PropsStage = {
 	[key: string]: any;
-}
+};
