@@ -11,18 +11,17 @@
 		GAME_GRID_ROW_POSITIONS,
 		TOKEN_RADIUS
 	} from './constants';
-	import { Player } from './types';
+	import { Player, type TokenPos } from './types';
 	import { gameScale, gameState } from './store';
-	import { createEventDispatcher } from 'svelte';
 
 	type Props = {
 		player: Player;
+		ondropped: (e: TokenPos) => void;
 	};
 
-	let { player }: Props = $props();
+	let { player, ondropped }: Props = $props();
 
-	let token = $state<Konva.Circle>();
-	let dispatch = createEventDispatcher();
+	let token: Circle | undefined;
 
 	const TOKEN_RED_INITIAL_POS = { x: 80, y: 80 };
 	const TOKEN_BLUE_INITIAL_POS = { x: GAME_BASE_SIZE - 80, y: 80 };
@@ -142,7 +141,7 @@
 
 		// Create a tween to animate the drop
 		const tween = new Konva.Tween({
-			node: token!,
+			node: token!.handle,
 			duration: 1,
 			y: GAME_GRID_ROW_POSITIONS[rowPos!],
 			easing: Konva.Easings.BounceEaseOut,
@@ -155,8 +154,8 @@
 		tween.play();
 
 		// emit event to parent to signal the end of the move
-		dispatch('dropped', { colPos, rowPos: rowPos! });
+		ondropped({ colPos, rowPos: rowPos! });
 	}
 </script>
 
-<Circle bind:config ondragend={handleDragEnd} bind:handle={token} />
+<Circle bind:config ondragend={handleDragEnd} bind:this={token} />

@@ -6,12 +6,12 @@
 
 	type Props = {
 		children: Snippet;
-		handle?: null | Konva.Stage;
+		stage?: Stage | undefined;
 	} & KonvaEventHooks;
 
 	let {
 		children,
-		handle = $bindable(),
+		stage = $bindable(),
 		onpointerdblclick,
 		onpointerdown,
 		onpointerup,
@@ -54,7 +54,7 @@
 	<Stage
 		{config}
 		style="border: solid grey 5px;"
-		bind:handle
+		bind:this={stage}
 		{onpointerdblclick}
 		{onpointerdown}
 		{onpointerup}

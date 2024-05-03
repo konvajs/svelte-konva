@@ -2,7 +2,6 @@
 	import Konva from 'konva';
 	import type { KonvaMouseEvent, KonvaPointerEvent } from 'svelte-konva';
 	import Stage from '../../ResponsiveStage.svelte';
-	import type { KonvaEventObject } from 'konva/lib/Node';
 	import { getRealPointerPos } from '../../util';
 
 	// svelte-konva components
@@ -13,10 +12,10 @@
 	import Transformer from 'svelte-konva/Transformer.svelte';
 	import Rect from 'svelte-konva/Rect.svelte';
 
-	let stage = $state<Konva.Stage>();
-	let layer = $state<Konva.Layer>();
-	let transformer = $state<Konva.Transformer>();
-	let selectionRectangle = $state<Konva.Rect>();
+	let stage: Stage | undefined;
+	let layer: Layer | undefined;
+	let transformer: Transformer | undefined;
+	let selectionRectangle: Rect | undefined;
 
 	const SELECTION_RECTANGLE_NAME = 'selection-rectangle';
 
@@ -60,7 +59,7 @@
 	let selectionActive = false; // If the transformer is active eg. something is selected
 
 	function selectStart(e: KonvaPointerEvent) {
-		if (!transformer || !stage) return;
+		if (!transformer || !stage?.handle()) return;
 
 		// Check if event target is stage (eg. user clicked on empty part of the stage and not any shape)
 		if (e.target.getType() !== 'Stage') {
@@ -69,12 +68,12 @@
 
 		// If there is already a selection active, cancel it
 		if (selectionActive) {
-			transformer.nodes([]);
+			transformer.handle.nodes([]);
 			selectionActive = false;
 			return;
 		}
 
-		const pointerPos = getRealPointerPos(stage.getPointerPosition()!, stage);
+		const pointerPos = getRealPointerPos(stage.handle().getPointerPosition()!, stage.handle());
 
 		selectionRectangleConfig.x = pointerPos.x;
 		selectionRectangleConfig.y = pointerPos.y;
@@ -86,13 +85,13 @@
 	}
 
 	function selectDrag() {
-		if (!stage) return;
+		if (!stage?.handle()) return;
 		if (!selectionRectangleConfig.visible) {
 			// Currently no selection is active (eg. user is just moving the cursor around)
 			return;
 		}
 
-		const pointerPos = getRealPointerPos(stage.getPointerPosition()!, stage);
+		const pointerPos = getRealPointerPos(stage?.handle().getPointerPosition()!, stage?.handle());
 
 		// Set new x coordinate and width of selection rectangle
 		selectionRectangleConfig.x = Math.min(pointerPos.x, initialSelectionCoordinates.x);
@@ -110,16 +109,19 @@
 			return;
 		}
 
-		if (layer.children) {
-			const selectedEntities = layer!.children.filter(
+		if (layer.handle.children) {
+			const selectedEntities = layer.handle.children.filter(
 				(child) =>
 					child.name() !== SELECTION_RECTANGLE_NAME &&
-					Konva.Util.haveIntersection(selectionRectangle!.getClientRect(), child.getClientRect())
+					Konva.Util.haveIntersection(
+						selectionRectangle!.handle.getClientRect(),
+						child.getClientRect()
+					)
 			);
 
 			if (selectedEntities.length !== 0) {
 				// Add all selected shapes etc. to the transformer
-				transformer.nodes(selectedEntities);
+				transformer.handle.nodes(selectedEntities);
 
 				selectionActive = true;
 			}
@@ -146,9 +148,9 @@
 	onpointermove={selectDrag}
 	onpointerup={selectEnd}
 	onmouseout={selectMouseOut}
-	bind:handle={stage}
+	bind:stage
 >
-	<Layer bind:handle={layer}>
+	<Layer bind:this={layer}>
 		<Group config={{ draggable: true }}>
 			{#each configs as _, idx}
 				<Circle bind:config={configs[idx]} />
@@ -162,8 +164,8 @@
 		/>
 
 		<!-- Position transformer and selection rectagle at the bottom of all components so they are always the topmost elements on the canvas -->
-		<Transformer config={{}} bind:handle={transformer} />
+		<Transformer config={{}} bind:this={transformer} />
 		<!-- The selection rectangle -->
-		<Rect config={selectionRectangleConfig} bind:handle={selectionRectangle} />
+		<Rect config={selectionRectangleConfig} bind:this={selectionRectangle} />
 	</Layer>
 </Stage>

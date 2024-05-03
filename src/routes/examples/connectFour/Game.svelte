@@ -14,9 +14,9 @@
 	/**
 	 * Handle the end of a single player move
 	 */
-	function handleMoveEnd(e: CustomEvent<TokenPos>) {
+	function handleMoveEnd(e: TokenPos) {
 		// Check winning condition
-		const won = hasWon(e.detail);
+		const won = hasWon(e);
 		if (won) {
 			handleWin(won);
 			return;
@@ -262,7 +262,7 @@
 	<!-- The key block is required to force reinstantiation of all remaining tokens in memory for a clean game reset -->
 	{#key reset}
 		{#each tokens as token}
-			<Token player={token} on:dropped={handleMoveEnd} />
+			<Token player={token} ondropped={handleMoveEnd} />
 		{/each}
 	{/key}
 

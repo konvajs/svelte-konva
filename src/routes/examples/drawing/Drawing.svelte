@@ -115,7 +115,7 @@
 	onpointermove={draw}
 	onpointerup={stopDraw}
 	onmouseout={drawMouseOut}
-	bind:handle={stage}
+	bind:stage
 >
 	<Layer>
 		{#each strokes as stroke}
