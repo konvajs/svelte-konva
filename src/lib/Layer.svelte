@@ -33,45 +33,42 @@ Further information: [Konva API docs](https://konvajs.org/api/Konva.Layer.html),
 		children,
 		config = $bindable({}),
 		staticConfig = false,
-		handle = $bindable(),
 		...eventHooks
-	}: PropsOptionalConfig<Konva.Layer, Konva.LayerConfig> & PropsContainer = $props();
+	}: PropsOptionalConfig<Konva.LayerConfig> & PropsContainer = $props();
 
-	// Hide inner handle behind a shadow variable to prevent users from overwriting it
-	const _handle = new Konva.Layer(config);
-	handle = _handle;
+	export const handle = new Konva.Layer(config);
 
 	const inner = writable<null | Konva.Layer>(null);
 
 	let isReady = $state(false);
 
 	$effect(() => {
-		_handle.setAttrs(config);
+		handle.setAttrs(config);
 	});
 
 	let parent: Writable<null | Konva.Stage> = getParentStage();
 
 	onMount(() => {
-		$parent!.add(_handle);
+		$parent!.add(handle);
 
 		if (!staticConfig) {
-			_handle.on('transformend', () => {
-				copyExistingKeys(config, _handle.getAttrs());
+			handle.on('transformend', () => {
+				copyExistingKeys(config, handle.getAttrs());
 			});
 
-			_handle.on('dragend', () => {
-				copyExistingKeys(config, _handle.getAttrs());
+			handle.on('dragend', () => {
+				copyExistingKeys(config, handle.getAttrs());
 			});
 		}
 
-		registerEvents(eventHooks, _handle);
+		registerEvents(eventHooks, handle);
 
-		inner.set(_handle);
+		inner.set(handle);
 		isReady = true;
 	});
 
 	onDestroy(() => {
-		_handle.destroy();
+		handle.destroy();
 	});
 
 	setContainerContext(Container.Layer, inner);

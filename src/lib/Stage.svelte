@@ -30,7 +30,6 @@ Further information: [Konva API docs](https://konvajs.org/api/Konva.Stage.html),
 		children,
 		config = $bindable(),
 		staticConfig = false,
-		handle = $bindable(),
 		onclick,
 		ondblclick,
 		ondbltap,
@@ -63,9 +62,12 @@ Further information: [Konva API docs](https://konvajs.org/api/Konva.Stage.html),
 		ontransformstart,
 		onwheel,
 		...restProps
-	}: Props<Konva.Stage | null, Konva.ContainerConfig> & PropsContainer & PropsStage = $props();
-	handle = null; // A bit of a workaround as bindings on fallback values are disallowed in runes mode (https://github.com/sveltejs/svelte/issues/9764)
-	let _handle: Konva.Stage | null = null; // Hide inner handle behind a shadow variable to prevent users from overwriting it
+	}: Props<Konva.ContainerConfig> & PropsContainer & PropsStage = $props();
+
+	let _handle: Konva.Stage | null = null;
+	export function handle() {
+		return _handle;
+	}
 
 	const inner = writable<null | Konva.Stage>(null);
 
@@ -82,8 +84,6 @@ Further information: [Konva API docs](https://konvajs.org/api/Konva.Stage.html),
 			container: stage,
 			...config
 		});
-
-		handle = _handle;
 
 		if (!staticConfig) {
 			_handle.on('dragend', () => {

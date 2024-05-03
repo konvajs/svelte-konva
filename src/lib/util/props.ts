@@ -4,19 +4,17 @@ import { type KonvaEventHooks } from '$lib/util/events';
 /**
  * Shared props type used on all svelte-konva components
  */
-export type Props<Node, Config> = {
+export type Props<Config> = {
 	config: Config;
 	staticConfig?: boolean;
-	handle?: Node;
 } & KonvaEventHooks;
 
 /**
  * Same as Props but with optional Config
  */
-export type PropsOptionalConfig<Node, Config> = {
+export type PropsOptionalConfig<Config> = {
 	config?: Config;
 	staticConfig?: boolean;
-	handle?: Node;
 } & KonvaEventHooks;
 
 /**
