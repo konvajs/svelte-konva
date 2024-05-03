@@ -71,7 +71,7 @@
 		"tslib": "^2.5.3",
 		"typescript": "^5.4.2",
 		"vite": "^5.0.0",
-		"vitest": "^1.1.0"
+		"vitest": "^1.5.3"
 	},
 	"type": "module",
 	"exports": {

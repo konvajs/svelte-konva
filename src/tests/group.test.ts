@@ -33,8 +33,7 @@ test('passes the config prop', () => {
 		}
 	});
 
-	const component = rendered.component.$$;
-	const handle: Konva.Group = component.ctx[component.props['handle'] as number];
+	const handle = rendered.component.handle;
 
 	expect(handle.getAttrs()).toStrictEqual(CONFIG);
 });
@@ -45,9 +44,8 @@ test('is correctly added to the parent Layer', () => {
 		context: mockContext
 	});
 
-	const component = rendered.component.$$;
 	const parent: Konva.Container = get(mockContext.get(CONTAINER_COMPONENT_KEYS[Container.Layer])!);
-	const handle = component.ctx[component.props['handle'] as number];
+	const handle = rendered.component.handle;
 
 	expect(parent.children).toBeTruthy();
 
@@ -63,9 +61,8 @@ test('is correctly added to the parent Group', () => {
 		context: mockContext
 	});
 
-	const component = rendered.component.$$;
 	const parent: Konva.Container = get(mockContext.get(CONTAINER_COMPONENT_KEYS[Container.Group])!);
-	const handle = component.ctx[component.props['handle'] as number];
+	const handle = rendered.component.handle;
 
 	expect(parent.children).toBeTruthy();
 
@@ -81,9 +78,8 @@ test('is correctly added to the parent Label', () => {
 		context: mockContext
 	});
 
-	const component = rendered.component.$$;
 	const parent: Konva.Container = get(mockContext.get(CONTAINER_COMPONENT_KEYS[Container.Label])!);
-	const handle = component.ctx[component.props['handle'] as number];
+	const handle = rendered.component.handle;
 
 	expect(parent.children).toBeTruthy();
 
@@ -95,12 +91,15 @@ test('is correctly added to the parent Label', () => {
 
 test('Can listen to Konva events', () => {
 	const mockContext = createMockParentContext(Container.Layer);
+	const mockFn = vi.fn();
 	const rendered = render(Group, {
-		context: mockContext
+		context: mockContext,
+		props: {
+			onmousedown: mockFn
+		}
 	});
 
-	const component = rendered.component.$$;
-	const handle: Konva.Group = component.ctx[component.props['handle'] as number];
+	const handle = rendered.component.handle;
 
 	const div = document.createElement('div');
 	const stage = new Konva.Stage({ container: div, width: 1000, height: 1000 });
@@ -108,9 +107,6 @@ test('Can listen to Konva events', () => {
 
 	handle.add(rectangle);
 	stage.add(handle.getLayer()!);
-
-	const mockFn = vi.fn();
-	rendered.component.$on('mousedown', mockFn);
 
 	(stage as MockStage).simulateMouseDown({ x: 50, y: 50 });
 
@@ -126,8 +122,7 @@ test('Correctly updates bound config on dragend', () => {
 		}
 	});
 
-	const component = rendered.component.$$;
-	const handle: Konva.Group = component.ctx[component.props['handle'] as number];
+	const handle = rendered.component.handle;
 
 	const div = document.createElement('div');
 	const stage = new Konva.Stage({ container: div, width: 1000, height: 1000 });
@@ -156,8 +151,7 @@ test('Does not update config if instantiated with staticConfig prop', () => {
 		}
 	});
 
-	const component = rendered.component.$$;
-	const handle: Konva.Group = component.ctx[component.props['handle'] as number];
+	const handle = rendered.component.handle;
 
 	const div = document.createElement('div');
 	const stage = new Konva.Stage({ container: div, width: 1000, height: 1000 });
@@ -182,7 +176,7 @@ test('sets the correct context', () => {
 
 	const component = rendered.component.$$;
 	const context = component.context;
-	const handle = component.ctx[component.props['handle'] as number];
+	const handle = rendered.component.handle;
 
 	expect(get(context.get(CONTAINER_COMPONENT_KEYS[Container.Group]))).toStrictEqual(handle);
 });
@@ -219,22 +213,9 @@ test('Konva instance is correctly destroyed on component unmount', () => {
 
 	rendered.unmount();
 
-	const component = rendered.component.$$;
-	const handle = component.ctx[component.props['handle'] as number];
-
 	expect(parent.children).toBeTruthy();
 
 	if (parent.children) {
 		expect(parent.children.length).toBe(0);
 	}
-
-	expect(handle).toBeUndefined();
-});
-
-test('Overwriting the handle of the component from outside should have no effect', () => {
-	const rendered = render(Group, {
-		context: createMockParentContext(Container.Layer)
-	});
-
-	rendered.component.$set({ handle: undefined }); // Overwrite handle from outside, should not throw as internal handle is still intact
 });

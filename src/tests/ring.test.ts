@@ -44,9 +44,8 @@ test('is correctly added to the parent Layer', () => {
 		}
 	});
 
-	const component = rendered.component.$$;
 	const parent: Konva.Container = get(mockContext.get(CONTAINER_COMPONENT_KEYS[Container.Layer])!);
-	const handle = component.ctx[component.props['handle'] as number];
+	const handle = rendered.component.handle;
 
 	expect(parent.children).toBeTruthy();
 
@@ -65,9 +64,8 @@ test('is correctly added to the parent Group', () => {
 		}
 	});
 
-	const component = rendered.component.$$;
 	const parent: Konva.Container = get(mockContext.get(CONTAINER_COMPONENT_KEYS[Container.Group])!);
-	const handle = component.ctx[component.props['handle'] as number];
+	const handle = rendered.component.handle;
 
 	expect(parent.children).toBeTruthy();
 
@@ -86,9 +84,8 @@ test('is correctly added to the parent Label', () => {
 		}
 	});
 
-	const component = rendered.component.$$;
 	const parent: Konva.Container = get(mockContext.get(CONTAINER_COMPONENT_KEYS[Container.Label])!);
-	const handle = component.ctx[component.props['handle'] as number];
+	const handle = rendered.component.handle;
 
 	expect(parent.children).toBeTruthy();
 
@@ -99,23 +96,21 @@ test('is correctly added to the parent Label', () => {
 });
 
 test('Can listen to Konva events', () => {
+	const mockFn = vi.fn();
 	const rendered = render(Ring, {
 		context: createMockParentContext(Container.Layer),
 		props: {
-			config: { x: 0, innerRadius: 20, outerRadius: 100 }
+			config: { x: 0, innerRadius: 20, outerRadius: 100 },
+			onmousedown: mockFn
 		}
 	});
 
-	const component = rendered.component.$$;
-	const handle: Konva.Ring = component.ctx[component.props['handle'] as number];
+	const handle = rendered.component.handle;
 
 	const div = document.createElement('div');
 	const stage = new Konva.Stage({ container: div, width: 1000, height: 1000 });
 
 	stage.add(handle.getLayer()!);
-
-	const mockFn = vi.fn();
-	rendered.component.$on('mousedown', mockFn);
 
 	(stage as MockStage).simulateMouseDown({ x: 50, y: 50 });
 
@@ -132,8 +127,7 @@ test('Correctly updates bound config on dragend', () => {
 		}
 	});
 
-	const component = rendered.component.$$;
-	const handle: Konva.Ring = component.ctx[component.props['handle'] as number];
+	const handle = rendered.component.handle;
 
 	const div = document.createElement('div');
 	const stage = new Konva.Stage({ container: div, width: 1000, height: 1000 });
@@ -161,8 +155,7 @@ test('Does not update config if instantiated with staticConfig prop', () => {
 		}
 	});
 
-	const component = rendered.component.$$;
-	const handle: Konva.Ring = component.ctx[component.props['handle'] as number];
+	const handle = rendered.component.handle;
 
 	const div = document.createElement('div');
 	const stage = new Konva.Stage({ container: div, width: 1000, height: 1000 });
@@ -212,25 +205,11 @@ test('Konva instance is correctly destroyed on component unmount', () => {
 
 	rendered.unmount();
 
-	const component = rendered.component.$$;
-	const handle = component.ctx[component.props['handle'] as number];
+	const handle = rendered.component.handle;
 
 	expect(parent.children).toBeTruthy();
 
 	if (parent.children) {
 		expect(parent.children.length).toBe(0);
 	}
-
-	expect(handle).toBeUndefined();
-});
-
-test('Overwriting the handle of the component from outside should have no effect', () => {
-	const rendered = render(Ring, {
-		context: createMockParentContext(Container.Layer),
-		props: {
-			config: { x: 0, innerRadius: 20, outerRadius: 100 }
-		}
-	});
-
-	rendered.component.$set({ handle: undefined }); // Overwrite handle from outside, should not throw as internal handle is still intact
 });

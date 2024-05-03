@@ -41,8 +41,7 @@ test('passes the config prop', () => {
 		}
 	});
 
-	const component = rendered.component.$$;
-	const handle: Konva.Layer = component.ctx[component.props['handle'] as number];
+	const handle = rendered.component.handle;
 
 	expect(handle.getAttrs()).toStrictEqual(CONFIG);
 });
@@ -54,9 +53,8 @@ test('is correctly added to the parent stage', () => {
 		context: mockContext
 	});
 
-	const component = rendered.component.$$;
 	const parent: Konva.Container = get(mockContext.get(CONTAINER_COMPONENT_KEYS[Container.Stage])!);
-	const handle = component.ctx[component.props['handle'] as number];
+	const handle = rendered.component.handle;
 
 	expect(parent.children).toBeTruthy();
 
@@ -68,12 +66,15 @@ test('is correctly added to the parent stage', () => {
 
 test('Can listen to Konva events', () => {
 	const div = document.createElement('div');
+	const mockFn = vi.fn();
 	const rendered = render(Layer, {
-		context: createMockParentContext(Container.Stage, div)
+		context: createMockParentContext(Container.Stage, div),
+		props: {
+			onmousedown: mockFn
+		}
 	});
 
-	const component = rendered.component.$$;
-	const handle: Konva.Layer = component.ctx[component.props['handle'] as number];
+	const handle = rendered.component.handle;
 
 	// As the layer only receives events if any of its children detects an event
 	// we need to create a shape as child of the layer and start the event on that shape
@@ -81,9 +82,6 @@ test('Can listen to Konva events', () => {
 	// results in a stage event.
 	const rectangle = new Konva.Rect({ x: 0, y: 0, width: 100, height: 100 });
 	handle.add(rectangle);
-
-	const mockFn = vi.fn();
-	rendered.component.$on('mousedown', mockFn);
 
 	const stage = handle.getStage();
 
@@ -104,8 +102,7 @@ test('Correctly updates bound config on dragend', () => {
 		}
 	});
 
-	const component = rendered.component.$$;
-	const handle: Konva.Layer = component.ctx[component.props['handle'] as number];
+	const handle = rendered.component.handle;
 
 	const stage = handle.getStage()!;
 	const rectangle = new Konva.Rect({ x: 0, y: 0, width: 100, height: 100, fill: 'red' });
@@ -135,8 +132,7 @@ test('Does not update config if instantiated with staticConfig prop', async () =
 		}
 	});
 
-	const component = rendered.component.$$;
-	const handle: Konva.Layer = component.ctx[component.props['handle'] as number];
+	const handle = rendered.component.handle;
 
 	const stage = handle.getStage()!;
 	const rectangle = new Konva.Rect({ x: 0, y: 0, width: 100, height: 100, fill: 'red' });
@@ -162,7 +158,7 @@ test('sets the correct context', () => {
 
 	const component = rendered.component.$$;
 	const context = component.context;
-	const handle = component.ctx[component.props['handle'] as number];
+	const handle = rendered.component.handle;
 
 	expect(get(context.get(CONTAINER_COMPONENT_KEYS[Container.Layer]))).toStrictEqual(handle);
 });
@@ -201,25 +197,9 @@ test('Konva instance is correctly destroyed on component unmount', () => {
 
 	rendered.unmount();
 
-	const component = rendered.component.$$;
-	const handle = component.ctx[component.props['handle'] as number];
-
 	expect(parent.children).toBeTruthy();
 
 	if (parent.children) {
 		expect(parent.children.length).toBe(0);
 	}
-
-	expect(handle).toBeUndefined();
-});
-
-test('Overwriting the handle of the component from outside should have no effect', () => {
-	const div = document.createElement('div');
-	const mockContext = createMockParentContext(Container.Stage, div);
-
-	const rendered = render(Layer, {
-		context: mockContext
-	});
-
-	rendered.component.$set({ handle: undefined }); // Overwrite handle from outside, should not throw as internal handle is still intact
 });

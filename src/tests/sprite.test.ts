@@ -141,6 +141,7 @@ test('is correctly added to the parent Label', async () => {
 test('Can listen to Konva events', async () => {
 	const spriteImage = await loadImage(sprite);
 
+	const mockFn = vi.fn();
 	const rendered = render(Sprite, {
 		context: createMockParentContext(Container.Layer),
 		props: {
@@ -150,7 +151,8 @@ test('Can listen to Konva events', async () => {
 				animations: { default: [0, 0, 50, 100, 50, 0, 50, 100] },
 				frameRate: 7,
 				frameIndex: 0
-			}
+			},
+			onmousedown: mockFn
 		}
 	});
 
@@ -161,9 +163,6 @@ test('Can listen to Konva events', async () => {
 	const stage = new Konva.Stage({ container: div, width: 1000, height: 1000 });
 
 	stage.add(handle.getLayer()!);
-
-	const mockFn = vi.fn();
-	rendered.component.$on('mousedown', mockFn);
 
 	(stage as MockStage).simulateMouseDown({ x: 20, y: 20 });
 
