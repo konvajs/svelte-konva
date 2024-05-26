@@ -1,7 +1,7 @@
 import { test, expect, vi } from 'vitest';
 import { render } from '@testing-library/svelte';
 import Konva from 'konva';
-import { get } from 'svelte/store';
+import { get, writable } from 'svelte/store';
 
 // svelte-konva
 import Layer from '$lib/Layer.svelte';
@@ -11,6 +11,9 @@ import { LAYER_ERROR, Container, CONTAINER_COMPONENT_KEYS } from '$lib/util/mana
 import { createMockParentContext } from './mocks/context';
 import './mocks/mouse';
 import type { MockStage } from './mocks/mouse';
+
+// Test Component Wrappers
+import ConfigBinding from './wrappers/ConfigBinding.test.svelte';
 
 test('throws an error if not placed inside a Stage component', () => {
 	expect(() => {
@@ -95,19 +98,22 @@ test('Can listen to Konva events', () => {
 test('Correctly updates bound config on dragend', () => {
 	const CONFIG = { x: 0, draggable: true };
 	const div = document.createElement('div');
-	const rendered = render(Layer, {
+	const configWritable = writable(CONFIG);
+	let handle: Konva.Layer | null = null;
+
+	render(ConfigBinding, {
 		context: createMockParentContext(Container.Stage, div),
 		props: {
-			config: CONFIG
+			component: Layer,
+			boundConfigWritable: configWritable,
+			getHandle: (hnd) => (handle = hnd)
 		}
 	});
 
-	const handle = rendered.component.handle;
-
-	const stage = handle.getStage()!;
+	const stage = handle!.getStage()!;
 	const rectangle = new Konva.Rect({ x: 0, y: 0, width: 100, height: 100, fill: 'red' });
 
-	handle.add(rectangle);
+	handle!.add(rectangle);
 
 	stage.draw();
 
@@ -115,7 +121,7 @@ test('Correctly updates bound config on dragend', () => {
 	(stage as MockStage).simulateMouseMove({ x: 100, y: 100 });
 	(stage as MockStage).simulateMouseUp({ x: 100, y: 100 });
 
-	const config = component.ctx[component.props['config'] as number];
+	const config = get(configWritable);
 
 	expect(config).toStrictEqual({ ...CONFIG, x: 50 });
 });
@@ -124,20 +130,23 @@ test('Does not update config if instantiated with staticConfig prop', async () =
 	const CONFIG = { x: 0, draggable: true };
 	const oldConfig = { ...CONFIG };
 	const div = document.createElement('div');
-	const rendered = render(Layer, {
+	const configWritable = writable(CONFIG);
+	let handle: Konva.Layer | null = null;
+
+	render(ConfigBinding, {
 		context: createMockParentContext(Container.Stage, div),
 		props: {
-			config: CONFIG,
+			component: Layer,
+			boundConfigWritable: configWritable,
+			getHandle: (hnd) => (handle = hnd),
 			staticConfig: true
 		}
 	});
 
-	const handle = rendered.component.handle;
-
-	const stage = handle.getStage()!;
+	const stage = handle!.getStage()!;
 	const rectangle = new Konva.Rect({ x: 0, y: 0, width: 100, height: 100, fill: 'red' });
 
-	handle.add(rectangle);
+	handle!.add(rectangle);
 
 	stage.draw();
 
@@ -145,7 +154,7 @@ test('Does not update config if instantiated with staticConfig prop', async () =
 	(stage as MockStage).simulateMouseMove({ x: 100, y: 100 });
 	(stage as MockStage).simulateMouseUp({ x: 100, y: 100 });
 
-	const config = component.ctx[component.props['config'] as number];
+	const config = get(configWritable);
 
 	expect(config).toStrictEqual(oldConfig);
 });

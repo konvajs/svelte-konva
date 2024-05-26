@@ -1,6 +1,6 @@
 import { test, expect, vi } from 'vitest';
 import { render } from '@testing-library/svelte';
-import { get } from 'svelte/store';
+import { get, writable } from 'svelte/store';
 import Konva from 'konva';
 
 // svelte-konva
@@ -10,6 +10,9 @@ import { CONTAINER_COMPONENT_KEYS, Container } from '$lib/util/manageContext';
 // Mocks
 import './mocks/mouse';
 import type { MockStage } from './mocks/mouse';
+
+// Test Component Wrappers
+import ConfigBinding from './wrappers/ConfigBinding.test.svelte';
 
 test('creates a div container and forwards rest props to div', () => {
 	const rendered = render(Stage, {
@@ -79,18 +82,22 @@ test('Can listen to Konva events', () => {
 
 test('Correctly updates bound config on dragend', () => {
 	const CONFIG = { x: 0, width: 1000, height: 1000, draggable: true };
-	const rendered = render(Stage, {
-		config: CONFIG
+	const configWritable = writable(CONFIG);
+	let handle: MockStage | null = null;
+
+	render(ConfigBinding, {
+		props: {
+			component: Stage,
+			boundConfigWritable: configWritable,
+			getHandle: (hnd) => (handle = hnd())
+		}
 	});
 
-	const component = rendered.component.$$;
-	const handle: MockStage = component.ctx[component.props['handle'] as number];
+	handle!.simulateMouseDown({ x: 50, y: 50 });
+	handle!.simulateMouseMove({ x: 100, y: 100 });
+	handle!.simulateMouseUp({ x: 100, y: 100 });
 
-	handle.simulateMouseDown({ x: 50, y: 50 });
-	handle.simulateMouseMove({ x: 100, y: 100 });
-	handle.simulateMouseUp({ x: 100, y: 100 });
-
-	const config = component.ctx[component.props['config'] as number];
+	const config = get(configWritable);
 
 	expect(config).toStrictEqual({ ...CONFIG, x: 50 });
 });
@@ -98,19 +105,23 @@ test('Correctly updates bound config on dragend', () => {
 test('Does not update config if instantiated with staticConfig prop', async () => {
 	const CONFIG = { x: 0, width: 1000, height: 1000, draggable: true };
 	const oldConfig = { ...CONFIG };
-	const rendered = render(Stage, {
-		config: CONFIG,
-		staticConfig: true
+	const configWritable = writable(CONFIG);
+	let handle: MockStage | null = null;
+
+	render(ConfigBinding, {
+		props: {
+			component: Stage,
+			boundConfigWritable: configWritable,
+			getHandle: (hnd) => (handle = hnd()),
+			staticConfig: true
+		}
 	});
 
-	const component = rendered.component.$$;
-	const handle: MockStage = component.ctx[component.props['handle'] as number];
+	handle!.simulateMouseDown({ x: 50, y: 50 });
+	handle!.simulateMouseMove({ x: 100, y: 100 });
+	handle!.simulateMouseUp({ x: 100, y: 100 });
 
-	handle.simulateMouseDown({ x: 50, y: 50 });
-	handle.simulateMouseMove({ x: 100, y: 100 });
-	handle.simulateMouseUp({ x: 100, y: 100 });
-
-	const config = component.ctx[component.props['config'] as number];
+	const config = get(configWritable);
 
 	expect(config).toStrictEqual(oldConfig);
 });
