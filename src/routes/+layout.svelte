@@ -3,6 +3,8 @@
 	import Link from './Link.svelte';
 	import { darkMode } from './stores';
 
+	const { children } = $props();
+
 	let examples = [
 		{
 			name: 'Label',
@@ -63,7 +65,7 @@
 							/>
 						</svg>
 					</a>
-					<button class="btn btn-square btn-ghost" on:click={() => darkMode.set(!$darkMode)}>
+					<button class="btn btn-square btn-ghost" onclick={() => darkMode.set(!$darkMode)}>
 						{#if darkMode}
 							<svg
 								xmlns="http://www.w3.org/2000/svg"
@@ -100,7 +102,7 @@
 			</div>
 			<div class="prose lg:prose-xl mt-10 mb-10 max-w-6xl w-full p-6" style="font-size: 1rem;">
 				<!-- Page content here -->
-				<slot />
+				{@render children()}
 			</div>
 		</div>
 		<div class="drawer-side shadow">

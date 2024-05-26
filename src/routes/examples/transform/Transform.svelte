@@ -1,7 +1,7 @@
 <script lang="ts">
 	import Konva from 'konva';
-	import type { KonvaMouseEvent, KonvaPointerEvent } from 'svelte-konva';
-	import Stage from '../../ResponsiveStage.svelte';
+	import type { KonvaMouseEvent, KonvaPointerEvent, Stage } from 'svelte-konva';
+	import ResponsiveStage from '../../ResponsiveStage.svelte';
 	import { getRealPointerPos } from '../../util';
 
 	// svelte-konva components
@@ -59,7 +59,10 @@
 	let selectionActive = false; // If the transformer is active eg. something is selected
 
 	function selectStart(e: KonvaPointerEvent) {
-		if (!transformer || !stage?.handle()) return;
+		if (!transformer || !stage) return;
+
+		const handle = stage.handle();
+		if (!handle) return;
 
 		// Check if event target is stage (eg. user clicked on empty part of the stage and not any shape)
 		if (e.target.getType() !== 'Stage') {
@@ -73,7 +76,7 @@
 			return;
 		}
 
-		const pointerPos = getRealPointerPos(stage.handle().getPointerPosition()!, stage.handle());
+		const pointerPos = getRealPointerPos(handle.getPointerPosition()!, handle);
 
 		selectionRectangleConfig.x = pointerPos.x;
 		selectionRectangleConfig.y = pointerPos.y;
@@ -85,13 +88,17 @@
 	}
 
 	function selectDrag() {
-		if (!stage?.handle()) return;
+		if (!stage) return;
+
+		const handle = stage.handle();
+		if (!handle) return;
+
 		if (!selectionRectangleConfig.visible) {
 			// Currently no selection is active (eg. user is just moving the cursor around)
 			return;
 		}
 
-		const pointerPos = getRealPointerPos(stage?.handle().getPointerPosition()!, stage?.handle());
+		const pointerPos = getRealPointerPos(handle.getPointerPosition()!, handle);
 
 		// Set new x coordinate and width of selection rectangle
 		selectionRectangleConfig.x = Math.min(pointerPos.x, initialSelectionCoordinates.x);
@@ -143,7 +150,7 @@
 	}
 </script>
 
-<Stage
+<ResponsiveStage
 	onpointerdown={selectStart}
 	onpointermove={selectDrag}
 	onpointerup={selectEnd}
@@ -168,4 +175,4 @@
 		<!-- The selection rectangle -->
 		<Rect config={selectionRectangleConfig} bind:this={selectionRectangle} />
 	</Layer>
-</Stage>
+</ResponsiveStage>
