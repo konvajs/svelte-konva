@@ -14,6 +14,7 @@ import type { MockStage } from './mocks/mouse';
 
 // Test Component Wrappers
 import ConfigBinding from './wrappers/ConfigBinding.test.svelte';
+import ContainerContext from './wrappers/ContainerContext.test.svelte';
 
 test('throws an error if not placed inside a Stage component', () => {
 	expect(() => {
@@ -161,31 +162,38 @@ test('Does not update config if instantiated with staticConfig prop', async () =
 
 test('sets the correct context', () => {
 	const div = document.createElement('div');
-	const rendered = render(Layer, {
-		context: createMockParentContext(Container.Stage, div)
+	let childContext: Map<string, any> | null = null;
+	let handle: Konva.Layer | null = null;
+
+	render(ContainerContext, {
+		context: createMockParentContext(Container.Stage, div),
+		props: {
+			component: Layer,
+			getHandle: (hnd) => (handle = hnd),
+			getComponentContext: (ctxMap) => (childContext = ctxMap)
+		}
 	});
 
-	const component = rendered.component.$$;
-	const context = component.context;
-	const handle = rendered.component.handle;
-
-	expect(get(context.get(CONTAINER_COMPONENT_KEYS[Container.Layer]))).toStrictEqual(handle);
+	expect(get(childContext!.get(CONTAINER_COMPONENT_KEYS[Container.Layer]))).toStrictEqual(handle!);
 });
 
 test('nulls unused context', () => {
 	const div = document.createElement('div');
-	const rendered = render(Layer, {
-		context: createMockParentContext(Container.Stage, div)
-	});
+	let childContext: Map<string, any> | null = null;
 
-	const component = rendered.component.$$;
-	const context = component.context;
+	render(ContainerContext, {
+		context: createMockParentContext(Container.Stage, div),
+		props: {
+			component: Layer,
+			getComponentContext: (ctxMap) => (childContext = ctxMap)
+		}
+	});
 
 	const otherKeys = CONTAINER_COMPONENT_KEYS.slice();
 	otherKeys.splice(Container.Layer, 1);
 
 	otherKeys.forEach((e) => {
-		expect(context.get(e)).toBe(null);
+		expect(childContext!.get(e)).toBe(null);
 	});
 });
 

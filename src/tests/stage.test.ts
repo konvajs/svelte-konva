@@ -13,6 +13,7 @@ import type { MockStage } from './mocks/mouse';
 
 // Test Component Wrappers
 import ConfigBinding from './wrappers/ConfigBinding.test.svelte';
+import ContainerContext from './wrappers/ContainerContext.test.svelte';
 
 test('creates a div container and forwards rest props to div', () => {
 	const rendered = render(Stage, {
@@ -127,28 +128,37 @@ test('Does not update config if instantiated with staticConfig prop', async () =
 });
 
 test('sets the correct context', () => {
-	const rendered = render(Stage, {
-		config: { width: 1000, height: 1000 }
+	let childContext: Map<string, any> | null = null;
+	let handle: Konva.Stage | null = null;
+
+	render(ContainerContext, {
+		props: {
+			component: Stage,
+			config: { width: 1000, height: 1000 },
+			getHandle: (hnd) => (handle = hnd()),
+			getComponentContext: (ctxMap) => (childContext = ctxMap)
+		}
 	});
 
-	const component = rendered.component.$$;
-
-	const context = component.context;
-	const handle = rendered.component.handle();
-
-	expect(get(context.get(CONTAINER_COMPONENT_KEYS[Container.Stage]))).toStrictEqual(handle);
+	expect(get(childContext!.get(CONTAINER_COMPONENT_KEYS[Container.Stage]))).toStrictEqual(handle!);
 });
 
 test('nulls unused context', () => {
-	render(Stage, {
-		props: { config: { width: 1000, height: 1000 } }
+	let childContext: Map<string, any> | null = null;
+
+	render(ContainerContext, {
+		props: {
+			component: Stage,
+			config: { width: 1000, height: 1000 },
+			getComponentContext: (ctxMap) => (childContext = ctxMap)
+		}
 	});
 
 	const otherKeys = CONTAINER_COMPONENT_KEYS.slice();
 	otherKeys.splice(Container.Stage, 1);
 
 	otherKeys.forEach((e) => {
-		expect(context.get(e)).toBe(null);
+		expect(childContext!.get(e)).toBe(null);
 	});
 });
 
