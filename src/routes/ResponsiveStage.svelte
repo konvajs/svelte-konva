@@ -1,5 +1,4 @@
 <script lang="ts">
-	import type Konva from 'konva';
 	import Stage from 'svelte-konva/Stage.svelte';
 	import { onMount, type Snippet } from 'svelte';
 	import type { KonvaEventHooks } from 'svelte-konva/util/events';

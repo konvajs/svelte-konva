@@ -1,15 +1,16 @@
 <script lang="ts">
 	import type Konva from 'konva';
 	import type { KonvaMouseEvent } from 'svelte-konva';
-	import Stage from '../../ResponsiveStage.svelte';
+	import ResponsiveStage from '../../ResponsiveStage.svelte';
 	import { getRealPointerPos } from '../../util';
+	import Stage from 'svelte-konva/Stage.svelte';
+	import type { LineCap, LineJoin } from 'konva/lib/Shape';
 
 	// svelte-konva components
 	import Layer from 'svelte-konva/Layer.svelte';
 	import Line from 'svelte-konva/Line.svelte';
-	import type { LineCap, LineJoin } from 'konva/lib/Shape';
 
-	let stage = $state<Konva.Stage | null>(null);
+	let stage: Stage | undefined = $state();
 
 	const DRAW_TIMEOUT_MS = 5;
 
@@ -26,9 +27,12 @@
 	let drawTimeoutRunning = false; // Used to indicate wether the timeout is currently in progress or not
 
 	function startDraw() {
-		if (!stage) return;
+		if (!stage || !stage.handle()) return;
 
-		const pointerPos = getRealPointerPos(stage.getPointerPosition()!, stage);
+		const stageHandle = stage.handle();
+		if (!stageHandle) return;
+
+		const pointerPos = getRealPointerPos(stageHandle.getPointerPosition()!, stageHandle);
 
 		const lineConfig = {
 			points: [pointerPos.x, pointerPos.y, pointerPos.x, pointerPos.y], // Initial position is added twice to make a single click visible as dot (otherwise a single click would result in an invisible dot)
@@ -54,12 +58,16 @@
 	function draw() {
 		if (!isDrawing || !stage) return;
 
+		const stageHandle = stage.handle();
+
+		if (!stageHandle) return;
+
 		if (drawTimeout) {
 			if (drawTimeoutRunning) {
 				return;
 			}
 
-			const pointerPos = getRealPointerPos(stage.getPointerPosition()!, stage);
+			const pointerPos = getRealPointerPos(stageHandle.getPointerPosition()!, stageHandle);
 
 			const points = strokes[strokes.length - 1].points!;
 
@@ -110,7 +118,7 @@
 	</div>
 </div>
 
-<Stage
+<ResponsiveStage
 	onpointerdown={startDraw}
 	onpointermove={draw}
 	onpointerup={stopDraw}
@@ -122,4 +130,4 @@
 			<Line config={stroke} />
 		{/each}
 	</Layer>
-</Stage>
+</ResponsiveStage>
