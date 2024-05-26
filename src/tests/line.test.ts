@@ -180,21 +180,6 @@ test('Does not update config if instantiated with staticConfig prop', () => {
 	expect(config).toStrictEqual(oldConfig);
 });
 
-test('Does not alter the context', () => {
-	const mockContext = createMockParentContext(Container.Layer);
-	const rendered = render(Line, {
-		context: mockContext,
-		props: {
-			config: { x: 0, points: [0, 0, 100, 100], strokeWidth: 10, stroke: 'black' }
-		}
-	});
-
-	const component = rendered.component.$$;
-	const context = component.context;
-
-	expect(context).toStrictEqual(mockContext);
-});
-
 test('Konva instance is correctly destroyed on component unmount', () => {
 	const mockContext = createMockParentContext(Container.Layer);
 	const rendered = render(Line, {

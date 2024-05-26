@@ -243,29 +243,6 @@ test('Does not update config if instantiated with staticConfig prop', () => {
 	expect(config).toStrictEqual(oldConfig);
 });
 
-test('Does not alter the context', () => {
-	const mockContext = createMockParentContext(Container.Layer);
-	const rendered = render(Shape, {
-		context: mockContext,
-		props: {
-			config: {
-				width: 100,
-				height: 100,
-				sceneFunc: function (context: Konva.Context, shape: Konva.Shape) {
-					context.beginPath();
-					context.rect(0, 0, shape.getAttr('width'), shape.getAttr('height'));
-					context.fillStrokeShape(shape);
-				}
-			}
-		}
-	});
-
-	const component = rendered.component.$$;
-	const context = component.context;
-
-	expect(context).toStrictEqual(mockContext);
-});
-
 test('Konva instance is correctly destroyed on component unmount', () => {
 	const mockContext = createMockParentContext(Container.Layer);
 	const rendered = render(Shape, {

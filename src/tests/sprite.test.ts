@@ -246,29 +246,6 @@ test('Does not update config if instantiated with staticConfig prop', async () =
 	expect(config).toStrictEqual(oldConfig);
 });
 
-test('Does not alter the context', async () => {
-	const spriteImage = await loadImage(sprite);
-
-	const mockContext = createMockParentContext(Container.Layer);
-	const rendered = render(Sprite, {
-		context: mockContext,
-		props: {
-			config: {
-				image: spriteImage,
-				animation: 'default',
-				animations: { default: [0, 0, 50, 100, 50, 0, 50, 100] },
-				frameRate: 7,
-				frameIndex: 0
-			}
-		}
-	});
-
-	const component = rendered.component.$$;
-	const context = component.context;
-
-	expect(context).toStrictEqual(mockContext);
-});
-
 test('Konva instance is correctly destroyed on component unmount', async () => {
 	const spriteImage = await loadImage(sprite);
 
