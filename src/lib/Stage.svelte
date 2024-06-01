@@ -64,7 +64,7 @@ Further information: [Konva API docs](https://konvajs.org/api/Konva.Stage.html),
 		...restProps
 	}: Props<Konva.ContainerConfig> & PropsContainer & PropsStage = $props();
 
-	let _handle: Konva.Stage | null = null;
+	let _handle: Konva.Stage | null = $state(null);
 	export function handle() {
 		return _handle;
 	}
@@ -141,7 +141,6 @@ Further information: [Konva API docs](https://konvajs.org/api/Konva.Stage.html),
 	setContainerContext(Container.Stage, inner);
 </script>
 
-<!-- TODO: Figure out a way to split the konvaEvents from restProps (otherwise konva event hooks might also be called on div events)-->
 <div bind:this={stage} {...restProps}>
 	{#if isReady && children}
 		{@render children()}
