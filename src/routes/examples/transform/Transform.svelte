@@ -171,7 +171,7 @@
 		/>
 
 		<!-- Position transformer and selection rectagle at the bottom of all components so they are always the topmost elements on the canvas -->
-		<Transformer config={{}} bind:this={transformer} />
+		<Transformer bind:this={transformer} />
 		<!-- The selection rectangle -->
 		<Rect config={selectionRectangleConfig} bind:this={selectionRectangle} />
 	</Layer>

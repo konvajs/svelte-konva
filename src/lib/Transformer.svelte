@@ -30,13 +30,13 @@ Further information: [Konva API docs](https://konvajs.org/api/Konva.Transformer.
 	import { registerEvents } from '$lib/util/events';
 	import { getParentContainer, type KonvaParent } from '$lib/util/manageContext';
 	import { copyExistingKeys } from '$lib/util/object';
-	import { type Props } from '$lib/util/props';
+	import { type PropsOptionalConfig } from '$lib/util/props';
 
 	let {
 		config = $bindable({}),
 		staticConfig = false,
 		...eventHooks
-	}: Props<Konva.TransformerConfig | undefined> = $props();
+	}: PropsOptionalConfig<Konva.TransformerConfig> = $props();
 
 	export const handle = new Konva.Transformer(config);
 
