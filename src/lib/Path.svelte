@@ -4,7 +4,7 @@ The Path component needs to be placed either inside a svelte-konva Layer or Grou
 
 ### Usage:
 ```tsx
-<Path config={{ x: 100, y: 100, width: 100, height: 100, fill: "blue", data: "M213.1,6.7c-32.4-14.4-73.7,0-88.1,30.6C110.6,4.9,67.5-9.5,36.9,6.7C2.8,22.9-13.4,62.4,13.5,110.9C33.3,145.1,67.5,170.3,125,217c59.3-46.7,93.5-71.9,111.5-106.1C263.4,64.2,247.2,22.9,213.1,6.7z" }} />
+<Path x={100} y={100} width={100} height={100} fill="blue" data="M213.1,6.7c-32.4-14.4-73.7,0-88.1,30.6C110.6,4.9,67.5-9.5,36.9,6.7C2.8,22.9-13.4,62.4,13.5,110.9C33.3,145.1,67.5,170.3,125,217c59.3-46.7,93.5-71.9,111.5-106.1C263.4,64.2,247.2,22.9,213.1,6.7z" />
 ```
 
 ### Static config:
@@ -24,37 +24,93 @@ Further information: [Konva API docs](https://konvajs.org/api/Konva.Path.html), 
 	import { type Writable } from 'svelte/store';
 	import { registerEvents } from '$lib/util/events';
 	import { getParentContainer, type KonvaParent } from '$lib/util/manageContext';
-	import { copyExistingKeys } from '$lib/util/object';
 	import { type Props } from '$lib/util/props';
 
 	let {
-		config = $bindable(),
 		staticConfig = false,
-		...eventHooks
+		x = $bindable(),
+		y = $bindable(),
+		scale = $bindable(),
+		scaleX = $bindable(),
+		scaleY = $bindable(),
+		rotation = $bindable(),
+		skewX = $bindable(),
+		skewY = $bindable(),
+		...restProps
 	}: Props<Konva.PathConfig> = $props();
 
-	export const handle = new Konva.Path(config);
+	export const handle = new Konva.Path({
+		x,
+		y,
+		scale,
+		scaleX,
+		scaleY,
+		rotation,
+		skewX,
+		skewY,
+		...restProps
+	});
 
 	const parent: Writable<null | KonvaParent> = getParentContainer();
-
-	$effect(() => {
-		handle.setAttrs(config);
-	});
 
 	onMount(() => {
 		$parent!.add(handle);
 
 		if (!staticConfig) {
+			const attrs = handle.getAttrs();
+
 			handle.on('transformend', () => {
-				copyExistingKeys(config, handle.getAttrs());
+				if (x !== undefined) x = attrs.x;
+				if (y !== undefined) y = attrs.y;
+				if (scale !== undefined) scale = attrs.scale;
+				if (scaleX !== undefined) scaleX = attrs.scaleX;
+				if (scaleY !== undefined) scaleY = attrs.scaleY;
+				if (rotation !== undefined) rotation = attrs.rotation;
+				if (skewX !== undefined) skewX = attrs.skewX;
+				if (skewY !== undefined) skewY = attrs.skewY;
 			});
 
 			handle.on('dragend', () => {
-				copyExistingKeys(config, handle.getAttrs());
+				if (x !== undefined) x = attrs.x;
+				if (y !== undefined) y = attrs.y;
 			});
 		}
 
-		registerEvents(eventHooks, handle);
+		Object.keys(restProps)
+			.filter((e) => !e.startsWith('on')) // Do not register svelte-konva event hooks as node attributes (Currently no konva config property starts with "on" so this is the fastest and most inexpensive way to filter out the event hooks from the provided props)
+			.forEach((e) => {
+				$effect(() => {
+					handle.setAttr(e, restProps[e]);
+				});
+			});
+
+		// Register explicit props (not included in restProps)
+		$effect(() => {
+			handle.setAttr('x', x);
+		});
+		$effect(() => {
+			handle.setAttr('y', y);
+		});
+		$effect(() => {
+			handle.setAttr('scale', scale);
+		});
+		$effect(() => {
+			handle.setAttr('scaleX', scaleX);
+		});
+		$effect(() => {
+			handle.setAttr('scaleY', scaleY);
+		});
+		$effect(() => {
+			handle.setAttr('rotation', rotation);
+		});
+		$effect(() => {
+			handle.setAttr('skewX', skewX);
+		});
+		$effect(() => {
+			handle.setAttr('skewY', skewY);
+		});
+
+		registerEvents(restProps, handle);
 	});
 
 	onDestroy(() => {

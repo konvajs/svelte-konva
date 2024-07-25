@@ -127,7 +127,7 @@
 >
 	<Layer>
 		{#each strokes as stroke}
-			<Line config={stroke} />
+			<Line {...stroke} />
 		{/each}
 	</Layer>
 </ResponsiveStage>

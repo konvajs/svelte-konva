@@ -18,12 +18,12 @@
 
 	let container: HTMLDivElement;
 
-	let stageConfig: Konva.ContainerConfig = {
+	let stageConfig: Konva.ContainerConfig = $state({
 		width: GAME_BASE_SIZE,
 		height: GAME_BASE_SIZE,
 		scaleX: $gameScale,
 		scaleY: $gameScale
-	};
+	});
 
 	let gameGrid = $state<HTMLImageElement>();
 	let gridImageAvailable = $state(false);
@@ -43,6 +43,8 @@
 		gameScale.set(size / GAME_BASE_SIZE);
 		stageConfig.scaleX = $gameScale;
 		stageConfig.scaleY = $gameScale;
+
+		console.log('change game width', stageConfig.width);
 	}
 
 	onMount(() => {
@@ -57,6 +59,8 @@
 
 		adjustScaleAndSize();
 	});
+
+	$inspect(stageConfig);
 </script>
 
 <div
@@ -64,16 +68,16 @@
 	bind:this={container}
 	style="max-height: 80vh; height: 100%;"
 >
-	<Stage config={stageConfig}>
+	<Stage {...stageConfig}>
 		<!--This layer is used to display the interactive/reactive game elements (tokens/stones)-->
 		<Layer>
 			{@render children()}
 		</Layer>
 
 		<!--This Layer is used to display the game grid. It is not interactive in any way-->
-		<Layer config={{ listening: false }}>
+		<Layer listening={false}>
 			{#if gridImageAvailable}
-				<Image config={{ image: gameGrid }} />
+				<Image image={gameGrid} />
 			{/if}
 		</Layer>
 	</Stage>

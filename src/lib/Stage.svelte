@@ -23,12 +23,10 @@ Further information: [Konva API docs](https://konvajs.org/api/Konva.Stage.html),
 	import { writable } from 'svelte/store';
 	import { registerEvents } from '$lib/util/events';
 	import { Container, setContainerContext } from '$lib/util/manageContext';
-	import { copyExistingKeys } from '$lib/util/object';
 	import { type Props, type PropsContainer, type PropsStage } from '$lib/util/props';
 
 	let {
 		children,
-		config = $bindable(),
 		staticConfig = false,
 		onclick,
 		ondblclick,
@@ -61,6 +59,36 @@ Further information: [Konva API docs](https://konvajs.org/api/Konva.Stage.html),
 		ontransformend,
 		ontransformstart,
 		onwheel,
+		y,
+		x,
+		width,
+		visible,
+		skewY,
+		skewX,
+		scaleY,
+		scaleX,
+		scale,
+		rotation,
+		preventDefault,
+		opacity,
+		offsetY,
+		offsetX,
+		offset,
+		name,
+		listening,
+		id,
+		height,
+		globalCompositeOperation,
+		filters,
+		draggable,
+		dragDistance,
+		dragBoundFunc,
+		clipY,
+		clipX,
+		clipWidth,
+		clipHeight,
+		clearBeforeDraw,
+		clipFunc,
 		...restProps
 	}: Props<Konva.ContainerConfig> & PropsContainer & PropsStage = $props();
 
@@ -75,21 +103,142 @@ Further information: [Konva API docs](https://konvajs.org/api/Konva.Stage.html),
 
 	let isReady = $state(false);
 
-	$effect(() => {
-		if (_handle) _handle.setAttrs(config);
-	});
-
 	onMount(() => {
+		console.log(x, y);
 		_handle = new Konva.Stage({
 			container: stage,
-			...config
+			y,
+			x,
+			width,
+			visible,
+			skewY,
+			skewX,
+			scaleY,
+			scaleX,
+			scale,
+			rotation,
+			preventDefault,
+			opacity,
+			offsetY,
+			offsetX,
+			offset,
+			name,
+			listening,
+			id,
+			height,
+			globalCompositeOperation,
+			filters,
+			draggable,
+			dragDistance,
+			dragBoundFunc,
+			clipY,
+			clipX,
+			clipWidth,
+			clipHeight,
+			clearBeforeDraw,
+			clipFunc
 		});
 
 		if (!staticConfig) {
+			const attrs = _handle.getAttrs();
+
 			_handle.on('dragend', () => {
-				copyExistingKeys(config, _handle!.getAttrs());
+				if (x !== undefined) x = attrs.x;
+				if (y !== undefined) y = attrs.y;
 			});
 		}
+
+		$effect(() => {
+			_handle!.setAttr('x', x);
+		});
+		$effect(() => {
+			_handle!.setAttr('y', y);
+		});
+		$effect(() => {
+			_handle!.setAttr('width', width);
+			console.log('stage change width', width);
+		});
+		$effect(() => {
+			_handle!.setAttr('visible', visible);
+		});
+		$effect(() => {
+			_handle!.setAttr('skewY', skewY);
+		});
+		$effect(() => {
+			_handle!.setAttr('skewX', skewX);
+		});
+		$effect(() => {
+			_handle!.setAttr('scaleY', scaleY);
+		});
+		$effect(() => {
+			_handle!.setAttr('scaleX', scaleX);
+		});
+		$effect(() => {
+			_handle!.setAttr('scale', scale);
+		});
+		$effect(() => {
+			_handle!.setAttr('rotation', rotation);
+		});
+		$effect(() => {
+			_handle!.setAttr('preventDefault', preventDefault);
+		});
+		$effect(() => {
+			_handle!.setAttr('opacity', opacity);
+		});
+		$effect(() => {
+			_handle!.setAttr('offsetY', offsetY);
+		});
+		$effect(() => {
+			_handle!.setAttr('offsetX', offsetX);
+		});
+		$effect(() => {
+			_handle!.setAttr('offset', offset);
+		});
+		$effect(() => {
+			_handle!.setAttr('name', name);
+		});
+		$effect(() => {
+			_handle!.setAttr('listening', listening);
+		});
+		$effect(() => {
+			_handle!.setAttr('id', id);
+		});
+		$effect(() => {
+			_handle!.setAttr('height', height);
+		});
+		$effect(() => {
+			_handle!.setAttr('globalCompositeOperation', globalCompositeOperation);
+		});
+		$effect(() => {
+			_handle!.setAttr('filters', filters);
+		});
+		$effect(() => {
+			_handle!.setAttr('draggable', draggable);
+		});
+		$effect(() => {
+			_handle!.setAttr('dragDistance', dragDistance);
+		});
+		$effect(() => {
+			_handle!.setAttr('dragBoundFunc', dragBoundFunc);
+		});
+		$effect(() => {
+			_handle!.setAttr('clipY', clipY);
+		});
+		$effect(() => {
+			_handle!.setAttr('clipX', clipX);
+		});
+		$effect(() => {
+			_handle!.setAttr('clipWidth', clipWidth);
+		});
+		$effect(() => {
+			_handle!.setAttr('clipHeight', clipHeight);
+		});
+		$effect(() => {
+			_handle!.setAttr('clearBeforeDraw', clearBeforeDraw);
+		});
+		$effect(() => {
+			_handle!.setAttr('clipFunc', clipFunc);
+		});
 
 		registerEvents(
 			{

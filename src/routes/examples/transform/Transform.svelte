@@ -11,6 +11,7 @@
 	import RegularPolygon from 'svelte-konva/RegularPolygon.svelte';
 	import Transformer from 'svelte-konva/Transformer.svelte';
 	import Rect from 'svelte-konva/Rect.svelte';
+	import { untrack } from 'svelte';
 
 	let stage: Stage | undefined;
 	let layer: Layer | undefined;
@@ -158,21 +159,19 @@
 	bind:stage
 >
 	<Layer bind:this={layer}>
-		<Group config={{ draggable: true }}>
+		<Group draggable>
 			{#each configs as _, idx}
-				<Circle bind:config={configs[idx]} />
+				<Circle {...configs[idx]} bind:x={configs[idx].x} bind:y={configs[idx].y} />
 			{/each}
 		</Group>
 
-		<Rect config={{ x: 50, y: 50, width: 100, height: 100, fill: 'green', draggable: true }} />
+		<Rect x={50} y={50} width={100} height={100} fill="green" draggable />
 
-		<RegularPolygon
-			config={{ x: 400, y: 300, radius: 80, sides: 10, fill: 'purple', draggable: true }}
-		/>
+		<RegularPolygon x={400} y={300} radius={80} sides={10} fill="purple" draggable />
 
 		<!-- Position transformer and selection rectagle at the bottom of all components so they are always the topmost elements on the canvas -->
 		<Transformer bind:this={transformer} />
 		<!-- The selection rectangle -->
-		<Rect config={selectionRectangleConfig} bind:this={selectionRectangle} />
+		<Rect {...selectionRectangleConfig} bind:this={selectionRectangle} />
 	</Layer>
 </ResponsiveStage>

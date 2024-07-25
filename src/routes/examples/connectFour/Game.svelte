@@ -268,14 +268,7 @@
 
 	{#if isWon}
 		{#each winningTokenPositions as pos}
-			<Circle
-				config={{
-					x: pos.x,
-					y: pos.y,
-					fill: 'yellow',
-					radius: 20
-				}}
-			/>
+			<Circle x={pos.x} y={pos.y} fill="yellow" radius={20} />
 		{/each}
 	{/if}
 </GameGrid>

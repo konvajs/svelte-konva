@@ -158,4 +158,10 @@
 	}
 </script>
 
-<Circle bind:config ondragend={handleDragEnd} bind:this={token} />
+<Circle
+	{...config}
+	bind:x={config.x}
+	bind:y={config.y}
+	ondragend={handleDragEnd}
+	bind:this={token}
+/>

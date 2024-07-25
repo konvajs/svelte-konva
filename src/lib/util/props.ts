@@ -5,17 +5,9 @@ import { type KonvaEventHooks } from '$lib/util/events';
  * Shared props type used on all svelte-konva components
  */
 export type Props<Config> = {
-	config: Config;
 	staticConfig?: boolean;
-} & KonvaEventHooks;
-
-/**
- * Same as Props but with optional Config
- */
-export type PropsOptionalConfig<Config> = {
-	config?: Config;
-	staticConfig?: boolean;
-} & KonvaEventHooks;
+} & KonvaEventHooks &
+	Omit<Config, 'rotationDeg'>; // rotationDeg is deprecated by Konva
 
 /**
  * Props extension for konva container types which can hold more konva nodes

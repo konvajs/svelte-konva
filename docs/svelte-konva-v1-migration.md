@@ -88,3 +88,7 @@ The stage `handle` needs special treatment, as it only becomes defined once the 
 ## Svelte runes-only mode
 
 svelte-konva is now fully compatible with Svelte's runes-only compile mode which means it will work out of the box for runes-only projects. It will also continue to work for all projects without runes-only mode enabled.
+
+## Changes to `config` prop reactivity
+
+TBD
