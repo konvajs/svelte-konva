@@ -19,9 +19,7 @@ import ContainerContext from './wrappers/ContainerContext.test.svelte';
 test('throws an error if not placed inside a Container (Layer, Group, Label) component', () => {
 	expect(() => {
 		render(Label, {
-			props: {
-				config: {}
-			}
+			props: {}
 		});
 	}).toThrow(CONTAINER_ERROR);
 
@@ -40,9 +38,7 @@ test('is correctly added to the parent Layer', () => {
 	const mockContext = createMockParentContext(Container.Layer);
 	const rendered = render(Label, {
 		context: mockContext,
-		props: {
-			config: {}
-		}
+		props: {}
 	});
 
 	const parent: Konva.Container = get(mockContext.get(CONTAINER_COMPONENT_KEYS[Container.Layer])!);
@@ -60,9 +56,7 @@ test('is correctly added to the parent Group', () => {
 	const mockContext = createMockParentContext(Container.Group);
 	const rendered = render(Label, {
 		context: mockContext,
-		props: {
-			config: {}
-		}
+		props: {}
 	});
 
 	const parent: Konva.Container = get(mockContext.get(CONTAINER_COMPONENT_KEYS[Container.Group])!);
@@ -80,9 +74,7 @@ test('is correctly added to the parent Label', () => {
 	const mockContext = createMockParentContext(Container.Label);
 	const rendered = render(Label, {
 		context: mockContext,
-		props: {
-			config: {}
-		}
+		props: {}
 	});
 
 	const parent: Konva.Container = get(mockContext.get(CONTAINER_COMPONENT_KEYS[Container.Label])!);
@@ -101,7 +93,6 @@ test('Can listen to Konva events', () => {
 	const rendered = render(Label, {
 		context: createMockParentContext(Container.Layer),
 		props: {
-			config: {},
 			onmousedown: mockFn
 		}
 	});
@@ -221,9 +212,7 @@ test('Konva instance is correctly destroyed on component unmount', () => {
 	const mockContext = createMockParentContext(Container.Layer);
 	const rendered = render(Label, {
 		context: mockContext,
-		props: {
-			config: {}
-		}
+		props: {}
 	});
 
 	const parent: Konva.Container = get(mockContext.get(CONTAINER_COMPONENT_KEYS[Container.Layer])!);
@@ -235,8 +224,6 @@ test('Konva instance is correctly destroyed on component unmount', () => {
 	}
 
 	rendered.unmount();
-
-	const handle = rendered.component.handle;
 
 	expect(parent.children).toBeTruthy();
 

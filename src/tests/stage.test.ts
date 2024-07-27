@@ -17,9 +17,12 @@ import ContainerContext from './wrappers/ContainerContext.test.svelte';
 
 test('creates a div container and forwards rest props to div', () => {
 	const rendered = render(Stage, {
-		config: { width: 1000, height: 1000 },
-		id: 'container',
-		restProp: false
+		props: {
+			width: 1000,
+			height: 1000,
+			id: 'container',
+			restProp: false
+		}
 	});
 
 	const div = rendered.container.querySelector('#container');
@@ -32,8 +35,11 @@ test('creates a div container and forwards rest props to div', () => {
 
 test('creates a Konva canvas instance inside of the div', () => {
 	const rendered = render(Stage, {
-		config: { width: 1000, height: 1000 },
-		id: 'container'
+		props: {
+			width: 1000,
+			height: 1000,
+			id: 'container'
+		}
 	});
 
 	const div = rendered.container.querySelector('#container');
@@ -53,8 +59,10 @@ test('creates a konva stage instance and passes config prop', () => {
 	const CONFIG = { width: 1000, height: 1000 };
 
 	const rendered = render(Stage, {
-		config: CONFIG,
-		id: 'container'
+		props: {
+			...CONFIG,
+			id: 'container'
+		}
 	});
 
 	const handle = rendered.component.handle();
@@ -70,7 +78,8 @@ test('Can listen to Konva events', () => {
 	const mockFn = vi.fn();
 
 	const rendered = render(Stage, {
-		config: { width: 1000, height: 1000 },
+		width: 1000,
+		height: 1000,
 		onmousedown: mockFn
 	});
 
@@ -134,7 +143,8 @@ test('sets the correct context', () => {
 	render(ContainerContext, {
 		props: {
 			component: Stage,
-			config: { width: 1000, height: 1000 },
+			width: 1000,
+			height: 1000,
 			getHandle: (hnd) => (handle = hnd()),
 			getComponentContext: (ctxMap) => (childContext = ctxMap)
 		}
@@ -149,7 +159,8 @@ test('nulls unused context', () => {
 	render(ContainerContext, {
 		props: {
 			component: Stage,
-			config: { width: 1000, height: 1000 },
+			width: 1000,
+			height: 1000,
 			getComponentContext: (ctxMap) => (childContext = ctxMap)
 		}
 	});
@@ -167,7 +178,10 @@ test('Konva instance is correctly destroyed on component unmount', () => {
 	const previousStageCount = Konva.stages.length;
 
 	const rendered = render(Stage, {
-		config: { width: 1000, height: 1000 }
+		props: {
+			width: 1000,
+			height: 1000
+		}
 	});
 
 	expect(Konva.stages.length).toBe(previousStageCount + 1);

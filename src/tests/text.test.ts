@@ -21,9 +21,7 @@ import ConfigBinding from './wrappers/ConfigBinding.test.svelte';
 test('throws an error if not placed inside a Container (Layer, Group, Label) component', () => {
 	expect(() => {
 		render(Text, {
-			props: {
-				config: { x: 0, fontSize: 100, text: 'some text', fill: 'black' }
-			}
+			props: { x: 0, y: 0, fontSize: 100, text: 'some text', fill: 'black' }
 		});
 	}).toThrow(CONTAINER_ERROR);
 
@@ -31,9 +29,7 @@ test('throws an error if not placed inside a Container (Layer, Group, Label) com
 	expect(() => {
 		render(Text, {
 			context: createMockParentContext(Container.Stage, div),
-			props: {
-				config: { x: 0, fontSize: 100, text: 'some text', fill: 'black' }
-			}
+			props: { x: 0, y: 0, fontSize: 100, text: 'some text', fill: 'black' }
 		});
 	}).toThrow(CONTAINER_ERROR);
 });
@@ -42,9 +38,7 @@ test('is correctly added to the parent Layer', () => {
 	const mockContext = createMockParentContext(Container.Layer);
 	const rendered = render(Text, {
 		context: mockContext,
-		props: {
-			config: { x: 0, fontSize: 100, text: 'some text', fill: 'black' }
-		}
+		props: { x: 0, y: 0, fontSize: 100, text: 'some text', fill: 'black' }
 	});
 
 	const parent: Konva.Container = get(mockContext.get(CONTAINER_COMPONENT_KEYS[Container.Layer])!);
@@ -62,9 +56,7 @@ test('is correctly added to the parent Group', () => {
 	const mockContext = createMockParentContext(Container.Group);
 	const rendered = render(Text, {
 		context: mockContext,
-		props: {
-			config: { x: 0, fontSize: 100, text: 'some text', fill: 'black' }
-		}
+		props: { x: 0, y: 0, fontSize: 100, text: 'some text', fill: 'black' }
 	});
 
 	const parent: Konva.Container = get(mockContext.get(CONTAINER_COMPONENT_KEYS[Container.Group])!);
@@ -82,9 +74,7 @@ test('is correctly added to the parent Label', () => {
 	const mockContext = createMockParentContext(Container.Label);
 	const rendered = render(Text, {
 		context: mockContext,
-		props: {
-			config: { x: 0, fontSize: 100, text: 'some text', fill: 'black' }
-		}
+		props: { x: 0, y: 0, fontSize: 100, text: 'some text', fill: 'black' }
 	});
 
 	const parent: Konva.Container = get(mockContext.get(CONTAINER_COMPONENT_KEYS[Container.Label])!);
@@ -103,7 +93,7 @@ test('Can listen to Konva events', () => {
 	const rendered = render(Text, {
 		context: createMockParentContext(Container.Layer),
 		props: {
-			config: { x: 0, fontSize: 100, text: 'some text', fill: 'black' },
+			...{ x: 0, y: 0, fontSize: 100, text: 'some text', fill: 'black' },
 			onmousedown: mockFn
 		}
 	});
@@ -121,16 +111,19 @@ test('Can listen to Konva events', () => {
 });
 
 test('Correctly updates bound config on dragend', () => {
-	const rawConfig = { x: 0, fontSize: 100, text: 'some text', fill: 'black' };
+	const rawConfig = { x: 0, y: 0, fontSize: 100, text: 'some text', fill: 'black' };
 	const CONFIG = { ...rawConfig, draggable: true };
-	const configWritable = writable(CONFIG);
+	const xWritable = writable(CONFIG.x);
+	const yWritable = writable(CONFIG.y);
 	let handle: Konva.Text | null = null;
 
 	render(ConfigBinding, {
 		context: createMockParentContext(Container.Layer),
 		props: {
 			component: Text,
-			boundConfigWritable: configWritable,
+			...CONFIG,
+			x: xWritable,
+			y: yWritable,
 			getHandle: (hnd) => (handle = hnd)
 		}
 	});
@@ -144,23 +137,25 @@ test('Correctly updates bound config on dragend', () => {
 	(stage as MockStage).simulateMouseMove({ x: 100, y: 100 });
 	(stage as MockStage).simulateMouseUp({ x: 100, y: 100 });
 
-	const config = get(configWritable);
-
-	expect(config).toStrictEqual({ ...CONFIG, x: 50 });
+	expect(get(xWritable)).toEqual(50);
+	expect(get(yWritable)).toEqual(50);
 });
 
 test('Does not update config if instantiated with staticConfig prop', () => {
-	const rawConfig = { x: 0, fontSize: 100, text: 'some text', fill: 'black' };
+	const rawConfig = { x: 0, y: 0, fontSize: 100, text: 'some text', fill: 'black' };
 	const CONFIG = { ...rawConfig, draggable: true };
 	const oldConfig = { ...CONFIG };
-	const configWritable = writable(CONFIG);
+	const xWritable = writable(CONFIG.x);
+	const yWritable = writable(CONFIG.y);
 	let handle: Konva.Text | null = null;
 
 	render(ConfigBinding, {
 		context: createMockParentContext(Container.Layer),
 		props: {
 			component: Text,
-			boundConfigWritable: configWritable,
+			...CONFIG,
+			x: xWritable,
+			y: yWritable,
 			getHandle: (hnd) => (handle = hnd),
 			staticConfig: true
 		}
@@ -175,18 +170,15 @@ test('Does not update config if instantiated with staticConfig prop', () => {
 	(stage as MockStage).simulateMouseMove({ x: 100, y: 100 });
 	(stage as MockStage).simulateMouseUp({ x: 100, y: 100 });
 
-	const config = get(configWritable);
-
-	expect(config).toStrictEqual(oldConfig);
+	expect(get(xWritable)).toEqual(oldConfig.x);
+	expect(get(yWritable)).toEqual(oldConfig.y);
 });
 
 test('Konva instance is correctly destroyed on component unmount', () => {
 	const mockContext = createMockParentContext(Container.Layer);
 	const rendered = render(Text, {
 		context: mockContext,
-		props: {
-			config: { x: 0, fontSize: 100, text: 'some text', fill: 'black' }
-		}
+		props: { x: 0, y: 0, fontSize: 100, text: 'some text', fill: 'black' }
 	});
 
 	const parent: Konva.Container = get(mockContext.get(CONTAINER_COMPONENT_KEYS[Container.Layer])!);

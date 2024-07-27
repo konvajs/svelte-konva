@@ -26,13 +26,11 @@ test('throws an error if not placed inside a Container (Layer, Group, Label) com
 	expect(() => {
 		render(Sprite, {
 			props: {
-				config: {
-					image: spriteImage,
-					animation: 'default',
-					animations: { default: [0, 0, 50, 100, 50, 0, 50, 100] },
-					frameRate: 7,
-					frameIndex: 0
-				}
+				image: spriteImage,
+				animation: 'default',
+				animations: { default: [0, 0, 50, 100, 50, 0, 50, 100] },
+				frameRate: 7,
+				frameIndex: 0
 			}
 		});
 	}).toThrow(CONTAINER_ERROR);
@@ -42,13 +40,11 @@ test('throws an error if not placed inside a Container (Layer, Group, Label) com
 		render(Sprite, {
 			context: createMockParentContext(Container.Stage, div),
 			props: {
-				config: {
-					image: spriteImage,
-					animation: 'default',
-					animations: { default: [0, 0, 50, 100, 50, 0, 50, 100] },
-					frameRate: 7,
-					frameIndex: 0
-				}
+				image: spriteImage,
+				animation: 'default',
+				animations: { default: [0, 0, 50, 100, 50, 0, 50, 100] },
+				frameRate: 7,
+				frameIndex: 0
 			}
 		});
 	}).toThrow(CONTAINER_ERROR);
@@ -61,13 +57,11 @@ test('is correctly added to the parent Layer', async () => {
 	const rendered = render(Sprite, {
 		context: mockContext,
 		props: {
-			config: {
-				image: spriteImage,
-				animation: 'default',
-				animations: { default: [0, 0, 50, 100, 50, 0, 50, 100] },
-				frameRate: 7,
-				frameIndex: 0
-			}
+			image: spriteImage,
+			animation: 'default',
+			animations: { default: [0, 0, 50, 100, 50, 0, 50, 100] },
+			frameRate: 7,
+			frameIndex: 0
 		}
 	});
 
@@ -89,13 +83,11 @@ test('is correctly added to the parent Group', async () => {
 	const rendered = render(Sprite, {
 		context: mockContext,
 		props: {
-			config: {
-				image: spriteImage,
-				animation: 'default',
-				animations: { default: [0, 0, 50, 100, 50, 0, 50, 100] },
-				frameRate: 7,
-				frameIndex: 0
-			}
+			image: spriteImage,
+			animation: 'default',
+			animations: { default: [0, 0, 50, 100, 50, 0, 50, 100] },
+			frameRate: 7,
+			frameIndex: 0
 		}
 	});
 
@@ -117,13 +109,11 @@ test('is correctly added to the parent Label', async () => {
 	const rendered = render(Sprite, {
 		context: mockContext,
 		props: {
-			config: {
-				image: spriteImage,
-				animation: 'default',
-				animations: { default: [0, 0, 50, 100, 50, 0, 50, 100] },
-				frameRate: 7,
-				frameIndex: 0
-			}
+			image: spriteImage,
+			animation: 'default',
+			animations: { default: [0, 0, 50, 100, 50, 0, 50, 100] },
+			frameRate: 7,
+			frameIndex: 0
 		}
 	});
 
@@ -145,13 +135,11 @@ test('Can listen to Konva events', async () => {
 	const rendered = render(Sprite, {
 		context: createMockParentContext(Container.Layer),
 		props: {
-			config: {
-				image: spriteImage,
-				animation: 'default',
-				animations: { default: [0, 0, 50, 100, 50, 0, 50, 100] },
-				frameRate: 7,
-				frameIndex: 0
-			},
+			image: spriteImage,
+			animation: 'default',
+			animations: { default: [0, 0, 50, 100, 50, 0, 50, 100] },
+			frameRate: 7,
+			frameIndex: 0,
 			onmousedown: mockFn
 		}
 	});
@@ -253,13 +241,11 @@ test('Konva instance is correctly destroyed on component unmount', async () => {
 	const rendered = render(Sprite, {
 		context: mockContext,
 		props: {
-			config: {
-				image: spriteImage,
-				animation: 'default',
-				animations: { default: [0, 0, 50, 100, 50, 0, 50, 100] },
-				frameRate: 7,
-				frameIndex: 0
-			}
+			image: spriteImage,
+			animation: 'default',
+			animations: { default: [0, 0, 50, 100, 50, 0, 50, 100] },
+			frameRate: 7,
+			frameIndex: 0
 		}
 	});
 
@@ -272,8 +258,6 @@ test('Konva instance is correctly destroyed on component unmount', async () => {
 	}
 
 	rendered.unmount();
-
-	const handle = rendered.component.handle;
 
 	expect(parent.children).toBeTruthy();
 

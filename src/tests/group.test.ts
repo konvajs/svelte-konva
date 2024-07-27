@@ -32,9 +32,7 @@ test('passes the config prop', () => {
 
 	const rendered = render(Group, {
 		context: createMockParentContext(Container.Layer),
-		props: {
-			config: CONFIG
-		}
+		props: CONFIG
 	});
 
 	const handle = rendered.component.handle;

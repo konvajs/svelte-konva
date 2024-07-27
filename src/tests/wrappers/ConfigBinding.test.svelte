@@ -8,12 +8,26 @@ Wraps the to be tested svelte-konva component so that the binding of the config 
 
 	const {
 		component,
-		boundConfigWritable,
 		getHandle,
-		staticConfig = false
+		staticConfig = false,
+		x,
+		y,
+		scale,
+		scaleX,
+		scaleY,
+		rotation,
+		skewX,
+		skewY
 	}: {
 		component: any;
-		boundConfigWritable: Writable<any>;
+		x: Writable<any>;
+		y: Writable<any>;
+		scale?: Writable<any>;
+		scaleX?: Writable<any>;
+		scaleY?: Writable<any>;
+		rotation?: Writable<any>;
+		skewX?: Writable<any>;
+		skewY?: Writable<any>;
 		getHandle: (handle: any) => void;
 		staticConfig?: boolean;
 	} = $props();
@@ -29,6 +43,13 @@ Wraps the to be tested svelte-konva component so that the binding of the config 
 <svelte:component
 	this={component}
 	bind:this={boundComponent}
-	bind:config={$boundConfigWritable}
+	bind:x={$x}
+	bind:y={$y}
+	bind:scale={$scale}
+	bind:scaleX={$scaleX}
+	bind:scaleY={$scaleY}
+	bind:rotation={$rotation}
+	bind:skewX={$skewX}
+	bind:skewY={$skewY}
 	{staticConfig}
 ></svelte:component>

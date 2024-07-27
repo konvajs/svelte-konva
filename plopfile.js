@@ -3,27 +3,27 @@ const COMPONENT_LIST = [
 	{
 		componentName: 'Circle',
 		example: '<Circle x={100} y={100} radius={50} fill="blue" />',
-		testConfig: '{ x: 0, radius: 100 }'
+		testConfig: '{ x: 0, y: 0, radius: 100 }'
 	},
 	{
 		componentName: 'Rect',
 		example: '<Rect x={100} y={100} width={100} height={100} fill="blue" />',
-		testConfig: '{ x: 0, width: 100, height: 100 }'
+		testConfig: '{ x: 0, y: 0, width: 100, height: 100 }'
 	},
 	{
 		componentName: 'Ellipse',
 		example: '<Ellipse x={100} y={100} radiusX={50} radiusY={25} fill="blue"/>',
-		testConfig: '{ x: 0, radiusX: 120, radiusY: 70 }'
+		testConfig: '{ x: 0, y: 0, radiusX: 120, radiusY: 70 }'
 	},
 	{
 		componentName: 'Wedge',
 		example: '<Wedge x={100} y={100} radius={100} angle={120} fill="blue" />',
-		testConfig: '{ x: 0, radius: 100, angle: 300 }'
+		testConfig: '{ x: 0, y: 0, radius: 100, angle: 300 }'
 	},
 	{
 		componentName: 'Line',
 		example: '<Line points={[0, 0, 60, 30, 300, 90, 30, 100]} stroke="blue" strokeWidth={10} />',
-		testConfig: "{ x: 0, points: [0, 0, 100, 100], strokeWidth: 10, stroke: 'black' }"
+		testConfig: "{ x: 0, y: 0, points: [0, 0, 100, 100], strokeWidth: 10, stroke: 'black' }"
 	},
 	{
 		componentName: 'Sprite',
@@ -37,45 +37,45 @@ const COMPONENT_LIST = [
 	{
 		componentName: 'Text',
 		example: '<Text x={100} y={100} text="some text" fontSize={25} fill="blue" />',
-		testConfig: "{ x: 0, fontSize: 100, text: 'some text', fill: 'black' }"
+		testConfig: "{ x: 0, y: 0, fontSize: 100, text: 'some text', fill: 'black' }"
 	},
 	{
 		componentName: 'TextPath',
 		example:
 			'<TextPath x={100} y={100} fill="#333" text="some text" fontSize={25} data="M10 10 C0 0 10 150 100 100 S300 150 5.0.300" />',
-		testConfig: "{ x: 0, fontSize: 100, text: 'some text', data: 'M 1 60 H 168 Z' }"
+		testConfig: "{ x: 0, y: 0, fontSize: 100, text: 'some text', data: 'M 1 60 H 168 Z' }"
 	},
 	{
 		componentName: 'Star',
 		example: '<Star x={100} y={100} innerRadius={25} outerRadius={50} numPoints={5} fill="blue" />',
-		testConfig: '{ x: 0, innerRadius: 100, outerRadius: 200, numPoints: 5 }'
+		testConfig: '{ x: 0, y: 0, innerRadius: 100, outerRadius: 200, numPoints: 5 }'
 	},
 	{
 		componentName: 'Ring',
 		example: '<Ring x={100} y={100} innerRadius={25} outerRadius={50} fill="blue" />',
-		testConfig: '{ x: 0, innerRadius: 20, outerRadius: 100 }'
+		testConfig: '{ x: 0, y: 0, innerRadius: 20, outerRadius: 100 }'
 	},
 	{
 		componentName: 'Arc',
 		example: '<Arc x={100} y={100} innerRadius={25} outerRadius={50} angle={120} fill="blue" />',
-		testConfig: '{ x: 0, innerRadius: 20, outerRadius: 100, angle: 300 }'
+		testConfig: '{ x: 0, y: 0, innerRadius: 20, outerRadius: 100, angle: 300 }'
 	},
 	{
 		componentName: 'Path',
 		example:
 			'<Path x={100} y={100} width={100} height={100} fill="blue" data="M213.1,6.7c-32.4-14.4-73.7,0-88.1,30.6C110.6,4.9,67.5-9.5,36.9,6.7C2.8,22.9-13.4,62.4,13.5,110.9C33.3,145.1,67.5,170.3,125,217c59.3-46.7,93.5-71.9,111.5-106.1C263.4,64.2,247.2,22.9,213.1,6.7z" />',
-		testConfig: "{ x: 0, data: 'M 2 2 H 100 V 60 H 2 V 2 Z' }"
+		testConfig: "{ x: 0, y: 0, data: 'M 2 2 H 100 V 60 H 2 V 2 Z' }"
 	},
 	{
 		componentName: 'RegularPolygon',
 		example: '<RegularPolygon x={100} y={100} sides={7} radius={70} fill="blue" />',
-		testConfig: '{ x: 0, sides: 7, radius: 80 }'
+		testConfig: '{ x: 0, y: 0, sides: 7, radius: 80 }'
 	},
 	{
 		componentName: 'Arrow',
 		example:
 			'<Arrow x={100} y={100} points={[0, 0, 40, 40]} pointerLength={20} pointerWidth={20} fill="blue" stroke="blue" strokeWidth={6} />',
-		testConfig: "{ x: 0, points: [0, 0, 100, 100], strokeWidth: 10, stroke: 'black' }"
+		testConfig: "{ x: 0, y: 0, points: [0, 0, 100, 100], strokeWidth: 10, stroke: 'black' }"
 	},
 	{
 		componentName: 'Shape',
@@ -85,7 +85,7 @@ const COMPONENT_LIST = [
 		componentName: 'Tag',
 		example:
 			'<Tag x={10} y={20} fill="black" pointerDirection="down" pointerWidth={10} pointerHeight={10} lineJoin="round" />',
-		testConfig: "{ x: 0, pointerDirection: 'down', pointerWidth: 500, pointerHeight: 200 }"
+		testConfig: "{ x: 0, y: 0, pointerDirection: 'down', pointerWidth: 500, pointerHeight: 200 }"
 	}
 ];
 

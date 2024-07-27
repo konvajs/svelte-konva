@@ -8,14 +8,14 @@ Wraps the to be tested svelte-konva component so that the context of the svelte-
 
 	const {
 		component,
-		config,
 		getHandle,
-		getComponentContext
+		getComponentContext,
+		...restProps
 	}: {
 		component: any;
-		config?: any;
 		getHandle?: (handle: any) => void;
 		getComponentContext: (ctx: Map<string, any>) => void;
+		[key: string]: any;
 	} = $props();
 
 	let boundComponent: any;
@@ -26,6 +26,6 @@ Wraps the to be tested svelte-konva component so that the context of the svelte-
 	});
 </script>
 
-<svelte:component this={component} bind:this={boundComponent} {config}>
+<svelte:component this={component} bind:this={boundComponent} {...restProps}>
 	<ContextReporter {getComponentContext} />
 </svelte:component>

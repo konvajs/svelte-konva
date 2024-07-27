@@ -26,9 +26,7 @@ test('throws an error if not placed inside a Container (Layer, Group, Label) com
 	expect(() => {
 		render(KonvaImage, {
 			props: {
-				config: {
-					image: testImage
-				}
+				image: testImage
 			}
 		});
 	}).toThrow(CONTAINER_ERROR);
@@ -38,9 +36,7 @@ test('throws an error if not placed inside a Container (Layer, Group, Label) com
 		render(KonvaImage, {
 			context: createMockParentContext(Container.Stage, div),
 			props: {
-				config: {
-					image: testImage
-				}
+				image: testImage
 			}
 		});
 	}).toThrow(CONTAINER_ERROR);
@@ -53,9 +49,7 @@ test('is correctly added to the parent Layer', async () => {
 	const rendered = render(KonvaImage, {
 		context: mockContext,
 		props: {
-			config: {
-				image: testImage
-			}
+			image: testImage
 		}
 	});
 
@@ -77,9 +71,7 @@ test('is correctly added to the parent Group', async () => {
 	const rendered = render(KonvaImage, {
 		context: mockContext,
 		props: {
-			config: {
-				image: testImage
-			}
+			image: testImage
 		}
 	});
 
@@ -101,9 +93,7 @@ test('is correctly added to the parent Label', async () => {
 	const rendered = render(KonvaImage, {
 		context: mockContext,
 		props: {
-			config: {
-				image: testImage
-			}
+			image: testImage
 		}
 	});
 
@@ -125,9 +115,7 @@ test('Can listen to Konva events', async () => {
 	const rendered = render(KonvaImage, {
 		context: createMockParentContext(Container.Layer),
 		props: {
-			config: {
-				image: testImage
-			},
+			image: testImage,
 			onmousedown: mockFn
 		}
 	});
@@ -221,9 +209,7 @@ test('Konva instance is correctly destroyed on component unmount', async () => {
 	const rendered = render(KonvaImage, {
 		context: mockContext,
 		props: {
-			config: {
-				image: testImage
-			}
+			image: testImage
 		}
 	});
 

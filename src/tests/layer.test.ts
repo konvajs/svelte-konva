@@ -40,9 +40,7 @@ test('passes the config prop', () => {
 	const div = document.createElement('div');
 	const rendered = render(Layer, {
 		context: createMockParentContext(Container.Stage, div),
-		props: {
-			config: CONFIG
-		}
+		props: CONFIG
 	});
 
 	const handle = rendered.component.handle;

@@ -19,14 +19,12 @@ test('throws an error if not placed inside a Container (Layer, Group, Label) com
 	expect(() => {
 		render(Shape, {
 			props: {
-				config: {
-					width: 100,
-					height: 100,
-					sceneFunc: function (context: Konva.Context, shape: Konva.Shape) {
-						context.beginPath();
-						context.rect(0, 0, shape.getAttr('width'), shape.getAttr('height'));
-						context.fillStrokeShape(shape);
-					}
+				width: 100,
+				height: 100,
+				sceneFunc: function (context: Konva.Context, shape: Konva.Shape) {
+					context.beginPath();
+					context.rect(0, 0, shape.getAttr('width'), shape.getAttr('height'));
+					context.fillStrokeShape(shape);
 				}
 			}
 		});
@@ -37,14 +35,12 @@ test('throws an error if not placed inside a Container (Layer, Group, Label) com
 		render(Shape, {
 			context: createMockParentContext(Container.Stage, div),
 			props: {
-				config: {
-					width: 100,
-					height: 100,
-					sceneFunc: function (context: Konva.Context, shape: Konva.Shape) {
-						context.beginPath();
-						context.rect(0, 0, shape.getAttr('width'), shape.getAttr('height'));
-						context.fillStrokeShape(shape);
-					}
+				width: 100,
+				height: 100,
+				sceneFunc: function (context: Konva.Context, shape: Konva.Shape) {
+					context.beginPath();
+					context.rect(0, 0, shape.getAttr('width'), shape.getAttr('height'));
+					context.fillStrokeShape(shape);
 				}
 			}
 		});
@@ -56,14 +52,12 @@ test('is correctly added to the parent Layer', () => {
 	const rendered = render(Shape, {
 		context: mockContext,
 		props: {
-			config: {
-				width: 100,
-				height: 100,
-				sceneFunc: function (context: Konva.Context, shape: Konva.Shape) {
-					context.beginPath();
-					context.rect(0, 0, shape.getAttr('width'), shape.getAttr('height'));
-					context.fillStrokeShape(shape);
-				}
+			width: 100,
+			height: 100,
+			sceneFunc: function (context: Konva.Context, shape: Konva.Shape) {
+				context.beginPath();
+				context.rect(0, 0, shape.getAttr('width'), shape.getAttr('height'));
+				context.fillStrokeShape(shape);
 			}
 		}
 	});
@@ -84,14 +78,12 @@ test('is correctly added to the parent Group', () => {
 	const rendered = render(Shape, {
 		context: mockContext,
 		props: {
-			config: {
-				width: 100,
-				height: 100,
-				sceneFunc: function (context: Konva.Context, shape: Konva.Shape) {
-					context.beginPath();
-					context.rect(0, 0, shape.getAttr('width'), shape.getAttr('height'));
-					context.fillStrokeShape(shape);
-				}
+			width: 100,
+			height: 100,
+			sceneFunc: function (context: Konva.Context, shape: Konva.Shape) {
+				context.beginPath();
+				context.rect(0, 0, shape.getAttr('width'), shape.getAttr('height'));
+				context.fillStrokeShape(shape);
 			}
 		}
 	});
@@ -112,14 +104,12 @@ test('is correctly added to the parent Label', () => {
 	const rendered = render(Shape, {
 		context: mockContext,
 		props: {
-			config: {
-				width: 100,
-				height: 100,
-				sceneFunc: function (context: Konva.Context, shape: Konva.Shape) {
-					context.beginPath();
-					context.rect(0, 0, shape.getAttr('width'), shape.getAttr('height'));
-					context.fillStrokeShape(shape);
-				}
+			width: 100,
+			height: 100,
+			sceneFunc: function (context: Konva.Context, shape: Konva.Shape) {
+				context.beginPath();
+				context.rect(0, 0, shape.getAttr('width'), shape.getAttr('height'));
+				context.fillStrokeShape(shape);
 			}
 		}
 	});
@@ -140,14 +130,12 @@ test('Can listen to Konva events', () => {
 	const rendered = render(Shape, {
 		context: createMockParentContext(Container.Layer),
 		props: {
-			config: {
-				width: 100,
-				height: 100,
-				sceneFunc: function (context: Konva.Context, shape: Konva.Shape) {
-					context.beginPath();
-					context.rect(0, 0, shape.getAttr('width'), shape.getAttr('height'));
-					context.fillStrokeShape(shape);
-				}
+			width: 100,
+			height: 100,
+			sceneFunc: function (context: Konva.Context, shape: Konva.Shape) {
+				context.beginPath();
+				context.rect(0, 0, shape.getAttr('width'), shape.getAttr('height'));
+				context.fillStrokeShape(shape);
 			},
 			onmousedown: mockFn
 		}
@@ -248,14 +236,12 @@ test('Konva instance is correctly destroyed on component unmount', () => {
 	const rendered = render(Shape, {
 		context: mockContext,
 		props: {
-			config: {
-				width: 100,
-				height: 100,
-				sceneFunc: function (context: Konva.Context, shape: Konva.Shape) {
-					context.beginPath();
-					context.rect(0, 0, shape.getAttr('width'), shape.getAttr('height'));
-					context.fillStrokeShape(shape);
-				}
+			width: 100,
+			height: 100,
+			sceneFunc: function (context: Konva.Context, shape: Konva.Shape) {
+				context.beginPath();
+				context.rect(0, 0, shape.getAttr('width'), shape.getAttr('height'));
+				context.fillStrokeShape(shape);
 			}
 		}
 	});
