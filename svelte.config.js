@@ -11,6 +11,12 @@ const config = {
 		})
 	],
 
+	vitePlugin: {
+		dynamicCompileOptions({ filename }) {
+			if (filename.includes('node_modules')) return { runes: false }; // Do not opt-in for runes only mode on deps
+		}
+	},
+
 	kit: {
 		adapter: adapter({
 			pages: 'build',
@@ -20,6 +26,10 @@ const config = {
 		alias: {
 			'svelte-konva': 'src/lib'
 		}
+	},
+
+	compilerOptions: {
+		runes: true
 	}
 };
 
