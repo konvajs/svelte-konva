@@ -11,9 +11,8 @@
 	import RegularPolygon from 'svelte-konva/RegularPolygon.svelte';
 	import Transformer from 'svelte-konva/Transformer.svelte';
 	import Rect from 'svelte-konva/Rect.svelte';
-	import { untrack } from 'svelte';
 
-	let stage: Stage | undefined;
+	let stage: Stage | undefined = $state();
 	let layer: Layer | undefined;
 	let transformer: Transformer | undefined;
 	let selectionRectangle: Rect | undefined;
@@ -161,7 +160,7 @@
 	<Layer bind:this={layer}>
 		<Group draggable>
 			{#each configs as _, idx}
-				<Circle {...configs[idx]} bind:x={configs[idx].x} bind:y={configs[idx].y} />
+				<Circle {...configs[idx]} />
 			{/each}
 		</Group>
 
