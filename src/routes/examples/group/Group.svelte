@@ -32,8 +32,7 @@
 	<Layer>
 		<Group draggable>
 			{#each configs as _, idx}
-				<Circle {...configs[idx]} bind:x={configs[idx].x} bind:y={configs[idx].y} />
-				<!-- TODO: Binding here seems like a bug. X and y coordinates never change if group is dragged. Make sure this is not a side effect of svelte 5 update -->
+				<Circle {...configs[idx]} />
 			{/each}
 		</Group>
 	</Layer>
