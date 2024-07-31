@@ -43,8 +43,6 @@
 		gameScale.set(size / GAME_BASE_SIZE);
 		stageConfig.scaleX = $gameScale;
 		stageConfig.scaleY = $gameScale;
-
-		console.log('change game width', stageConfig.width);
 	}
 
 	onMount(() => {
@@ -59,8 +57,6 @@
 
 		adjustScaleAndSize();
 	});
-
-	$inspect(stageConfig);
 </script>
 
 <div

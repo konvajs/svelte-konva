@@ -28,69 +28,10 @@ Further information: [Konva API docs](https://konvajs.org/api/Konva.Stage.html),
 	let {
 		children,
 		staticConfig = false,
-		onclick,
-		ondblclick,
-		ondbltap,
-		ondragend,
-		ondragmove,
-		ondragstart,
-		onmousedown,
-		onmouseenter,
-		onmouseleave,
-		onmousemove,
-		onmouseout,
-		onmouseover,
-		onmouseup,
-		onpointercancel,
-		onpointerclick,
-		onpointerdblclick,
-		onpointerdown,
-		onpointerenter,
-		onpointerleave,
-		onpointermove,
-		onpointerout,
-		onpointerover,
-		onpointerup,
-		ontap,
-		ontouchend,
-		ontouchmove,
-		ontouchstart,
-		ontransform,
-		ontransformend,
-		ontransformstart,
-		onwheel,
 		x = $bindable(),
 		y = $bindable(),
-		scale,
-		scaleX,
-		scaleY,
-		rotation,
-		skewX,
-		skewY,
-		width,
-		visible,
-		preventDefault,
-		opacity,
-		offsetY,
-		offsetX,
-		offset,
-		name,
-		listening,
-		id,
-		height,
-		globalCompositeOperation,
-		filters,
-		draggable,
-		dragDistance,
-		dragBoundFunc,
-		clipY,
-		clipX,
-		clipWidth,
-		clipHeight,
-		clearBeforeDraw,
-		clipFunc,
 		// Props forwarded to wrapper div:
-		divWrapperId,
+		divWrapperProps,
 		...restProps
 	}: Props<Konva.ContainerConfig> & PropsContainer & PropsStage = $props();
 
@@ -110,34 +51,7 @@ Further information: [Konva API docs](https://konvajs.org/api/Konva.Stage.html),
 			container: stage,
 			y,
 			x,
-			width,
-			visible,
-			skewY,
-			skewX,
-			scaleY,
-			scaleX,
-			scale,
-			rotation,
-			preventDefault,
-			opacity,
-			offsetY,
-			offsetX,
-			offset,
-			name,
-			listening,
-			id,
-			height,
-			globalCompositeOperation,
-			filters,
-			draggable,
-			dragDistance,
-			dragBoundFunc,
-			clipY,
-			clipX,
-			clipWidth,
-			clipHeight,
-			clearBeforeDraw,
-			clipFunc
+			...restProps
 		});
 
 		if (!staticConfig) {
@@ -149,133 +63,23 @@ Further information: [Konva API docs](https://konvajs.org/api/Konva.Stage.html),
 			});
 		}
 
+		Object.keys(restProps)
+			.filter((e) => !e.startsWith('on')) // Do not register svelte-konva event hooks as node attributes (Currently no konva config property starts with "on" so this is the fastest and most inexpensive way to filter out the event hooks from the provided props)
+			.forEach((e) => {
+				$effect(() => {
+					_handle!.setAttr(e, restProps[e]);
+				});
+			});
+
+		// Register explicit props (not included in restProps)
 		$effect(() => {
 			_handle!.setAttr('x', x);
 		});
 		$effect(() => {
 			_handle!.setAttr('y', y);
 		});
-		$effect(() => {
-			_handle!.setAttr('width', width);
-		});
-		$effect(() => {
-			_handle!.setAttr('visible', visible);
-		});
-		$effect(() => {
-			_handle!.setAttr('skewY', skewY);
-		});
-		$effect(() => {
-			_handle!.setAttr('skewX', skewX);
-		});
-		$effect(() => {
-			_handle!.setAttr('scaleY', scaleY);
-		});
-		$effect(() => {
-			_handle!.setAttr('scaleX', scaleX);
-		});
-		$effect(() => {
-			_handle!.setAttr('scale', scale);
-		});
-		$effect(() => {
-			_handle!.setAttr('rotation', rotation);
-		});
-		$effect(() => {
-			_handle!.setAttr('preventDefault', preventDefault);
-		});
-		$effect(() => {
-			_handle!.setAttr('opacity', opacity);
-		});
-		$effect(() => {
-			_handle!.setAttr('offsetY', offsetY);
-		});
-		$effect(() => {
-			_handle!.setAttr('offsetX', offsetX);
-		});
-		$effect(() => {
-			_handle!.setAttr('offset', offset);
-		});
-		$effect(() => {
-			_handle!.setAttr('name', name);
-		});
-		$effect(() => {
-			_handle!.setAttr('listening', listening);
-		});
-		$effect(() => {
-			_handle!.setAttr('id', id);
-		});
-		$effect(() => {
-			_handle!.setAttr('height', height);
-		});
-		$effect(() => {
-			_handle!.setAttr('globalCompositeOperation', globalCompositeOperation);
-		});
-		$effect(() => {
-			_handle!.setAttr('filters', filters);
-		});
-		$effect(() => {
-			_handle!.setAttr('draggable', draggable);
-		});
-		$effect(() => {
-			_handle!.setAttr('dragDistance', dragDistance);
-		});
-		$effect(() => {
-			_handle!.setAttr('dragBoundFunc', dragBoundFunc);
-		});
-		$effect(() => {
-			_handle!.setAttr('clipY', clipY);
-		});
-		$effect(() => {
-			_handle!.setAttr('clipX', clipX);
-		});
-		$effect(() => {
-			_handle!.setAttr('clipWidth', clipWidth);
-		});
-		$effect(() => {
-			_handle!.setAttr('clipHeight', clipHeight);
-		});
-		$effect(() => {
-			_handle!.setAttr('clearBeforeDraw', clearBeforeDraw);
-		});
-		$effect(() => {
-			_handle!.setAttr('clipFunc', clipFunc);
-		});
 
-		registerEvents(
-			{
-				onclick,
-				ondblclick,
-				ondbltap,
-				ondragend,
-				ondragmove,
-				ondragstart,
-				onmousedown,
-				onmouseenter,
-				onmouseleave,
-				onmousemove,
-				onmouseout,
-				onmouseover,
-				onmouseup,
-				onpointercancel,
-				onpointerclick,
-				onpointerdblclick,
-				onpointerdown,
-				onpointerenter,
-				onpointerleave,
-				onpointermove,
-				onpointerout,
-				onpointerover,
-				onpointerup,
-				ontap,
-				ontouchend,
-				ontouchmove,
-				ontouchstart,
-				ontransform,
-				ontransformend,
-				ontransformstart,
-				onwheel
-			},
-			_handle
-		);
+		registerEvents(restProps, _handle);
 
 		inner.set(_handle);
 		isReady = true;
@@ -288,9 +92,11 @@ Further information: [Konva API docs](https://konvajs.org/api/Konva.Stage.html),
 	});
 
 	setContainerContext(Container.Stage, inner);
+
+	HTMLDivElement;
 </script>
 
-<div bind:this={stage} {...restProps} id={divWrapperId}>
+<div bind:this={stage} {...divWrapperProps}>
 	{#if isReady && children}
 		{@render children()}
 	{/if}

@@ -40,8 +40,6 @@
 		let scale = config.width / STAGE_BASE_WIDTH;
 		config.scaleX = scale;
 		config.scaleY = scale;
-
-		console.log('new width', config.width);
 	}
 
 	onMount(() => {
@@ -54,7 +52,7 @@
 <div bind:this={container} style="max-height: 70vh;">
 	<Stage
 		{...config}
-		style="border: solid grey 5px;"
+		divWrapperProps={{ style: 'border: solid grey 5px;' }}
 		bind:this={stage}
 		{onpointerdblclick}
 		{onpointerdown}

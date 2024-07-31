@@ -15,13 +15,15 @@ import type { MockStage } from './mocks/mouse';
 import ConfigBindingStage from './wrappers/ConfigBindingStage.test.svelte';
 import ContainerContext from './wrappers/ContainerContext.test.svelte';
 
-test('creates a div container and forwards rest props to div', () => {
+test('creates a div container and forwards divWrapperProps props to div', () => {
 	const rendered = render(Stage, {
 		props: {
 			width: 1000,
 			height: 1000,
-			divWrapperId: 'container',
-			restProp: false
+			divWrapperProps: {
+				id: 'container',
+				someProp: false
+			}
 		}
 	});
 
@@ -30,7 +32,7 @@ test('creates a div container and forwards rest props to div', () => {
 
 	expect(div).toBeInstanceOf(HTMLDivElement);
 
-	if (div) expect(div.getAttribute('restProp')).toBe('false');
+	if (div) expect(div.getAttribute('someProp')).toBe('false');
 });
 
 test('creates a Konva canvas instance inside of the div', () => {
@@ -38,7 +40,9 @@ test('creates a Konva canvas instance inside of the div', () => {
 		props: {
 			width: 1000,
 			height: 1000,
-			divWrapperId: 'container'
+			divWrapperProps: {
+				id: 'container'
+			}
 		}
 	});
 
