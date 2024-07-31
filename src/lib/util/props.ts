@@ -20,7 +20,7 @@ export type PropsContainer = {
  * Special props extension for svelte-konva Stage (Forwards rest props to canvas div container)
  */
 export type PropsStage = {
-	divWrapperProps: {
+	divWrapperProps?: {
 		[key: string]: any; // Everything in this object is forwarded to the wrapper div
 	};
 };
