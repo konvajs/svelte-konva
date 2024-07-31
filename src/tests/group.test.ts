@@ -116,15 +116,18 @@ test('Can listen to Konva events', () => {
 });
 
 test('Correctly updates bound config on dragend', () => {
-	const CONFIG = { x: 0, draggable: true };
-	const configWritable = writable(CONFIG);
+	const CONFIG = { x: 0, y: 0, draggable: true };
+	const xWritable = writable(CONFIG.x);
+	const yWritable = writable(CONFIG.y);
 	let handle: Konva.Group | null = null;
 
 	render(ConfigBinding, {
 		context: createMockParentContext(Container.Layer),
 		props: {
 			component: Group,
-			boundConfigWritable: configWritable,
+			...CONFIG,
+			x: xWritable,
+			y: yWritable,
 			getHandle: (hnd) => (handle = hnd)
 		}
 	});
@@ -140,22 +143,24 @@ test('Correctly updates bound config on dragend', () => {
 	(stage as MockStage).simulateMouseMove({ x: 100, y: 100 });
 	(stage as MockStage).simulateMouseUp({ x: 100, y: 100 });
 
-	const config = get(configWritable);
-
-	expect(config).toStrictEqual({ ...CONFIG, x: 50 });
+	expect(get(xWritable)).toEqual(50);
+	expect(get(yWritable)).toEqual(50);
 });
 
 test('Does not update config if instantiated with staticConfig prop', () => {
-	const CONFIG = { x: 0, draggable: true };
+	const CONFIG = { x: 0, y: 0, draggable: true };
 	const oldConfig = { ...CONFIG };
-	const configWritable = writable(CONFIG);
+	const xWritable = writable(CONFIG.x);
+	const yWritable = writable(CONFIG.y);
 	let handle: Konva.Group | null = null;
 
 	render(ConfigBinding, {
 		context: createMockParentContext(Container.Layer),
 		props: {
 			component: Group,
-			boundConfigWritable: configWritable,
+			...CONFIG,
+			x: xWritable,
+			y: yWritable,
 			getHandle: (hnd) => (handle = hnd),
 			staticConfig: true
 		}
@@ -172,9 +177,8 @@ test('Does not update config if instantiated with staticConfig prop', () => {
 	(stage as MockStage).simulateMouseMove({ x: 100, y: 100 });
 	(stage as MockStage).simulateMouseUp({ x: 100, y: 100 });
 
-	const config = get(configWritable);
-
-	expect(config).toStrictEqual(oldConfig);
+	expect(get(xWritable)).toEqual(oldConfig.x);
+	expect(get(yWritable)).toEqual(oldConfig.y);
 });
 
 test('sets the correct context', () => {

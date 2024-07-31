@@ -137,17 +137,21 @@ test('Correctly updates bound config on dragend', async () => {
 
 	const CONFIG = {
 		x: 0,
+		y: 0,
 		image: testImage,
 		draggable: true
 	};
-	const configWritable = writable(CONFIG);
+	const xWritable = writable(CONFIG.x);
+	const yWritable = writable(CONFIG.y);
 	let handle: Konva.Image | null = null;
 
 	render(ConfigBinding, {
 		context: createMockParentContext(Container.Layer),
 		props: {
 			component: KonvaImage,
-			boundConfigWritable: configWritable,
+			...CONFIG,
+			x: xWritable,
+			y: yWritable,
 			getHandle: (hnd) => (handle = hnd)
 		}
 	});
@@ -161,9 +165,8 @@ test('Correctly updates bound config on dragend', async () => {
 	(stage as MockStage).simulateMouseMove({ x: 100, y: 100 });
 	(stage as MockStage).simulateMouseUp({ x: 100, y: 100 });
 
-	const config = get(configWritable);
-
-	expect(config).toStrictEqual({ ...CONFIG, x: 50 });
+	expect(get(xWritable)).toEqual(50);
+	expect(get(yWritable)).toEqual(50);
 });
 
 test('Does not update config if instantiated with staticConfig prop', async () => {
@@ -171,18 +174,22 @@ test('Does not update config if instantiated with staticConfig prop', async () =
 
 	const CONFIG = {
 		x: 0,
+		y: 0,
 		image: testImage,
 		draggable: true
 	};
 	const oldConfig = { ...CONFIG };
-	const configWritable = writable(CONFIG);
+	const xWritable = writable(CONFIG.x);
+	const yWritable = writable(CONFIG.y);
 	let handle: Konva.Image | null = null;
 
 	render(ConfigBinding, {
 		context: createMockParentContext(Container.Layer),
 		props: {
 			component: KonvaImage,
-			boundConfigWritable: configWritable,
+			...CONFIG,
+			x: xWritable,
+			y: yWritable,
 			getHandle: (hnd) => (handle = hnd),
 			staticConfig: true
 		}
@@ -197,9 +204,8 @@ test('Does not update config if instantiated with staticConfig prop', async () =
 	(stage as MockStage).simulateMouseMove({ x: 100, y: 100 });
 	(stage as MockStage).simulateMouseUp({ x: 100, y: 100 });
 
-	const config = get(configWritable);
-
-	expect(config).toStrictEqual(oldConfig);
+	expect(get(xWritable)).toEqual(oldConfig.x);
+	expect(get(yWritable)).toEqual(oldConfig.y);
 });
 
 test('Konva instance is correctly destroyed on component unmount', async () => {
