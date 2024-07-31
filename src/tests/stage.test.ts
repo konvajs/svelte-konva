@@ -20,7 +20,7 @@ test('creates a div container and forwards rest props to div', () => {
 		props: {
 			width: 1000,
 			height: 1000,
-			id: 'container',
+			divWrapperId: 'container',
 			restProp: false
 		}
 	});
@@ -38,11 +38,12 @@ test('creates a Konva canvas instance inside of the div', () => {
 		props: {
 			width: 1000,
 			height: 1000,
-			id: 'container'
+			divWrapperId: 'container'
 		}
 	});
 
 	const div = rendered.container.querySelector('#container');
+	console.log(rendered.container.innerHTML);
 	expect(div).toBeTruthy();
 
 	if (div) {

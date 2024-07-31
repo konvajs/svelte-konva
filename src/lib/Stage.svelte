@@ -89,6 +89,8 @@ Further information: [Konva API docs](https://konvajs.org/api/Konva.Stage.html),
 		clipHeight,
 		clearBeforeDraw,
 		clipFunc,
+		// Props forwarded to wrapper div:
+		divWrapperId,
 		...restProps
 	}: Props<Konva.ContainerConfig> & PropsContainer & PropsStage = $props();
 
@@ -288,7 +290,7 @@ Further information: [Konva API docs](https://konvajs.org/api/Konva.Stage.html),
 	setContainerContext(Container.Stage, inner);
 </script>
 
-<div bind:this={stage} {...restProps}>
+<div bind:this={stage} {...restProps} id={divWrapperId}>
 	{#if isReady && children}
 		{@render children()}
 	{/if}

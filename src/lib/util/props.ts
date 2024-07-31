@@ -20,5 +20,6 @@ export type PropsContainer = {
  * Special props extension for svelte-konva Stage (Forwards rest props to canvas div container)
  */
 export type PropsStage = {
+	divWrapperId?: string; // Required to enable user to set/change ID of wrapper div as `id` prop is already used by stage config
 	[key: string]: any;
 };
