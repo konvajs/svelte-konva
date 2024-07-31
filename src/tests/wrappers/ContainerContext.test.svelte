@@ -3,6 +3,7 @@
 Wraps the to be tested svelte-konva component so that the context of the svelte-konva component can be tested
 -->
 <script lang="ts">
+	/* eslint-disable @typescript-eslint/no-explicit-any */
 	import { onMount } from 'svelte';
 	import ContextReporter from './ContextReporter.test.svelte';
 

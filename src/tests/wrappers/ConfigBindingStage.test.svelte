@@ -5,6 +5,7 @@ Wraps the to be tested svelte-konva component so that the binding of the config 
 Special component for svelte-konva stage component, as it does only support binding on `x` and `y` props.
 -->
 <script lang="ts">
+	/* eslint-disable @typescript-eslint/no-explicit-any */
 	import { onMount } from 'svelte';
 	import type { Writable } from 'svelte/store';
 
@@ -14,12 +15,6 @@ Special component for svelte-konva stage component, as it does only support bind
 		staticConfig = false,
 		x,
 		y,
-		scale,
-		scaleX,
-		scaleY,
-		rotation,
-		skewX,
-		skewY,
 		...restProps
 	}: {
 		component: any;

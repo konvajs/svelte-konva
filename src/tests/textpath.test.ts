@@ -191,8 +191,6 @@ test('Konva instance is correctly destroyed on component unmount', () => {
 
 	rendered.unmount();
 
-	const handle = rendered.component.handle;
-
 	expect(parent.children).toBeTruthy();
 
 	if (parent.children) {

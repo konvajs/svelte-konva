@@ -146,6 +146,7 @@ test('Does not update config if instantiated with staticConfig prop', async () =
 });
 
 test('sets the correct context', () => {
+	/* eslint-disable @typescript-eslint/no-explicit-any */
 	let childContext: Map<string, any> | null = null;
 	let handle: Konva.Stage | null = null;
 
@@ -163,6 +164,7 @@ test('sets the correct context', () => {
 });
 
 test('nulls unused context', () => {
+	/* eslint-disable @typescript-eslint/no-explicit-any */
 	let childContext: Map<string, any> | null = null;
 
 	render(ContainerContext, {

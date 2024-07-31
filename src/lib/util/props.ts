@@ -1,3 +1,5 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
+
 import type { Snippet } from 'svelte';
 import { type KonvaEventHooks } from '$lib/util/events';
 

@@ -3,6 +3,7 @@
 Is attached as a child component to svelte-konva containers and reports its current container context via callback for use in test functions
 -->
 <script lang="ts">
+	/* eslint-disable @typescript-eslint/no-explicit-any */
 	import { getContext, onMount } from 'svelte';
 	import { CONTAINER_COMPONENT_KEYS } from 'svelte-konva/util/manageContext';
 
