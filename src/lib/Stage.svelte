@@ -59,16 +59,16 @@ Further information: [Konva API docs](https://konvajs.org/api/Konva.Stage.html),
 		ontransformend,
 		ontransformstart,
 		onwheel,
-		y,
-		x,
+		x = $bindable(),
+		y = $bindable(),
+		scale,
+		scaleX,
+		scaleY,
+		rotation,
+		skewX,
+		skewY,
 		width,
 		visible,
-		skewY,
-		skewX,
-		scaleY,
-		scaleX,
-		scale,
-		rotation,
 		preventDefault,
 		opacity,
 		offsetY,
@@ -104,7 +104,6 @@ Further information: [Konva API docs](https://konvajs.org/api/Konva.Stage.html),
 	let isReady = $state(false);
 
 	onMount(() => {
-		console.log(x, y);
 		_handle = new Konva.Stage({
 			container: stage,
 			y,
@@ -156,7 +155,6 @@ Further information: [Konva API docs](https://konvajs.org/api/Konva.Stage.html),
 		});
 		$effect(() => {
 			_handle!.setAttr('width', width);
-			console.log('stage change width', width);
 		});
 		$effect(() => {
 			_handle!.setAttr('visible', visible);

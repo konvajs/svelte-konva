@@ -12,7 +12,7 @@ import './mocks/mouse';
 import type { MockStage } from './mocks/mouse';
 
 // Test Component Wrappers
-import ConfigBinding from './wrappers/ConfigBinding.test.svelte';
+import ConfigBindingStage from './wrappers/ConfigBindingStage.test.svelte';
 import ContainerContext from './wrappers/ContainerContext.test.svelte';
 
 test('creates a div container and forwards rest props to div', () => {
@@ -96,7 +96,7 @@ test('Correctly updates bound config on dragend', () => {
 	const yWritable = writable(CONFIG.y);
 	let handle: MockStage | null = null;
 
-	render(ConfigBinding, {
+	render(ConfigBindingStage, {
 		props: {
 			component: Stage,
 			...CONFIG,
@@ -121,7 +121,7 @@ test('Does not update config if instantiated with staticConfig prop', async () =
 	const yWritable = writable(CONFIG.y);
 	let handle: MockStage | null = null;
 
-	render(ConfigBinding, {
+	render(ConfigBindingStage, {
 		props: {
 			component: Stage,
 			...CONFIG,
