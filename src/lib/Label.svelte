@@ -23,7 +23,6 @@ Further information: [Konva API docs](https://konvajs.org/api/Konva.Label.html),
 	import Konva from 'konva';
 	import { onMount, onDestroy } from 'svelte';
 	import { writable, type Writable } from 'svelte/store';
-	import { copyExistingKeys } from '$lib/util/object';
 	import {
 		Container,
 		getParentContainer,

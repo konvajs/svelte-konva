@@ -29,7 +29,6 @@ Further information: [Konva API docs](https://konvajs.org/api/Konva.Group.html),
 		type KonvaParent
 	} from '$lib/util/manageContext';
 	import { registerEvents } from '$lib/util/events';
-	import { copyExistingKeys } from '$lib/util/object';
 	import { type PropsContainer, type Props } from '$lib/util/props';
 
 	let {
