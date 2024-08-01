@@ -15,10 +15,6 @@ const config: UserConfig = {
 			jsdom: {
 				resources: 'usable'
 			}
-		},
-		// TODO: Alias to enable Svelte 5 support on testing-library, can be removed once stable
-		alias: {
-			'@testing-library/svelte': '@testing-library/svelte/svelte5'
 		}
 	}
 };
