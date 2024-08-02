@@ -6,16 +6,17 @@ To work as intended it needs to contain a Tag component as well as a Text compon
 
 ### Usage:
 ```tsx
-<Label config={{x: 100, y: 100, opacity: 0.8}}>
-	<Tag config={{fill: "black", pointerDirection: "down", pointerWidth: 10, pointerHeight: 10, lineJoin: "round" }} />
-	<Text config={{ text: "some label text", fontSize: 18, padding: 10, fill: "white" }} />
+<Label x={100} y={100} opacity={0.8}>
+	<Tag fill="black" pointerDirection="down" pointerWidth={10} pointerHeight={10} lineJoin="round" />
+	<Text text="some label text" fontSize={18} padding={10} fill="white" />
 </Label>
 ```
 
 ### Static config:
-By default svelte-konva will automatically update your config prop on `dragend` and `transformend` events to match the config state (position, rotation, scale, ...) with the internal Konva state. 
-If you additionally bind the config prop your reactive blocks will also be triggered once this happens. 
-There might be cases where this behavior is not beneficial in this case you can disable it by passing the `staticConfig = true` prop to the component.
+By default svelte-konva will automatically update all changed props on `dragend` and `transformend` events to match the prop values (position, rotation, scale, ...) with the internal Konva state. 
+If you bind those props they will be updated automatically, otherwise no update of the changed values happens.
+In cases this is not needed (eg. the respective values are not bound) or not beneficial you can disable it by passing the `staticConfig = true` prop to the component.
+It is recommended to only pass `staticConfig = true` if you indeed run into performance problems connected to dragging and transforming of nodes.
 
 Further information: [Konva API docs](https://konvajs.org/api/Konva.Label.html), [svelte-konva docs](https://konvajs.org/docs/svelte)
 -->
