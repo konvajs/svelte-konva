@@ -68,6 +68,57 @@ There are some important reasons that warrant this change, namely:
 - Binding/not binding the `config` prop has always had certain caveats and hard to understand side-effects such as changes to properties of the `config` prop made by svelte-konva "leaking" into user code even when the `config` prop was not bound. With splitted props this can no longer happen and binding individual props is now clearly defined and limited to props that can actually be modified by svelte-konva. No more leaking/unexpected changes coming from svelte-konva code if the respective prop is not bound.
 - The change brings svelte-konva API-wise more in line with other popular Svelte component libraries (such as [threlte](https://github.com/threlte/threlte))
 
+## Changes to `config` prop reactivity
+
+As the `config` prop has now been splitted into individual props there are some changes in how reactivity works when not using `staticConfig = true`. Consider the following svelte-konva v0 example:
+
+```svelte
+<script>
+	import { Stage, Layer, Rect } from 'svelte-konva';
+
+	let myConfig = { x: 100, y: 100, width: 400, height: 200, fill: 'blue', draggable: true };
+
+	$: console.log('x changed:', config.x);
+</script>
+
+<Stage config={{ width: window.innerWidth, height: window.innerHeight }}>
+	<Layer>
+		<Rect config={myConfig} />
+	</Layer>
+</Stage>
+```
+
+In the above code the `Rect` component is draggable. Each time it is dragged (on `dragend` Konva event) svelte-konva updates the `x` and `y` coordinates of the config prop. Due to how JavaScript works, this internal change also "leaks" into the `myConfig` object despite it not being bound (`bind:config={myConfig}`) due to JavaScript passing the config prop as reference (because it is an object). In the above example, the reactive code block with the `console.log` statement would never be triggered on drag end as Svelte 3/4 had no way of knowing that the value of `x` changed under the hood. It would only trigger if the `config` prop was bound in which case Svelte knows that the config prop could be changed by svelte-konva. Which is why it was recommended in the docs to always bind the config prop if not using `staticConfig = true` in order to avoid this confusing behavior.
+
+This behavior is now alltogether eliminated in svelte-konva v1 due to the splitted config prop. This now allows you to benefit from fine-grained reactivity without any internal svelte-konva changes "leaking" into the parent component. Directly migrated to Svelte 5 the same example would look like this (with runes):
+
+```svelte
+<script>
+	import { Stage, Layer, Rect } from 'svelte-konva';
+
+	let myX = $state(100);
+	let myY = $state(100);
+
+	$effect(() => {
+		console.log('x changed:', config.x);
+	});
+</script>
+
+<Stage width={window.innerWidth} height={window.innerHeight}>
+	<Layer>
+		<Rect x={myX} y={myY} width={400} height={200} fill="blue" draggable />
+	</Layer>
+</Stage>
+```
+
+When dragging the `Rect` component now, svelte-konva still updates its internal state of the `x` and `y` coordinates on drag end. However, this time `myX` and `myY` variables are never updated by svelte-konva as they are not bound (They stay 100 and no reactive dependencies are triggered). Thus there is no "leaking" change. In case you want to keep your `myX` and `myY` variables automatically in sync with their acutal position after drag and transform of the `Rect` shape you simply have to bind them. This then allows the changes to the `x` and `y` prop by svelte-konva to propagate up into the `myX` and `myY` state as well as triggering any connected reactive code (such as the `$effect` in the above example).
+
+This now also enables fine-grained reactivity where you are able to run reactive code for individual changes to the `x`, `y`, ... props instead of everytime any property in the `config` object changed. In case you still need to be able to react to any change made by svelte-konva after transform or dragging you should use the `ondragend` and `ontransformend` event hooks of the svelte-konva component directly.
+
+### Changes to the `staticConfig` prop
+
+As the svelte-konva updates on drag and transform end are no more "leaking" into the parent component when the properties are not bound the use of the `staticConfig` prop changes slightly. The behavior of `staticConfig = true` in svelte-konva v0 can now be simply achieved by not binding any props in svelte-konva v1. Thus it is generally recommended to not use `staticConfig = true` for normal usage. When using `staticConfig = true` svelte-konva does not listen to the `dragend` and `transformend` event of the node and does not update its internal state. This can lead to slight performance improvements in case the user does not use any bindings.
+
 ## Event handlers
 
 In Svelte v5 usage of the `on:event` syntax is deprecated. svelte-konva provides all Konva events now as callback props using the `on<konva event name>` syntax. The deprecated `on:event` syntax will no longer work for svelte-konva events:
@@ -175,7 +226,3 @@ This has been changed due to Konva configuration props colliding with certain di
 ## Svelte runes-only mode
 
 svelte-konva is now fully compatible with Svelte's runes-only compile mode which means it will work out of the box for runes-only projects. It will also continue to work for all projects without runes-only mode enabled.
-
-## Changes to `config` prop reactivity
-
-TBD
