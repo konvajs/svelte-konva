@@ -1,8 +1,8 @@
 import { sveltekit } from '@sveltejs/kit/vite';
 import { svelteTesting } from '@testing-library/svelte/vite';
-import type { UserConfig } from 'vite';
+import { defineConfig } from 'vite';
 
-const config: UserConfig = {
+export default defineConfig({
 	plugins: [sveltekit(), svelteTesting()],
 	optimizeDeps: {
 		include: ['highlight.js', 'highlight.js/lib/core']
@@ -17,6 +17,4 @@ const config: UserConfig = {
 			}
 		}
 	}
-};
-
-export default config;
+});

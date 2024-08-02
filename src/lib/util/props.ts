@@ -2,14 +2,17 @@
 
 import type { Snippet } from 'svelte';
 import { type KonvaEventHooks } from '$lib/util/events';
+import type Konva from 'konva';
+
+type MappedOmit<T, K extends keyof T> = { [P in keyof T as P extends K ? never : P]: T[P] };
 
 /**
  * Shared props type used on all svelte-konva components
  */
-export type Props<Config> = {
+export type Props<Config extends Konva.NodeConfig> = {
 	staticConfig?: boolean;
 } & KonvaEventHooks &
-	Omit<Config, 'rotationDeg'>; // rotationDeg is deprecated by Konva
+	MappedOmit<Config, 'rotationDeg'>; // rotationDeg is deprecated by Konva
 
 /**
  * Props extension for konva container types which can hold more konva nodes
