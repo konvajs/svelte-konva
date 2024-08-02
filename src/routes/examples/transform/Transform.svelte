@@ -40,7 +40,7 @@
 		}
 	];
 
-	let selectionRectangleConfig = {
+	let selectionRectangleConfig = $state({
 		fill: 'rgba(0,0,255,0.5)',
 		visible: false,
 		x: 0,
@@ -48,15 +48,15 @@
 		width: 0,
 		height: 0,
 		name: SELECTION_RECTANGLE_NAME
-	};
+	});
 
 	// Used to calculate the position and size of the selection rectangle during selection
-	let initialSelectionCoordinates: Konva.Vector2d = {
+	let initialSelectionCoordinates: Konva.Vector2d = $state({
 		x: 0,
 		y: 0
-	};
+	});
 
-	let selectionActive = false; // If the transformer is active eg. something is selected
+	let selectionActive = $state(false); // If the transformer is active eg. something is selected
 
 	function selectStart(e: KonvaPointerEvent) {
 		if (!transformer || !stage) return;
