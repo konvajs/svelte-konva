@@ -4,6 +4,7 @@
 
 **breaking changes** please refer to the [migration guide](./docs/svelte-konva-v1-migration.md) for detailed examples on how to update.
 
+- Breaking: Update to Svelte v5
 - Breaking: `config` prop is now splitted into individual props
 - Breaking: Deprecated Svelte `on:event` syntax is no longer supported and replaced by event hooks named `on<konva event name>`
 - Breaking: The Konva event object is now directly provided as payload on the new event hooks instead of being provided under the `detail` property of the payload
