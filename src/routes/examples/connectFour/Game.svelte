@@ -8,15 +8,15 @@
 	import Circle from 'svelte-konva/Circle.svelte';
 	import { onDestroy } from 'svelte';
 
-	let activePlayer = Player.Red;
-	let tokens: Array<Player> = [activePlayer];
+	let activePlayer = $state(Player.Red);
+	let tokens: Array<Player> = $state([Player.Red]);
 
 	/**
 	 * Handle the end of a single player move
 	 */
-	function handleMoveEnd(e: CustomEvent<TokenPos>) {
+	function handleMoveEnd(e: TokenPos) {
 		// Check winning condition
-		const won = hasWon(e.detail);
+		const won = hasWon(e);
 		if (won) {
 			handleWin(won);
 			return;
@@ -198,15 +198,15 @@
 		return null;
 	}
 
-	let isDraw = false;
+	let isDraw = $state(false);
 
 	function handleDraw() {
 		isDraw = true;
 	}
 
-	let isWon = false;
+	let isWon = $state(false);
 
-	let winningTokenPositions: Array<Konva.Vector2d> = [];
+	let winningTokenPositions = $state<Array<Konva.Vector2d>>([]);
 
 	function handleWin(winningTokens: Array<TokenPos>) {
 		winningTokens.forEach((tokenPos) => {
@@ -220,7 +220,7 @@
 	}
 
 	// Flag used to trigger Token reinstantiation
-	let reset = false;
+	let reset = $state(false);
 
 	function resetGame() {
 		isWon = false;
@@ -245,7 +245,7 @@
 </script>
 
 <div class="flex justify-center">
-	<button class="btn btn-primary" on:click={resetGame}>Restart</button>
+	<button class="btn btn-primary" onclick={resetGame}>Restart</button>
 </div>
 
 <div class="flex justify-center mt-1">
@@ -262,20 +262,13 @@
 	<!-- The key block is required to force reinstantiation of all remaining tokens in memory for a clean game reset -->
 	{#key reset}
 		{#each tokens as token}
-			<Token player={token} on:dropped={handleMoveEnd} />
+			<Token player={token} ondropped={handleMoveEnd} />
 		{/each}
 	{/key}
 
 	{#if isWon}
 		{#each winningTokenPositions as pos}
-			<Circle
-				config={{
-					x: pos.x,
-					y: pos.y,
-					fill: 'yellow',
-					radius: 20
-				}}
-			/>
+			<Circle x={pos.x} y={pos.y} fill="yellow" radius={20} />
 		{/each}
 	{/if}
 </GameGrid>

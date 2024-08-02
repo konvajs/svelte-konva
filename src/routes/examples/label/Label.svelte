@@ -8,6 +8,7 @@
 	import Label from 'svelte-konva/Label.svelte';
 	import Tag from 'svelte-konva/Tag.svelte';
 	import Text from 'svelte-konva/Text.svelte';
+	import type { KonvaMouseEvent } from 'svelte-konva';
 
 	let circles: Array<Konva.CircleConfig> = [];
 
@@ -52,12 +53,10 @@
 		fill: 'white'
 	};
 
-	function handleMouseEnter(e: CustomEvent<Konva.KonvaEventObject<MouseEvent>>) {
-		const konvaEvent = e.detail;
-
-		let hoveredElementPos = konvaEvent.target.getPosition();
-		let hoveredElementRadius = konvaEvent.target.attrs.radius;
-		let hoveredElementName = konvaEvent.target.attrs.name;
+	function handleMouseEnter(e: KonvaMouseEvent) {
+		let hoveredElementPos = e.target.getPosition();
+		let hoveredElementRadius = e.target.attrs.radius;
+		let hoveredElementName = e.target.attrs.name;
 
 		labelConfig.x = hoveredElementPos.x;
 		labelConfig.y = hoveredElementPos.y - hoveredElementRadius;
@@ -75,25 +74,23 @@
 <Stage>
 	<Layer>
 		{#each circles as config}
-			<Circle {config} on:mouseenter={handleMouseEnter} on:mouseleave={handleMouseLeave} />
+			<Circle {...config} onmouseenter={handleMouseEnter} onmouseleave={handleMouseLeave} />
 		{/each}
 
-		<Label config={labelConfig}>
+		<Label {...labelConfig}>
 			<Tag
-				config={{
-					fill: 'black',
-					pointerDirection: 'down',
-					pointerWidth: 10,
-					pointerHeight: 10,
-					lineJoin: 'round',
-					shadowColor: 'black',
-					shadowBlur: 10,
-					shadowOffsetX: 10,
-					shadowOffsetY: 10,
-					shadowOpacity: 0.5
-				}}
+				fill="black"
+				pointerDirection="down"
+				pointerWidth={10}
+				pointerHeight={10}
+				lineJoin="round"
+				shadowColor="black"
+				shadowBlur={10}
+				shadowOffsetX={10}
+				shadowOffsetY={10}
+				shadowOpacity={0.5}
 			/>
-			<Text config={labelTextConfig} />
+			<Text {...labelTextConfig} />
 		</Label>
 	</Layer>
 </Stage>

@@ -11,14 +11,17 @@
 		GAME_GRID_ROW_POSITIONS,
 		TOKEN_RADIUS
 	} from './constants';
-	import { Player } from './types';
+	import { Player, type TokenPos } from './types';
 	import { gameScale, gameState } from './store';
-	import { createEventDispatcher } from 'svelte';
 
-	export let player: Player;
+	type Props = {
+		player: Player;
+		ondropped: (e: TokenPos) => void;
+	};
 
-	let token: Konva.Circle;
-	let dispatch = createEventDispatcher();
+	let { player, ondropped }: Props = $props();
+
+	let token: Circle | undefined;
 
 	const TOKEN_RED_INITIAL_POS = { x: 80, y: 80 };
 	const TOKEN_BLUE_INITIAL_POS = { x: GAME_BASE_SIZE - 80, y: 80 };
@@ -35,14 +38,14 @@
 
 	const initialTokenPos = getInitialTokenPos();
 
-	let config: Konva.CircleConfig = {
+	let config = $state<Konva.CircleConfig>({
 		x: initialTokenPos.x,
 		y: initialTokenPos.y,
 		radius: TOKEN_RADIUS,
 		fill: player,
 		draggable: true,
 		dragBoundFunc: limitTokenDrag
-	};
+	});
 
 	/**
 	 * Get the initial position of the token once it enters the game
@@ -89,7 +92,7 @@
 	// On dragend we need to check if the token/stone has been moved into a position where it can be dropped into the game grid
 	function handleDragEnd(e: KonvaDragTransformEvent) {
 		// stop propagation as the event handling is done in this component
-		e.stopPropagation();
+		e.cancelBubble = true;
 
 		// as the circle config is bound we already know the current position of the circle and do not need to extract it from the event manually
 		if (config.y! < TOKEN_DROP_THRESHOLD_Y) {
@@ -138,7 +141,7 @@
 
 		// Create a tween to animate the drop
 		const tween = new Konva.Tween({
-			node: token,
+			node: token!.handle,
 			duration: 1,
 			y: GAME_GRID_ROW_POSITIONS[rowPos!],
 			easing: Konva.Easings.BounceEaseOut,
@@ -151,8 +154,14 @@
 		tween.play();
 
 		// emit event to parent to signal the end of the move
-		dispatch('dropped', { colPos, rowPos: rowPos! });
+		ondropped({ colPos, rowPos: rowPos! });
 	}
 </script>
 
-<Circle bind:config on:dragend={handleDragEnd} bind:handle={token} />
+<Circle
+	{...config}
+	bind:x={config.x}
+	bind:y={config.y}
+	ondragend={handleDragEnd}
+	bind:this={token}
+/>

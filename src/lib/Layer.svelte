@@ -4,7 +4,7 @@ The Layer component needs to be placed inside a svelte-konva Stage component.
 
 ### Usage:
 ```tsx
-<Stage config={{ width: 1000, height: 1000 }}>
+<Stage width={1000} height={1000}>
 	<Layer>
 		Place your components here
 	</Layer>
@@ -14,35 +14,50 @@ The Layer component needs to be placed inside a svelte-konva Stage component.
 ```
 
 ### Static config:
-By default svelte-konva will automatically update your config prop on `dragend` and `transformend` events to match the config state (position, rotation, scale, ...) with the internal Konva state. 
-If you additionally bind the config prop your reactive blocks will also be triggered once this happens. 
-There might be cases where this behavior is not beneficial in this case you can disable it by passing the `staticConfig = true` prop to the component.
+By default svelte-konva will automatically update all changed props on `dragend` and `transformend` events to match the prop values (position, rotation, scale, ...) with the internal Konva state. 
+If you bind those props they will be updated automatically, otherwise no update of the changed values happens.
+In cases this is not needed (eg. the respective values are not bound) or not beneficial you can disable it by passing the `staticConfig = true` prop to the component.
+It is recommended to only pass `staticConfig = true` if you indeed run into performance problems connected to dragging and transforming of nodes.
 
 Further information: [Konva API docs](https://konvajs.org/api/Konva.Layer.html), [svelte-konva docs](https://konvajs.org/docs/svelte)
 -->
 <script lang="ts">
 	import Konva from 'konva';
-	import { onMount, onDestroy, createEventDispatcher } from 'svelte';
+	import { onMount, onDestroy } from 'svelte';
 	import { type Writable, writable } from 'svelte/store';
 	import { Container, getParentStage, setContainerContext } from '$lib/util/manageContext';
-	import { registerEvents, type KonvaEvents } from '$lib/util/events';
-	import { copyExistingKeys } from './util/object';
+	import { registerEvents } from '$lib/util/events';
+	import { type PropsContainer, type Props } from '$lib/util/props';
 
-	interface $$Events extends KonvaEvents {}
+	let {
+		children,
+		staticConfig = false,
+		x = $bindable(),
+		y = $bindable(),
+		scale = $bindable(),
+		scaleX = $bindable(),
+		scaleY = $bindable(),
+		rotation = $bindable(),
+		skewX = $bindable(),
+		skewY = $bindable(),
+		...restProps
+	}: Props<Konva.LayerConfig> & PropsContainer = $props();
 
-	export let config: Konva.LayerConfig = {};
-	export let handle: Konva.Layer = new Konva.Layer(config);
-	export let staticConfig = false;
+	export const handle = new Konva.Layer({
+		x,
+		y,
+		scale,
+		scaleX,
+		scaleY,
+		rotation,
+		skewX,
+		skewY,
+		...restProps
+	});
 
-	let inner = writable<null | Konva.Layer>(null);
+	const inner = writable<null | Konva.Layer>(null);
 
-	let dispatcher = createEventDispatcher();
-
-	let isReady = false;
-
-	$: if (handle) {
-		handle.setAttrs(config);
-	}
+	let isReady = $state(false);
 
 	let parent: Writable<null | Konva.Stage> = getParentStage();
 
@@ -50,32 +65,72 @@ Further information: [Konva API docs](https://konvajs.org/api/Konva.Layer.html),
 		$parent!.add(handle);
 
 		if (!staticConfig) {
+			const attrs = handle.getAttrs();
+
 			handle.on('transformend', () => {
-				copyExistingKeys(config, handle.getAttrs());
-				config = config;
+				if (x !== undefined) x = attrs.x;
+				if (y !== undefined) y = attrs.y;
+				if (scale !== undefined) scale = attrs.scale;
+				if (scaleX !== undefined) scaleX = attrs.scaleX;
+				if (scaleY !== undefined) scaleY = attrs.scaleY;
+				if (rotation !== undefined) rotation = attrs.rotation;
+				if (skewX !== undefined) skewX = attrs.skewX;
+				if (skewY !== undefined) skewY = attrs.skewY;
 			});
 
 			handle.on('dragend', () => {
-				copyExistingKeys(config, handle.getAttrs());
-				config = config;
+				if (x !== undefined) x = attrs.x;
+				if (y !== undefined) y = attrs.y;
 			});
 		}
 
-		registerEvents(dispatcher, handle);
+		Object.keys(restProps)
+			.filter((e) => !e.startsWith('on')) // Do not register svelte-konva event hooks as node attributes (Currently no konva config property starts with "on" so this is the fastest and most inexpensive way to filter out the event hooks from the provided props)
+			.forEach((e) => {
+				$effect(() => {
+					handle.setAttr(e, restProps[e]);
+				});
+			});
+
+		// Register explicit props (not included in restProps)
+		$effect(() => {
+			handle.setAttr('x', x);
+		});
+		$effect(() => {
+			handle.setAttr('y', y);
+		});
+		$effect(() => {
+			handle.setAttr('scale', scale);
+		});
+		$effect(() => {
+			handle.setAttr('scaleX', scaleX);
+		});
+		$effect(() => {
+			handle.setAttr('scaleY', scaleY);
+		});
+		$effect(() => {
+			handle.setAttr('rotation', rotation);
+		});
+		$effect(() => {
+			handle.setAttr('skewX', skewX);
+		});
+		$effect(() => {
+			handle.setAttr('skewY', skewY);
+		});
+
+		registerEvents(restProps, handle);
 
 		inner.set(handle);
 		isReady = true;
 	});
 
 	onDestroy(() => {
-		if (handle) {
-			handle.destroy();
-		}
+		handle.destroy();
 	});
 
 	setContainerContext(Container.Layer, inner);
 </script>
 
-{#if isReady}
-	<slot />
+{#if isReady && children}
+	{@render children()}
 {/if}

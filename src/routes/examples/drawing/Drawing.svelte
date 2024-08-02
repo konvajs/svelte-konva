@@ -1,15 +1,16 @@
 <script lang="ts">
 	import type Konva from 'konva';
 	import type { KonvaMouseEvent } from 'svelte-konva';
-	import Stage from '../../ResponsiveStage.svelte';
+	import ResponsiveStage from '../../ResponsiveStage.svelte';
 	import { getRealPointerPos } from '../../util';
+	import Stage from 'svelte-konva/Stage.svelte';
+	import type { LineCap, LineJoin } from 'konva/lib/Shape';
 
 	// svelte-konva components
 	import Layer from 'svelte-konva/Layer.svelte';
 	import Line from 'svelte-konva/Line.svelte';
-	import type { LineCap, LineJoin } from 'konva/lib/Shape';
 
-	let stage: Konva.Stage;
+	let stage: Stage | undefined = $state();
 
 	const DRAW_TIMEOUT_MS = 5;
 
@@ -18,15 +19,20 @@
 		Eraser
 	}
 
-	let strokes: Array<Konva.LineConfig> = []; // This array stores all pen and eraser strokes that have been made
-	let selectedTool = Tools.Pen;
-	let strokeWidth = 10;
+	let strokes = $state<Array<Konva.LineConfig>>([]); // This array stores all pen and eraser strokes that have been made
+	let selectedTool = $state(Tools.Pen);
+	let strokeWidth = $state(10);
 	let isDrawing = false; // Flag is active if the user is currently drawing/erasing
 	let drawTimeout: NodeJS.Timeout | null; // Timeout used to limit the pointermove event to not save too much data for the stroke points
 	let drawTimeoutRunning = false; // Used to indicate wether the timeout is currently in progress or not
 
 	function startDraw() {
-		const pointerPos = getRealPointerPos(stage.getPointerPosition()!, stage);
+		if (!stage || !stage.handle()) return;
+
+		const stageHandle = stage.handle();
+		if (!stageHandle) return;
+
+		const pointerPos = getRealPointerPos(stageHandle.getPointerPosition()!, stageHandle);
 
 		const lineConfig = {
 			points: [pointerPos.x, pointerPos.y, pointerPos.x, pointerPos.y], // Initial position is added twice to make a single click visible as dot (otherwise a single click would result in an invisible dot)
@@ -50,16 +56,18 @@
 	}
 
 	function draw() {
-		if (!isDrawing) {
-			return;
-		}
+		if (!isDrawing || !stage) return;
+
+		const stageHandle = stage.handle();
+
+		if (!stageHandle) return;
 
 		if (drawTimeout) {
 			if (drawTimeoutRunning) {
 				return;
 			}
 
-			const pointerPos = getRealPointerPos(stage.getPointerPosition()!, stage);
+			const pointerPos = getRealPointerPos(stageHandle.getPointerPosition()!, stageHandle);
 
 			const points = strokes[strokes.length - 1].points!;
 
@@ -76,9 +84,7 @@
 	}
 
 	function stopDraw() {
-		if (!isDrawing) {
-			return;
-		}
+		if (!isDrawing) return;
 
 		isDrawing = false;
 		drawTimeout = null;
@@ -86,10 +92,8 @@
 	}
 
 	function drawMouseOut(e: KonvaMouseEvent) {
-		const konvaEvent = e.detail;
-
 		// Check if event target is stage (eg. user clicked on empty part of the stage and not any shape)
-		if (konvaEvent.target.getType() !== 'Stage') {
+		if (e.target.getType() !== 'Stage') {
 			return;
 		}
 
@@ -101,11 +105,11 @@
 	<div class="btn-group">
 		<button
 			class={selectedTool === Tools.Pen ? 'btn btn-active' : 'btn'}
-			on:click={() => (selectedTool = Tools.Pen)}>Pen</button
+			onclick={() => (selectedTool = Tools.Pen)}>Pen</button
 		>
 		<button
 			class={selectedTool === Tools.Eraser ? 'btn btn-active' : 'btn'}
-			on:click={() => (selectedTool = Tools.Eraser)}>Eraser</button
+			onclick={() => (selectedTool = Tools.Eraser)}>Eraser</button
 		>
 	</div>
 	<div class="flex flex-col justify-around align-middle">
@@ -114,16 +118,16 @@
 	</div>
 </div>
 
-<Stage
-	on:pointerdown={startDraw}
-	on:pointermove={draw}
-	on:pointerup={stopDraw}
-	on:mouseout={drawMouseOut}
-	bind:handle={stage}
+<ResponsiveStage
+	onpointerdown={startDraw}
+	onpointermove={draw}
+	onpointerup={stopDraw}
+	onmouseout={drawMouseOut}
+	bind:stage
 >
 	<Layer>
 		{#each strokes as stroke}
-			<Line config={stroke} />
+			<Line {...stroke} />
 		{/each}
 	</Layer>
-</Stage>
+</ResponsiveStage>

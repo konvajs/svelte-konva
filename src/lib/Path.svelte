@@ -4,13 +4,14 @@ The Path component needs to be placed either inside a svelte-konva Layer or Grou
 
 ### Usage:
 ```tsx
-<Path config={{ x: 100, y: 100, width: 100, height: 100, fill: "blue", data: "M213.1,6.7c-32.4-14.4-73.7,0-88.1,30.6C110.6,4.9,67.5-9.5,36.9,6.7C2.8,22.9-13.4,62.4,13.5,110.9C33.3,145.1,67.5,170.3,125,217c59.3-46.7,93.5-71.9,111.5-106.1C263.4,64.2,247.2,22.9,213.1,6.7z" }} />
+<Path x={100} y={100} width={100} height={100} fill="blue" data="M213.1,6.7c-32.4-14.4-73.7,0-88.1,30.6C110.6,4.9,67.5-9.5,36.9,6.7C2.8,22.9-13.4,62.4,13.5,110.9C33.3,145.1,67.5,170.3,125,217c59.3-46.7,93.5-71.9,111.5-106.1C263.4,64.2,247.2,22.9,213.1,6.7z" />
 ```
 
 ### Static config:
-By default svelte-konva will automatically update your config prop on `dragend` and `transformend` events to match the config state (position, rotation, scale, ...) with the internal Konva state. 
-If you additionally bind the config prop your reactive blocks will also be triggered once this happens. 
-There might be cases where this behavior is not beneficial in this case you can disable it by passing the `staticConfig = true` prop to the component.
+By default svelte-konva will automatically update all changed props on `dragend` and `transformend` events to match the prop values (position, rotation, scale, ...) with the internal Konva state. 
+If you bind those props they will be updated automatically, otherwise no update of the changed values happens.
+In cases this is not needed (eg. the respective values are not bound) or not beneficial you can disable it by passing the `staticConfig = true` prop to the component.
+It is recommended to only pass `staticConfig = true` if you indeed run into performance problems connected to dragging and transforming of nodes.
 
 Further information: [Konva API docs](https://konvajs.org/api/Konva.Path.html), [svelte-konva docs](https://konvajs.org/docs/svelte)
 -->
@@ -20,43 +21,100 @@ Further information: [Konva API docs](https://konvajs.org/api/Konva.Path.html), 
 	 */
 
 	import Konva from 'konva';
-	import { onMount, onDestroy, createEventDispatcher } from 'svelte';
-	import type { Writable } from 'svelte/store';
-	import { registerEvents, type KonvaEvents } from '$lib/util/events';
+	import { onMount, onDestroy } from 'svelte';
+	import { type Writable } from 'svelte/store';
+	import { registerEvents } from '$lib/util/events';
 	import { getParentContainer, type KonvaParent } from '$lib/util/manageContext';
-	import { copyExistingKeys } from '$lib/util/object';
+	import { type Props } from '$lib/util/props';
 
-	interface $$Events extends KonvaEvents {}
+	let {
+		staticConfig = false,
+		x = $bindable(),
+		y = $bindable(),
+		scale = $bindable(),
+		scaleX = $bindable(),
+		scaleY = $bindable(),
+		rotation = $bindable(),
+		skewX = $bindable(),
+		skewY = $bindable(),
+		...restProps
+	}: Props<Konva.PathConfig> = $props();
 
-	export let config: Konva.PathConfig;
-	const _handle = new Konva.Path(config); // Hide inner handle behind a shadow variable to prevent users from overwriting it
-	export const handle = _handle;
-	export let staticConfig = false;
+	export const handle = new Konva.Path({
+		x,
+		y,
+		scale,
+		scaleX,
+		scaleY,
+		rotation,
+		skewX,
+		skewY,
+		...restProps
+	});
 
 	const parent: Writable<null | KonvaParent> = getParentContainer();
-	const dispatcher = createEventDispatcher();
-
-	$: _handle.setAttrs(config);
 
 	onMount(() => {
-		$parent!.add(_handle);
+		$parent!.add(handle);
 
 		if (!staticConfig) {
-			_handle.on('transformend', () => {
-				copyExistingKeys(config, _handle.getAttrs());
-				config = config;
+			const attrs = handle.getAttrs();
+
+			handle.on('transformend', () => {
+				if (x !== undefined) x = attrs.x;
+				if (y !== undefined) y = attrs.y;
+				if (scale !== undefined) scale = attrs.scale;
+				if (scaleX !== undefined) scaleX = attrs.scaleX;
+				if (scaleY !== undefined) scaleY = attrs.scaleY;
+				if (rotation !== undefined) rotation = attrs.rotation;
+				if (skewX !== undefined) skewX = attrs.skewX;
+				if (skewY !== undefined) skewY = attrs.skewY;
 			});
 
-			_handle.on('dragend', () => {
-				copyExistingKeys(config, _handle.getAttrs());
-				config = config;
+			handle.on('dragend', () => {
+				if (x !== undefined) x = attrs.x;
+				if (y !== undefined) y = attrs.y;
 			});
 		}
 
-		registerEvents(dispatcher, _handle);
+		Object.keys(restProps)
+			.filter((e) => !e.startsWith('on')) // Do not register svelte-konva event hooks as node attributes (Currently no konva config property starts with "on" so this is the fastest and most inexpensive way to filter out the event hooks from the provided props)
+			.forEach((e) => {
+				$effect(() => {
+					handle.setAttr(e, restProps[e]);
+				});
+			});
+
+		// Register explicit props (not included in restProps)
+		$effect(() => {
+			handle.setAttr('x', x);
+		});
+		$effect(() => {
+			handle.setAttr('y', y);
+		});
+		$effect(() => {
+			handle.setAttr('scale', scale);
+		});
+		$effect(() => {
+			handle.setAttr('scaleX', scaleX);
+		});
+		$effect(() => {
+			handle.setAttr('scaleY', scaleY);
+		});
+		$effect(() => {
+			handle.setAttr('rotation', rotation);
+		});
+		$effect(() => {
+			handle.setAttr('skewX', skewX);
+		});
+		$effect(() => {
+			handle.setAttr('skewY', skewY);
+		});
+
+		registerEvents(restProps, handle);
 	});
 
 	onDestroy(() => {
-		_handle.destroy();
+		handle.destroy();
 	});
 </script>

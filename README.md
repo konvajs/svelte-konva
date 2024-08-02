@@ -9,6 +9,18 @@ svelte-konva is a component-based svelte wrapper for the [Konva HTML5 2D canvas 
 
 Currently compatible with Svelte v3 & 4, SvelteKit v1 and Konva v8 & 9.
 
+### Experimental Svelte 5 support
+
+There is now experimental support for Svelte v5. It is not production-ready and should be used for testing purposes only. Svelte 5 support is currently published under the `v1.0.0-next` tag. To use it simply add the following dependency to your package.json in your Svelte 5 project:
+
+```
+"svelte-konva": "^1.0.0-next.0"
+```
+
+Please see the [migration guide](./docs/svelte-konva-v1-migration.md) for all relevant (and breaking) changes.
+
+If you encounter bugs or difficulties while migrating/testing please open an issue.
+
 ## Install
 
 ```npm

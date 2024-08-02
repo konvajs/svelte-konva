@@ -3,7 +3,7 @@
  */
 import { test, expect, vi } from 'vitest';
 import { render } from '@testing-library/svelte';
-import { get } from 'svelte/store';
+import { get, writable } from 'svelte/store';
 import Konva from 'konva';
 
 // svelte-konva
@@ -15,12 +15,13 @@ import { createMockParentContext } from './mocks/context';
 import './mocks/mouse';
 import type { MockStage } from './mocks/mouse';
 
+// Test Component Wrappers
+import ConfigBinding from './wrappers/ConfigBinding.test.svelte';
+
 test('throws an error if not placed inside a Container (Layer, Group, Label) component', () => {
 	expect(() => {
 		render(Tag, {
-			props: {
-				config: { x: 0, pointerDirection: 'down', pointerWidth: 500, pointerHeight: 200 }
-			}
+			props: { x: 0, y: 0, pointerDirection: 'down', pointerWidth: 500, pointerHeight: 200 }
 		});
 	}).toThrow(CONTAINER_ERROR);
 
@@ -28,9 +29,7 @@ test('throws an error if not placed inside a Container (Layer, Group, Label) com
 	expect(() => {
 		render(Tag, {
 			context: createMockParentContext(Container.Stage, div),
-			props: {
-				config: { x: 0, pointerDirection: 'down', pointerWidth: 500, pointerHeight: 200 }
-			}
+			props: { x: 0, y: 0, pointerDirection: 'down', pointerWidth: 500, pointerHeight: 200 }
 		});
 	}).toThrow(CONTAINER_ERROR);
 });
@@ -39,14 +38,11 @@ test('is correctly added to the parent Layer', () => {
 	const mockContext = createMockParentContext(Container.Layer);
 	const rendered = render(Tag, {
 		context: mockContext,
-		props: {
-			config: { x: 0, pointerDirection: 'down', pointerWidth: 500, pointerHeight: 200 }
-		}
+		props: { x: 0, y: 0, pointerDirection: 'down', pointerWidth: 500, pointerHeight: 200 }
 	});
 
-	const component = rendered.component.$$;
 	const parent: Konva.Container = get(mockContext.get(CONTAINER_COMPONENT_KEYS[Container.Layer])!);
-	const handle = component.ctx[component.props['handle'] as number];
+	const handle = rendered.component.handle;
 
 	expect(parent.children).toBeTruthy();
 
@@ -60,14 +56,11 @@ test('is correctly added to the parent Group', () => {
 	const mockContext = createMockParentContext(Container.Group);
 	const rendered = render(Tag, {
 		context: mockContext,
-		props: {
-			config: { x: 0, pointerDirection: 'down', pointerWidth: 500, pointerHeight: 200 }
-		}
+		props: { x: 0, y: 0, pointerDirection: 'down', pointerWidth: 500, pointerHeight: 200 }
 	});
 
-	const component = rendered.component.$$;
 	const parent: Konva.Container = get(mockContext.get(CONTAINER_COMPONENT_KEYS[Container.Group])!);
-	const handle = component.ctx[component.props['handle'] as number];
+	const handle = rendered.component.handle;
 
 	expect(parent.children).toBeTruthy();
 
@@ -81,14 +74,11 @@ test('is correctly added to the parent Label', () => {
 	const mockContext = createMockParentContext(Container.Label);
 	const rendered = render(Tag, {
 		context: mockContext,
-		props: {
-			config: { x: 0, pointerDirection: 'down', pointerWidth: 500, pointerHeight: 200 }
-		}
+		props: { x: 0, y: 0, pointerDirection: 'down', pointerWidth: 500, pointerHeight: 200 }
 	});
 
-	const component = rendered.component.$$;
 	const parent: Konva.Container = get(mockContext.get(CONTAINER_COMPONENT_KEYS[Container.Label])!);
-	const handle = component.ctx[component.props['handle'] as number];
+	const handle = rendered.component.handle;
 
 	expect(parent.children).toBeTruthy();
 
@@ -99,23 +89,21 @@ test('is correctly added to the parent Label', () => {
 });
 
 test('Can listen to Konva events', () => {
+	const mockFn = vi.fn();
 	const rendered = render(Tag, {
 		context: createMockParentContext(Container.Layer),
 		props: {
-			config: { x: 0, pointerDirection: 'down', pointerWidth: 500, pointerHeight: 200 }
+			...{ x: 0, y: 0, pointerDirection: 'down', pointerWidth: 500, pointerHeight: 200 },
+			onmousedown: mockFn
 		}
 	});
 
-	const component = rendered.component.$$;
-	const handle: Konva.Tag = component.ctx[component.props['handle'] as number];
+	const handle = rendered.component.handle;
 
 	const div = document.createElement('div');
 	const stage = new Konva.Stage({ container: div, width: 1000, height: 1000 });
 
 	stage.add(handle.getLayer()!);
-
-	const mockFn = vi.fn();
-	rendered.component.$on('mousedown', mockFn);
 
 	(stage as MockStage).simulateMouseDown({ x: 50, y: 50 });
 
@@ -123,83 +111,74 @@ test('Can listen to Konva events', () => {
 });
 
 test('Correctly updates bound config on dragend', () => {
-	const rawConfig = { x: 0, pointerDirection: 'down', pointerWidth: 500, pointerHeight: 200 };
+	const rawConfig = { x: 0, y: 0, pointerDirection: 'down', pointerWidth: 500, pointerHeight: 200 };
 	const CONFIG = { ...rawConfig, draggable: true };
-	const rendered = render(Tag, {
+	const xWritable = writable(CONFIG.x);
+	const yWritable = writable(CONFIG.y);
+	let handle: Konva.Tag | null = null;
+
+	render(ConfigBinding, {
 		context: createMockParentContext(Container.Layer),
 		props: {
-			config: CONFIG
+			component: Tag,
+			...CONFIG,
+			x: xWritable,
+			y: yWritable,
+			getHandle: (hnd) => (handle = hnd)
 		}
 	});
-
-	const component = rendered.component.$$;
-	const handle: Konva.Tag = component.ctx[component.props['handle'] as number];
 
 	const div = document.createElement('div');
 	const stage = new Konva.Stage({ container: div, width: 1000, height: 1000 });
 
-	stage.add(handle.getLayer()!);
+	stage.add(handle!.getLayer()!);
 
 	(stage as MockStage).simulateMouseDown({ x: 50, y: 50 });
 	(stage as MockStage).simulateMouseMove({ x: 100, y: 100 });
 	(stage as MockStage).simulateMouseUp({ x: 100, y: 100 });
 
-	const config = component.ctx[component.props['config'] as number];
-
-	expect(config).toStrictEqual({ ...CONFIG, x: 50 });
+	expect(get(xWritable)).toEqual(50);
+	expect(get(yWritable)).toEqual(50);
 });
 
 test('Does not update config if instantiated with staticConfig prop', () => {
-	const rawConfig = { x: 0, pointerDirection: 'down', pointerWidth: 500, pointerHeight: 200 };
+	const rawConfig = { x: 0, y: 0, pointerDirection: 'down', pointerWidth: 500, pointerHeight: 200 };
 	const CONFIG = { ...rawConfig, draggable: true };
 	const oldConfig = { ...CONFIG };
-	const rendered = render(Tag, {
+	const xWritable = writable(CONFIG.x);
+	const yWritable = writable(CONFIG.y);
+	let handle: Konva.Tag | null = null;
+
+	render(ConfigBinding, {
 		context: createMockParentContext(Container.Layer),
 		props: {
-			config: CONFIG,
+			component: Tag,
+			...CONFIG,
+			x: xWritable,
+			y: yWritable,
+			getHandle: (hnd) => (handle = hnd),
 			staticConfig: true
 		}
 	});
 
-	const component = rendered.component.$$;
-	const handle: Konva.Tag = component.ctx[component.props['handle'] as number];
-
 	const div = document.createElement('div');
 	const stage = new Konva.Stage({ container: div, width: 1000, height: 1000 });
 
-	stage.add(handle.getLayer()!);
+	stage.add(handle!.getLayer()!);
 
 	(stage as MockStage).simulateMouseDown({ x: 50, y: 50 });
 	(stage as MockStage).simulateMouseMove({ x: 100, y: 100 });
 	(stage as MockStage).simulateMouseUp({ x: 100, y: 100 });
 
-	const config = component.ctx[component.props['config'] as number];
-
-	expect(config).toStrictEqual(oldConfig);
-});
-
-test('Does not alter the context', () => {
-	const mockContext = createMockParentContext(Container.Layer);
-	const rendered = render(Tag, {
-		context: mockContext,
-		props: {
-			config: { x: 0, pointerDirection: 'down', pointerWidth: 500, pointerHeight: 200 }
-		}
-	});
-
-	const component = rendered.component.$$;
-	const context = component.context;
-
-	expect(context).toStrictEqual(mockContext);
+	expect(get(xWritable)).toEqual(oldConfig.x);
+	expect(get(yWritable)).toEqual(oldConfig.y);
 });
 
 test('Konva instance is correctly destroyed on component unmount', () => {
 	const mockContext = createMockParentContext(Container.Layer);
 	const rendered = render(Tag, {
 		context: mockContext,
-		props: {
-			config: { x: 0, pointerDirection: 'down', pointerWidth: 500, pointerHeight: 200 }
-		}
+		props: { x: 0, y: 0, pointerDirection: 'down', pointerWidth: 500, pointerHeight: 200 }
 	});
 
 	const parent: Konva.Container = get(mockContext.get(CONTAINER_COMPONENT_KEYS[Container.Layer])!);
@@ -212,25 +191,9 @@ test('Konva instance is correctly destroyed on component unmount', () => {
 
 	rendered.unmount();
 
-	const component = rendered.component.$$;
-	const handle = component.ctx[component.props['handle'] as number];
-
 	expect(parent.children).toBeTruthy();
 
 	if (parent.children) {
 		expect(parent.children.length).toBe(0);
 	}
-
-	expect(handle).toBeUndefined();
-});
-
-test('Overwriting the handle of the component from outside should have no effect', () => {
-	const rendered = render(Tag, {
-		context: createMockParentContext(Container.Layer),
-		props: {
-			config: { x: 0, pointerDirection: 'down', pointerWidth: 500, pointerHeight: 200 }
-		}
-	});
-
-	rendered.component.$set({ handle: undefined }); // Overwrite handle from outside, should not throw as internal handle is still intact
 });

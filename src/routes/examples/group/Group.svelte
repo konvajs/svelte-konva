@@ -30,9 +30,9 @@
 
 <Stage>
 	<Layer>
-		<Group config={{ draggable: true }}>
-			{#each configs as config}
-				<Circle bind:config />
+		<Group draggable>
+			{#each configs as _, idx}
+				<Circle {...configs[idx]} />
 			{/each}
 		</Group>
 	</Layer>

@@ -1,6 +1,17 @@
 # Unreleased
 
+# v1.0.0-next.0
+
+**breaking changes** please refer to the [migration guide](./docs/svelte-konva-v1-migration.md) for detailed examples on how to update.
+
+- Breaking: `config` prop is now splitted into individual props
+- Breaking: Deprecated Svelte `on:event` syntax is no longer supported and replaced by event hooks named `on<konva event name>`
+- Breaking: The Konva event object is now directly provided as payload on the new event hooks instead of being provided under the `detail` property of the payload
+- Breaking: Changes in how reactivity works on dragend and transformend events with `staticConfig = false`. State changes are now only propagated if the corresponding prop is bound.
+- Breaking: The Konva handle is now a component property that can be accessed directly on the component instance (read only)
 - Improved handle prop safety by preventing the user from overwriting the internal handle of the svelte-konva components (see #136)
+- Breaking: Passing restProps to the wrapper div of the `Stage` component is no longer supported. Instead props can be passed to the wrapper div using the new `divWrapperProps` prop on the `Stage` component.
+- svelte-konva is now a runes-only library and fully compatible with Svelte 5 runes-only projects
 - Update to SvelteKit v2
 - Various dependency updates
 

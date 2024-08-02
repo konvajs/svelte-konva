@@ -1,6 +1,6 @@
 import { test, expect, vi } from 'vitest';
 import { render } from '@testing-library/svelte';
-import { get } from 'svelte/store';
+import { get, writable } from 'svelte/store';
 import Konva from 'konva';
 
 // svelte-konva
@@ -11,11 +11,20 @@ import { CONTAINER_COMPONENT_KEYS, Container } from '$lib/util/manageContext';
 import './mocks/mouse';
 import type { MockStage } from './mocks/mouse';
 
-test('creates a div container and forwards rest props to div', () => {
+// Test Component Wrappers
+import ConfigBindingStage from './wrappers/ConfigBindingStage.test.svelte';
+import ContainerContext from './wrappers/ContainerContext.test.svelte';
+
+test('creates a div container and forwards divWrapperProps props to div', () => {
 	const rendered = render(Stage, {
-		config: { width: 1000, height: 1000 },
-		id: 'container',
-		restProp: false
+		props: {
+			width: 1000,
+			height: 1000,
+			divWrapperProps: {
+				id: 'container',
+				someProp: false
+			}
+		}
 	});
 
 	const div = rendered.container.querySelector('#container');
@@ -23,16 +32,22 @@ test('creates a div container and forwards rest props to div', () => {
 
 	expect(div).toBeInstanceOf(HTMLDivElement);
 
-	if (div) expect(div.getAttribute('restProp')).toBe('false');
+	if (div) expect(div.getAttribute('someProp')).toBe('false');
 });
 
 test('creates a Konva canvas instance inside of the div', () => {
 	const rendered = render(Stage, {
-		config: { width: 1000, height: 1000 },
-		id: 'container'
+		props: {
+			width: 1000,
+			height: 1000,
+			divWrapperProps: {
+				id: 'container'
+			}
+		}
 	});
 
 	const div = rendered.container.querySelector('#container');
+	console.log(rendered.container.innerHTML);
 	expect(div).toBeTruthy();
 
 	if (div) {
@@ -49,12 +64,13 @@ test('creates a konva stage instance and passes config prop', () => {
 	const CONFIG = { width: 1000, height: 1000 };
 
 	const rendered = render(Stage, {
-		config: CONFIG,
-		id: 'container'
+		props: {
+			...CONFIG,
+			id: 'container'
+		}
 	});
 
-	const component = rendered.component.$$;
-	const handle = component.ctx[component.props['handle'] as number];
+	const handle = rendered.component.handle();
 
 	expect(handle).toBeTruthy();
 
@@ -64,84 +80,107 @@ test('creates a konva stage instance and passes config prop', () => {
 });
 
 test('Can listen to Konva events', () => {
+	const mockFn = vi.fn();
+
 	const rendered = render(Stage, {
-		config: { width: 1000, height: 1000 }
+		width: 1000,
+		height: 1000,
+		onmousedown: mockFn
 	});
 
-	const component = rendered.component.$$;
-	const handle: MockStage = component.ctx[component.props['handle'] as number];
+	const handle = rendered.component.handle();
 
-	const mockFn = vi.fn();
-	rendered.component.$on('mousedown', mockFn);
-
-	handle.simulateMouseDown({ x: 50, y: 50 });
+	(handle as MockStage).simulateMouseDown({ x: 50, y: 50 });
 
 	expect(mockFn).toHaveBeenCalledTimes(1);
 });
 
 test('Correctly updates bound config on dragend', () => {
-	const CONFIG = { x: 0, width: 1000, height: 1000, draggable: true };
-	const rendered = render(Stage, {
-		config: CONFIG
+	const CONFIG = { x: 0, y: 0, width: 1000, height: 1000, draggable: true };
+	const xWritable = writable(CONFIG.x);
+	const yWritable = writable(CONFIG.y);
+	let handle: MockStage | null = null;
+
+	render(ConfigBindingStage, {
+		props: {
+			component: Stage,
+			...CONFIG,
+			x: xWritable,
+			y: yWritable,
+			getHandle: (hnd) => (handle = hnd())
+		}
 	});
 
-	const component = rendered.component.$$;
-	const handle: MockStage = component.ctx[component.props['handle'] as number];
+	handle!.simulateMouseDown({ x: 50, y: 50 });
+	handle!.simulateMouseMove({ x: 100, y: 100 });
+	handle!.simulateMouseUp({ x: 100, y: 100 });
 
-	handle.simulateMouseDown({ x: 50, y: 50 });
-	handle.simulateMouseMove({ x: 100, y: 100 });
-	handle.simulateMouseUp({ x: 100, y: 100 });
-
-	const config = component.ctx[component.props['config'] as number];
-
-	expect(config).toStrictEqual({ ...CONFIG, x: 50 });
+	expect(get(xWritable)).toEqual(50);
+	expect(get(yWritable)).toEqual(50);
 });
 
 test('Does not update config if instantiated with staticConfig prop', async () => {
-	const CONFIG = { x: 0, width: 1000, height: 1000, draggable: true };
+	const CONFIG = { x: 0, y: 0, width: 1000, height: 1000, draggable: true };
 	const oldConfig = { ...CONFIG };
-	const rendered = render(Stage, {
-		config: CONFIG,
-		staticConfig: true
+	const xWritable = writable(CONFIG.x);
+	const yWritable = writable(CONFIG.y);
+	let handle: MockStage | null = null;
+
+	render(ConfigBindingStage, {
+		props: {
+			component: Stage,
+			...CONFIG,
+			x: xWritable,
+			y: yWritable,
+			getHandle: (hnd) => (handle = hnd()),
+			staticConfig: true
+		}
 	});
 
-	const component = rendered.component.$$;
-	const handle: MockStage = component.ctx[component.props['handle'] as number];
+	handle!.simulateMouseDown({ x: 50, y: 50 });
+	handle!.simulateMouseMove({ x: 100, y: 100 });
+	handle!.simulateMouseUp({ x: 100, y: 100 });
 
-	handle.simulateMouseDown({ x: 50, y: 50 });
-	handle.simulateMouseMove({ x: 100, y: 100 });
-	handle.simulateMouseUp({ x: 100, y: 100 });
-
-	const config = component.ctx[component.props['config'] as number];
-
-	expect(config).toStrictEqual(oldConfig);
+	expect(get(xWritable)).toEqual(oldConfig.x);
+	expect(get(yWritable)).toEqual(oldConfig.y);
 });
 
 test('sets the correct context', () => {
-	const rendered = render(Stage, {
-		config: { width: 1000, height: 1000 }
+	/* eslint-disable @typescript-eslint/no-explicit-any */
+	let childContext: Map<string, any> | null = null;
+	let handle: Konva.Stage | null = null;
+
+	render(ContainerContext, {
+		props: {
+			component: Stage,
+			width: 1000,
+			height: 1000,
+			getHandle: (hnd) => (handle = hnd()),
+			getComponentContext: (ctxMap) => (childContext = ctxMap)
+		}
 	});
 
-	const component = rendered.component.$$;
-	const context = component.context;
-	const handle = component.ctx[component.props['handle'] as number];
-
-	expect(get(context.get(CONTAINER_COMPONENT_KEYS[Container.Stage]))).toStrictEqual(handle);
+	expect(get(childContext!.get(CONTAINER_COMPONENT_KEYS[Container.Stage]))).toStrictEqual(handle!);
 });
 
 test('nulls unused context', () => {
-	const rendered = render(Stage, {
-		config: { width: 1000, height: 1000 }
-	});
+	/* eslint-disable @typescript-eslint/no-explicit-any */
+	let childContext: Map<string, any> | null = null;
 
-	const component = rendered.component.$$;
-	const context = component.context;
+	render(ContainerContext, {
+		props: {
+			component: Stage,
+			width: 1000,
+			height: 1000,
+			getComponentContext: (ctxMap) => (childContext = ctxMap)
+		}
+	});
 
 	const otherKeys = CONTAINER_COMPONENT_KEYS.slice();
 	otherKeys.splice(Container.Stage, 1);
 
 	otherKeys.forEach((e) => {
-		expect(context.get(e)).toBe(null);
+		expect(childContext!.get(e)).toBe(null);
 	});
 });
 
@@ -150,24 +189,15 @@ test('Konva instance is correctly destroyed on component unmount', () => {
 	const previousStageCount = Konva.stages.length;
 
 	const rendered = render(Stage, {
-		config: { width: 1000, height: 1000 }
+		props: {
+			width: 1000,
+			height: 1000
+		}
 	});
 
 	expect(Konva.stages.length).toBe(previousStageCount + 1);
 
 	rendered.unmount();
 
-	const component = rendered.component.$$;
-	const handle = component.ctx[component.props['handle'] as number];
-
 	expect(Konva.stages.length).toBe(previousStageCount);
-	expect(handle).toBeUndefined();
-});
-
-test('Overwriting the handle of the component from outside should have no effect', async () => {
-	const rendered = render(Stage, {
-		config: { width: 1000, height: 1000 }
-	});
-
-	rendered.component.$set({ _handle: undefined }); // Overwrite handle from outside, should not throw as internal handle is still intact
 });
