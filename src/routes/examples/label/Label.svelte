@@ -39,19 +39,19 @@
 
 	init();
 
-	let labelConfig = {
+	let labelConfig = $state({
 		x: 0,
 		y: 0,
 		opacity: 0.8,
 		visible: false
-	};
+	});
 
-	let labelTextConfig = {
+	let labelTextConfig = $state({
 		text: '',
 		fontSize: 18,
 		padding: 5,
 		fill: 'white'
-	};
+	});
 
 	function handleMouseEnter(e: KonvaMouseEvent) {
 		let hoveredElementPos = e.target.getPosition();
