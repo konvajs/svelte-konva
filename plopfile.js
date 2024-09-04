@@ -90,6 +90,17 @@ const COMPONENT_LIST = [
 ];
 
 const SVELTE_KONVA_COMPONENT_ACTION_LIST = COMPONENT_LIST.map((data) => {
+	switch (data.componentName) {
+		case 'Tag':
+			data.importPath = `konva/lib/shapes/Label`;
+			break;
+		case 'Shape':
+			data.importPath = `konva/lib/${data.componentName}`;
+			break;
+		default:
+			data.importPath = `konva/lib/shapes/${data.componentName}`;
+			break;
+	}
 	return {
 		type: 'add',
 		force: true,

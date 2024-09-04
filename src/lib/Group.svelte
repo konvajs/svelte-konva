@@ -1,6 +1,6 @@
 <!--
 @component
-The Group component needs to be placed inside a svelte-konva Layer or Group component. 
+The Group component needs to be placed inside a svelte-konva Layer or Group component.
 
 The Group component automatically groups all components that are placed inside it.
 
@@ -12,7 +12,7 @@ The Group component automatically groups all components that are placed inside i
 ```
 
 ### Static config:
-By default svelte-konva will automatically update all changed props on `dragend` and `transformend` events to match the prop values (position, rotation, scale, ...) with the internal Konva state. 
+By default svelte-konva will automatically update all changed props on `dragend` and `transformend` events to match the prop values (position, rotation, scale, ...) with the internal Konva state.
 If you bind those props they will be updated automatically, otherwise no update of the changed values happens.
 In cases this is not needed (eg. the respective values are not bound) or not beneficial you can disable it by passing the `staticConfig = true` prop to the component.
 It is recommended to only pass `staticConfig = true` if you indeed run into performance problems connected to dragging and transforming of nodes.
@@ -20,7 +20,8 @@ It is recommended to only pass `staticConfig = true` if you indeed run into perf
 Further information: [Konva API docs](https://konvajs.org/api/Konva.Group.html), [svelte-konva docs](https://konvajs.org/docs/svelte)
 -->
 <script lang="ts">
-	import Konva from 'konva';
+	import Konva from 'konva/lib/Core';
+	import type { Group, GroupConfig } from 'konva/lib/Group';
 	import { onMount, onDestroy } from 'svelte';
 	import { type Writable, writable } from 'svelte/store';
 	import {
@@ -44,7 +45,7 @@ Further information: [Konva API docs](https://konvajs.org/api/Konva.Group.html),
 		skewX = $bindable(),
 		skewY = $bindable(),
 		...restProps
-	}: Props<Konva.GroupConfig> & PropsContainer = $props();
+	}: Props<GroupConfig> & PropsContainer = $props();
 
 	export const handle = new Konva.Group({
 		x,
@@ -58,7 +59,7 @@ Further information: [Konva API docs](https://konvajs.org/api/Konva.Group.html),
 		...restProps
 	});
 
-	const inner = writable<null | Konva.Group>(null);
+	const inner = writable<null | Group>(null);
 
 	let isReady = $state(false);
 

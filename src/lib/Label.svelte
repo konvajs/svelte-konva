@@ -1,6 +1,6 @@
 <!--
 @component
-The Label component needs to be placed either inside a svelte-konva Layer or Group component. 
+The Label component needs to be placed either inside a svelte-konva Layer or Group component.
 
 To work as intended it needs to contain a Tag component as well as a Text component in the order shown below.
 
@@ -13,7 +13,7 @@ To work as intended it needs to contain a Tag component as well as a Text compon
 ```
 
 ### Static config:
-By default svelte-konva will automatically update all changed props on `dragend` and `transformend` events to match the prop values (position, rotation, scale, ...) with the internal Konva state. 
+By default svelte-konva will automatically update all changed props on `dragend` and `transformend` events to match the prop values (position, rotation, scale, ...) with the internal Konva state.
 If you bind those props they will be updated automatically, otherwise no update of the changed values happens.
 In cases this is not needed (eg. the respective values are not bound) or not beneficial you can disable it by passing the `staticConfig = true` prop to the component.
 It is recommended to only pass `staticConfig = true` if you indeed run into performance problems connected to dragging and transforming of nodes.
@@ -21,7 +21,7 @@ It is recommended to only pass `staticConfig = true` if you indeed run into perf
 Further information: [Konva API docs](https://konvajs.org/api/Konva.Label.html), [svelte-konva docs](https://konvajs.org/docs/svelte)
 -->
 <script lang="ts">
-	import Konva from 'konva';
+	import { Label, type LabelConfig } from 'konva/lib/shapes/Label'
 	import { onMount, onDestroy } from 'svelte';
 	import { writable, type Writable } from 'svelte/store';
 	import {
@@ -45,9 +45,9 @@ Further information: [Konva API docs](https://konvajs.org/api/Konva.Label.html),
 		skewX = $bindable(),
 		skewY = $bindable(),
 		...restProps
-	}: Props<Konva.LabelConfig> & PropsContainer = $props();
+	}: Props<LabelConfig> & PropsContainer = $props();
 
-	export const handle = new Konva.Label({
+	export const handle = new Label({
 		x,
 		y,
 		scale,
@@ -59,7 +59,7 @@ Further information: [Konva API docs](https://konvajs.org/api/Konva.Label.html),
 		...restProps
 	});
 
-	const inner = writable<null | Konva.Label>(null);
+	const inner = writable<null | Label>(null);
 
 	let isReady = $state(false);
 
