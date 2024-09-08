@@ -1,6 +1,6 @@
 <!--
 @component
-The Layer component needs to be placed inside a svelte-konva Stage component. 
+The Layer component needs to be placed inside a svelte-konva Stage component.
 
 ### Usage:
 ```tsx
@@ -14,7 +14,7 @@ The Layer component needs to be placed inside a svelte-konva Stage component.
 ```
 
 ### Static config:
-By default svelte-konva will automatically update all changed props on `dragend` and `transformend` events to match the prop values (position, rotation, scale, ...) with the internal Konva state. 
+By default svelte-konva will automatically update all changed props on `dragend` and `transformend` events to match the prop values (position, rotation, scale, ...) with the internal Konva state.
 If you bind those props they will be updated automatically, otherwise no update of the changed values happens.
 In cases this is not needed (eg. the respective values are not bound) or not beneficial you can disable it by passing the `staticConfig = true` prop to the component.
 It is recommended to only pass `staticConfig = true` if you indeed run into performance problems connected to dragging and transforming of nodes.
@@ -22,7 +22,9 @@ It is recommended to only pass `staticConfig = true` if you indeed run into perf
 Further information: [Konva API docs](https://konvajs.org/api/Konva.Layer.html), [svelte-konva docs](https://konvajs.org/docs/svelte)
 -->
 <script lang="ts">
-	import Konva from 'konva';
+	import Konva from 'konva/lib/Core';
+	import type { Stage } from 'konva/lib/Stage';
+	import type { Layer, LayerConfig } from 'konva/lib/Layer';
 	import { onMount, onDestroy } from 'svelte';
 	import { type Writable, writable } from 'svelte/store';
 	import { Container, getParentStage, setContainerContext } from '$lib/util/manageContext';
@@ -41,7 +43,7 @@ Further information: [Konva API docs](https://konvajs.org/api/Konva.Layer.html),
 		skewX = $bindable(),
 		skewY = $bindable(),
 		...restProps
-	}: Props<Konva.LayerConfig> & PropsContainer = $props();
+	}: Props<LayerConfig> & PropsContainer = $props();
 
 	export const handle = new Konva.Layer({
 		x,
@@ -55,11 +57,11 @@ Further information: [Konva API docs](https://konvajs.org/api/Konva.Layer.html),
 		...restProps
 	});
 
-	const inner = writable<null | Konva.Layer>(null);
+	const inner = writable<null | Layer>(null);
 
 	let isReady = $state(false);
 
-	let parent: Writable<null | Konva.Stage> = getParentStage();
+	let parent: Writable<null | Stage> = getParentStage();
 
 	onMount(() => {
 		$parent!.add(handle);

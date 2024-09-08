@@ -8,7 +8,10 @@
  * do not have access to any grandparent context.
  */
 
-import type Konva from 'konva';
+import type { Stage } from 'konva/lib/Stage';
+import type { Layer } from 'konva/lib/Layer';
+import type { Group } from 'konva/lib/Group';
+import type { Label } from 'konva/lib/shapes/Label';
 import { getContext, setContext } from 'svelte';
 import type { Writable } from 'svelte/store';
 
@@ -28,8 +31,8 @@ export enum Container {
 	Label = 3
 }
 
-type KonvaContainer = Konva.Stage | Konva.Layer | Konva.Group | Konva.Label;
-export type KonvaParent = Konva.Layer | Konva.Group | Konva.Label;
+type KonvaContainer = Stage | Layer | Group | Label;
+export type KonvaParent = Layer | Group | Label;
 
 export const CONTAINER_ERROR =
 	'svelte-konva: Component does not have any parent container. Please make sure that the component is wrapped inside a Layer or Group.';
@@ -64,8 +67,8 @@ export function getParentContainer(): Writable<null | KonvaParent> {
 	throw new Error(CONTAINER_ERROR);
 }
 
-export function getParentStage(): Writable<null | Konva.Stage> {
-	const parent = getContext<null | Writable<null | Konva.Stage>>(
+export function getParentStage(): Writable<null | Stage> {
+	const parent = getContext<null | Writable<null | Stage>>(
 		CONTAINER_COMPONENT_KEYS[Container.Stage]
 	);
 

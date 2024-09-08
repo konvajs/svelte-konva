@@ -2,7 +2,7 @@
  * Handles the registration of the user provided konva event hooks
  */
 
-import type Konva from 'konva';
+import type { KonvaEventObject, Node } from 'konva/lib/Node';
 
 const KONVA_EVENTS = [
 	'mouseover',
@@ -38,13 +38,11 @@ const KONVA_EVENTS = [
 	'transformend'
 ];
 
-export type KonvaMouseEvent = Konva.KonvaEventObject<MouseEvent>;
-export type KonvaWheelEvent = Konva.KonvaEventObject<WheelEvent>;
-export type KonvaTouchEvent = Konva.KonvaEventObject<TouchEvent>;
-export type KonvaPointerEvent = Konva.KonvaEventObject<PointerEvent>;
-export type KonvaDragTransformEvent = Konva.KonvaEventObject<
-	MouseEvent | PointerEvent | TouchEvent
->;
+export type KonvaMouseEvent = KonvaEventObject<MouseEvent>;
+export type KonvaWheelEvent = KonvaEventObject<WheelEvent>;
+export type KonvaTouchEvent = KonvaEventObject<TouchEvent>;
+export type KonvaPointerEvent = KonvaEventObject<PointerEvent>;
+export type KonvaDragTransformEvent = KonvaEventObject<MouseEvent | PointerEvent | TouchEvent>;
 
 export type KonvaEventHooks = {
 	onmouseover?: (e: KonvaMouseEvent) => void;
@@ -86,7 +84,7 @@ export type KonvaEventHooks = {
  * @param eventHooks Hooks provided by the user that should be called in the event callback
  * @param node to listen konva events from
  */
-export function registerEvents(eventHooks: KonvaEventHooks, node: Konva.Node) {
+export function registerEvents(eventHooks: KonvaEventHooks, node: Node) {
 	KONVA_EVENTS.forEach((event) => {
 		const hook = eventHooks[`on${event}` as keyof KonvaEventHooks];
 
