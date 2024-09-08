@@ -1,5 +1,10 @@
 # Unreleased
 
+# v1.0.0-next.1
+
+- Only import necessary Konva code per component to minimize bundle size #195 (@CaptainCodeman)
+- Fix broken label example in example page #194 (@CaptainCodeman)
+
 # v1.0.0-next.0
 
 **breaking changes** please refer to the [migration guide](./docs/svelte-konva-v1-migration.md) for detailed examples on how to update.
