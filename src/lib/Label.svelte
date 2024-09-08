@@ -21,7 +21,7 @@ It is recommended to only pass `staticConfig = true` if you indeed run into perf
 Further information: [Konva API docs](https://konvajs.org/api/Konva.Label.html), [svelte-konva docs](https://konvajs.org/docs/svelte)
 -->
 <script lang="ts">
-	import { Label, type LabelConfig } from 'konva/lib/shapes/Label'
+	import { Label, type LabelConfig } from 'konva/lib/shapes/Label';
 	import { onMount, onDestroy } from 'svelte';
 	import { writable, type Writable } from 'svelte/store';
 	import {
