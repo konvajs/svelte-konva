@@ -10,7 +10,10 @@
 	"bugs": {
 		"url": "https://github.com/konvajs/svelte-konva/issues"
 	},
-	"repository": "github:konvajs/svelte-konva",
+	"repository": {
+		"type": "git",
+		"url": "git+https://github.com/konvajs/svelte-konva.git"
+	},
 	"keywords": [
 		"konva",
 		"sveltejs",
