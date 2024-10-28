@@ -14,10 +14,10 @@
 
 	const DRAW_TIMEOUT_MS = 5;
 
-	enum Tools {
-		Pen,
-		Eraser
-	}
+	const Tools = {
+		Pen: 'Pen',
+		Eraser: 'Eraser'
+	};
 
 	let strokes = $state<Array<Konva.LineConfig>>([]); // This array stores all pen and eraser strokes that have been made
 	let selectedTool = $state(Tools.Pen);
