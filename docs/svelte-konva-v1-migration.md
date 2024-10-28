@@ -155,9 +155,9 @@ The way to access the corresponding Konva handle in a svelte-konva component has
   let rectangle;
 
   onMount(async () => {
--    // Wait for dom update so the rectangle handle becomes defined
--    await tick();
--
+     // Wait for dom update so the rectangle handle becomes defined
+     await tick();
+
 -    const json = rectangle.toJSON();
 +    const json = rectangle.handle.toJSON();
      window.alert(`Rectangle as JSON: ${json}`);
@@ -174,8 +174,6 @@ The way to access the corresponding Konva handle in a svelte-konva component has
   </Layer>
 </Stage>
 ```
-
-Additionally, you no longer need to wait a tick before accessing `handle` as it will be immediately defined on component instantiation.
 
 ## Stage handle
 
