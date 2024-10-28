@@ -10,7 +10,7 @@
 	import Layer from 'svelte-konva/Layer.svelte';
 	import Line from 'svelte-konva/Line.svelte';
 
-	let stage: Stage | undefined = $state();
+	let stage: ReturnType<typeof Stage> | undefined = $state();
 
 	const DRAW_TIMEOUT_MS = 5;
 

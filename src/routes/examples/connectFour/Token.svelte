@@ -21,7 +21,7 @@
 
 	let { player, ondropped }: Props = $props();
 
-	let token: Circle | undefined;
+	let token: ReturnType<typeof Circle> | undefined;
 
 	const TOKEN_RED_INITIAL_POS = { x: 80, y: 80 };
 	const TOKEN_BLUE_INITIAL_POS = { x: GAME_BASE_SIZE - 80, y: 80 };

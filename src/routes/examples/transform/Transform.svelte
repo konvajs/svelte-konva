@@ -12,10 +12,10 @@
 	import Transformer from 'svelte-konva/Transformer.svelte';
 	import Rect from 'svelte-konva/Rect.svelte';
 
-	let stage: Stage | undefined = $state();
-	let layer: Layer | undefined;
-	let transformer: Transformer | undefined;
-	let selectionRectangle: Rect | undefined;
+	let stage: ReturnType<typeof Stage> | undefined = $state();
+	let layer: ReturnType<typeof Layer> | undefined;
+	let transformer: ReturnType<typeof Transformer> | undefined;
+	let selectionRectangle: ReturnType<typeof Rect> | undefined;
 
 	const SELECTION_RECTANGLE_NAME = 'selection-rectangle';
 

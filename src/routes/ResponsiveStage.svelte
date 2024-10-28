@@ -5,7 +5,7 @@
 
 	type Props = {
 		children: Snippet;
-		stage?: Stage | undefined;
+		stage?: ReturnType<typeof Stage> | undefined;
 	} & KonvaEventHooks;
 
 	let {
