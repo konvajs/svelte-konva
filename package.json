@@ -274,5 +274,8 @@
 				"./dist/Wedge.svelte.d.ts"
 			]
 		}
-	}
+	},
+	"sideEffects": [
+		"**/*.css"
+	]
 }
