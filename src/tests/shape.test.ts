@@ -173,7 +173,7 @@ test('Correctly updates bound config on dragend', () => {
 	render(ConfigBinding, {
 		context: createMockParentContext(Container.Layer),
 		props: {
-			component: Shape,
+			Component: Shape,
 			...CONFIG,
 			x: xWritable,
 			y: yWritable,
@@ -215,7 +215,7 @@ test('Does not update config if instantiated with staticConfig prop', () => {
 	render(ConfigBinding, {
 		context: createMockParentContext(Container.Layer),
 		props: {
-			component: Shape,
+			Component: Shape,
 			...CONFIG,
 			x: xWritable,
 			y: yWritable,

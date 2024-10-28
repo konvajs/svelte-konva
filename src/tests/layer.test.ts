@@ -104,7 +104,7 @@ test('Correctly updates bound config on dragend', () => {
 	render(ConfigBinding, {
 		context: createMockParentContext(Container.Stage, div),
 		props: {
-			component: Layer,
+			Component: Layer,
 			...CONFIG,
 			x: xWritable,
 			y: yWritable,
@@ -138,7 +138,7 @@ test('Does not update config if instantiated with staticConfig prop', async () =
 	render(ConfigBinding, {
 		context: createMockParentContext(Container.Stage, div),
 		props: {
-			component: Layer,
+			Component: Layer,
 			...CONFIG,
 			x: xWritable,
 			y: yWritable,
@@ -171,7 +171,7 @@ test('sets the correct context', () => {
 	render(ContainerContext, {
 		context: createMockParentContext(Container.Stage, div),
 		props: {
-			component: Layer,
+			Component: Layer,
 			getHandle: (hnd) => (handle = hnd),
 			getComponentContext: (ctxMap) => (childContext = ctxMap)
 		}
@@ -188,7 +188,7 @@ test('nulls unused context', () => {
 	render(ContainerContext, {
 		context: createMockParentContext(Container.Stage, div),
 		props: {
-			component: Layer,
+			Component: Layer,
 			getComponentContext: (ctxMap) => (childContext = ctxMap)
 		}
 	});

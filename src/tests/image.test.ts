@@ -148,7 +148,7 @@ test('Correctly updates bound config on dragend', async () => {
 	render(ConfigBinding, {
 		context: createMockParentContext(Container.Layer),
 		props: {
-			component: KonvaImage,
+			Component: KonvaImage,
 			...CONFIG,
 			x: xWritable,
 			y: yWritable,
@@ -186,7 +186,7 @@ test('Does not update config if instantiated with staticConfig prop', async () =
 	render(ConfigBinding, {
 		context: createMockParentContext(Container.Layer),
 		props: {
-			component: KonvaImage,
+			Component: KonvaImage,
 			...CONFIG,
 			x: xWritable,
 			y: yWritable,

@@ -10,14 +10,14 @@ Special component for svelte-konva stage component, as it does only support bind
 	import type { Writable } from 'svelte/store';
 
 	let {
-		component,
+		Component,
 		getHandle,
 		staticConfig = false,
 		x,
 		y,
 		...restProps
 	}: {
-		component: any;
+		Component: any;
 		x: Writable<any>;
 		y: Writable<any>;
 		getHandle: (handle: any) => void;
@@ -33,11 +33,4 @@ Special component for svelte-konva stage component, as it does only support bind
 	});
 </script>
 
-<svelte:component
-	this={component}
-	bind:this={boundComponent}
-	bind:x={$x}
-	bind:y={$y}
-	{staticConfig}
-	{...restProps}
-></svelte:component>
+<Component bind:this={boundComponent} bind:x={$x} bind:y={$y} {staticConfig} {...restProps} />

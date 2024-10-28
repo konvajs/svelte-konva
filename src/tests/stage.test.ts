@@ -103,7 +103,7 @@ test('Correctly updates bound config on dragend', () => {
 
 	render(ConfigBindingStage, {
 		props: {
-			component: Stage,
+			Component: Stage,
 			...CONFIG,
 			x: xWritable,
 			y: yWritable,
@@ -128,7 +128,7 @@ test('Does not update config if instantiated with staticConfig prop', async () =
 
 	render(ConfigBindingStage, {
 		props: {
-			component: Stage,
+			Component: Stage,
 			...CONFIG,
 			x: xWritable,
 			y: yWritable,
@@ -152,7 +152,7 @@ test('sets the correct context', () => {
 
 	render(ContainerContext, {
 		props: {
-			component: Stage,
+			Component: Stage,
 			width: 1000,
 			height: 1000,
 			getHandle: (hnd) => (handle = hnd()),
@@ -169,7 +169,7 @@ test('nulls unused context', () => {
 
 	render(ContainerContext, {
 		props: {
-			component: Stage,
+			Component: Stage,
 			width: 1000,
 			height: 1000,
 			getComponentContext: (ctxMap) => (childContext = ctxMap)

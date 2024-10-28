@@ -8,7 +8,7 @@ Wraps the to be tested svelte-konva component so that the binding of the config 
 	import type { Writable } from 'svelte/store';
 
 	let {
-		component,
+		Component,
 		getHandle,
 		staticConfig = false,
 		x,
@@ -21,7 +21,7 @@ Wraps the to be tested svelte-konva component so that the binding of the config 
 		skewY,
 		...restProps
 	}: {
-		component: any;
+		Component: any;
 		x: Writable<any>;
 		y: Writable<any>;
 		scale?: Writable<any>;
@@ -43,8 +43,7 @@ Wraps the to be tested svelte-konva component so that the binding of the config 
 	});
 </script>
 
-<svelte:component
-	this={component}
+<Component
 	bind:this={boundComponent}
 	bind:x={$x}
 	bind:y={$y}
@@ -56,4 +55,4 @@ Wraps the to be tested svelte-konva component so that the binding of the config 
 	bind:skewY={$skewY}
 	{staticConfig}
 	{...restProps}
-></svelte:component>
+/>
