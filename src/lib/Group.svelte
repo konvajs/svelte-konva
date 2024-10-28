@@ -21,7 +21,7 @@ Further information: [Konva API docs](https://konvajs.org/api/Konva.Group.html),
 -->
 <script lang="ts">
 	import Konva from 'konva/lib/Core';
-	import type { Group, GroupConfig } from 'konva/lib/Group';
+	import type { Group as KonvaGroup, GroupConfig } from 'konva/lib/Group';
 	import { onMount, onDestroy } from 'svelte';
 	import { type Writable, writable } from 'svelte/store';
 	import {
@@ -59,7 +59,7 @@ Further information: [Konva API docs](https://konvajs.org/api/Konva.Group.html),
 		...restProps
 	});
 
-	const inner = writable<null | Group>(null);
+	const inner = writable<null | KonvaGroup>(null);
 
 	let isReady = $state(false);
 

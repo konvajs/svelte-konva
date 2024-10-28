@@ -25,7 +25,10 @@ It is recommended to only pass `staticConfig = true` if you indeed run into perf
 Further information: [Konva API docs](https://konvajs.org/api/Konva.Transformer.html), [svelte-konva docs](https://konvajs.org/docs/svelte)
 -->
 <script lang="ts">
-	import { Transformer, type TransformerConfig } from 'konva/lib/shapes/Transformer';
+	import {
+		Transformer as KonvaTransformer,
+		type TransformerConfig
+	} from 'konva/lib/shapes/Transformer';
 	import { onMount, onDestroy } from 'svelte';
 	import type { Writable } from 'svelte/store';
 	import { registerEvents } from '$lib/util/events';
@@ -45,7 +48,7 @@ Further information: [Konva API docs](https://konvajs.org/api/Konva.Transformer.
 		...restProps
 	}: Props<TransformerConfig> = $props();
 
-	export const handle = new Transformer({
+	export const handle = new KonvaTransformer({
 		x,
 		y,
 		scale,

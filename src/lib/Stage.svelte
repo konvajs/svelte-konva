@@ -21,7 +21,7 @@ Further information: [Konva API docs](https://konvajs.org/api/Konva.Stage.html),
 <script lang="ts">
 	import Konva from 'konva/lib/Core';
 	import type { ContainerConfig } from 'konva/lib/Container';
-	import type { Stage } from 'konva/lib/Stage';
+	import type { Stage as KonvaStage } from 'konva/lib/Stage';
 	import { onMount, onDestroy } from 'svelte';
 	import { writable } from 'svelte/store';
 	import { registerEvents } from '$lib/util/events';
@@ -38,12 +38,12 @@ Further information: [Konva API docs](https://konvajs.org/api/Konva.Stage.html),
 		...restProps
 	}: Props<ContainerConfig> & PropsContainer & PropsStage = $props();
 
-	let _handle: Stage | null = $state(null);
+	let _handle: KonvaStage | null = $state(null);
 	export function handle() {
 		return _handle;
 	}
 
-	const inner = writable<null | Stage>(null);
+	const inner = writable<null | KonvaStage>(null);
 
 	let stage: HTMLDivElement;
 

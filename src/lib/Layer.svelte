@@ -24,7 +24,7 @@ Further information: [Konva API docs](https://konvajs.org/api/Konva.Layer.html),
 <script lang="ts">
 	import Konva from 'konva/lib/Core';
 	import type { Stage } from 'konva/lib/Stage';
-	import type { Layer, LayerConfig } from 'konva/lib/Layer';
+	import type { Layer as KonvaLayer, LayerConfig } from 'konva/lib/Layer';
 	import { onMount, onDestroy } from 'svelte';
 	import { type Writable, writable } from 'svelte/store';
 	import { Container, getParentStage, setContainerContext } from '$lib/util/manageContext';
@@ -57,7 +57,7 @@ Further information: [Konva API docs](https://konvajs.org/api/Konva.Layer.html),
 		...restProps
 	});
 
-	const inner = writable<null | Layer>(null);
+	const inner = writable<null | KonvaLayer>(null);
 
 	let isReady = $state(false);
 

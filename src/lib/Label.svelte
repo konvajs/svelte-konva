@@ -21,7 +21,7 @@ It is recommended to only pass `staticConfig = true` if you indeed run into perf
 Further information: [Konva API docs](https://konvajs.org/api/Konva.Label.html), [svelte-konva docs](https://konvajs.org/docs/svelte)
 -->
 <script lang="ts">
-	import { Label, type LabelConfig } from 'konva/lib/shapes/Label';
+	import { Label as KonvaLabel, type LabelConfig } from 'konva/lib/shapes/Label';
 	import { onMount, onDestroy } from 'svelte';
 	import { writable, type Writable } from 'svelte/store';
 	import {
@@ -47,7 +47,7 @@ Further information: [Konva API docs](https://konvajs.org/api/Konva.Label.html),
 		...restProps
 	}: Props<LabelConfig> & PropsContainer = $props();
 
-	export const handle = new Label({
+	export const handle = new KonvaLabel({
 		x,
 		y,
 		scale,
@@ -59,7 +59,7 @@ Further information: [Konva API docs](https://konvajs.org/api/Konva.Label.html),
 		...restProps
 	});
 
-	const inner = writable<null | Label>(null);
+	const inner = writable<null | KonvaLabel>(null);
 
 	let isReady = $state(false);
 
