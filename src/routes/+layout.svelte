@@ -56,7 +56,11 @@
 					<p class="normal-case text-xl font-bold">svelte-konva examples</p>
 				</div>
 				<div class="navbar-end">
-					<a href="https://github.com/konvajs/svelte-konva" class="btn btn-square btn-ghost">
+					<a
+						href="https://github.com/konvajs/svelte-konva"
+						class="btn btn-square btn-ghost"
+						aria-label="svelte-konva on GitHub"
+					>
 						<svg viewBox="0 0 24 24" aria-hidden="true" class="h-7 w-7 fill-base-content"
 							><path
 								fill-rule="evenodd"
