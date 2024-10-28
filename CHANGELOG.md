@@ -1,5 +1,13 @@
 # Unreleased
 
+# v1.0.0-next.2
+
+- Export `KonvaEventHooks` to library user #196 (@CaptainCodeman)
+- Fixed broken svelte-konva component type declarations #202
+- Breaking: Tighten Svelte peer dependency to v5 stable
+- Update to Svelte v5 stable
+- Various dependency updates
+
 # v1.0.0-next.1
 
 - Only import necessary Konva code per component to minimize bundle size #195 (@CaptainCodeman)
