@@ -143,6 +143,18 @@ function handleClick(e) {
 }
 ```
 
+### Cancel event bubbling
+
+Canceling event bubbling with calling `preventDefault()` on the event payload is no longer supported. Set the `cancelBubble` property of the event to true instead:
+
+```diff
+function handleClick(e) {
+     window.alert(`Clicked on rectangle: ${e.type}`);
+-    e.cancelEventBubble();
++    e.cancelBubble = true;
+}
+```
+
 ## Accessing the underlying Konva handle
 
 The way to access the corresponding Konva handle in a svelte-konva component has changed. You can no longer bind the `handle` prop to access it. Instead `handle` is now exposed directly on the component instance. To access it use `bind:this` and then access the `handle` property on the component object:
