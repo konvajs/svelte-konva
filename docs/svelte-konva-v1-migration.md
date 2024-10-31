@@ -150,7 +150,7 @@ Canceling event bubbling with calling `preventDefault()` on the event payload is
 ```diff
 function handleClick(e) {
      window.alert(`Clicked on rectangle: ${e.type}`);
--    e.cancelEventBubble();
+-    e.preventDefault();
 +    e.cancelBubble = true;
 }
 ```
