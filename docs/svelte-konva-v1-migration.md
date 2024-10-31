@@ -224,9 +224,9 @@ When using the svelte-konva `Stage` component, svelte-konva automatically create
 -    id="myWrapperDiv"
 -    class="wrapperDivClass otherClass"
 +    divWrapperProps={{
-       id: "myWrapperDiv",
-       class: "wrapperDivClass otherClass"
-     }}
++       id: "myWrapperDiv",
++       class: "wrapperDivClass otherClass"
++     }}
 >
 </Stage>
 ```
