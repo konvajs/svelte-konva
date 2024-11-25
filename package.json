@@ -54,7 +54,7 @@
 		"@testing-library/svelte": "^5.2.1",
 		"@types/lodash.clonedeep": "^4.5.7",
 		"@typescript-eslint/eslint-plugin": "^7.7.1",
-		"@typescript-eslint/parser": "^7.7.1",
+		"@typescript-eslint/parser": "^8.16.0",
 		"canvas": "^2.11.2",
 		"daisyui": "^4.12.10",
 		"eslint": "^8.56.0",
