@@ -95,8 +95,6 @@ Further information: [Konva API docs](https://konvajs.org/api/Konva.Stage.html),
 	});
 
 	setContainerContext(Container.Stage, inner);
-
-	HTMLDivElement;
 </script>
 
 <div bind:this={stage} {...divWrapperProps}>

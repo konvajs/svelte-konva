@@ -70,7 +70,7 @@
 						</svg>
 					</a>
 					<button class="btn btn-square btn-ghost" onclick={() => darkMode.set(!$darkMode)}>
-						{#if darkMode}
+						{#if $darkMode}
 							<svg
 								xmlns="http://www.w3.org/2000/svg"
 								fill="none"
@@ -120,7 +120,7 @@
 					<a href="https://konvajs.org/docs/svelte" rel="noreferrer">Documentation</a>
 				</li>
 				<li class="menu-title"><span>Examples</span></li>
-				{#each examples as page}
+				{#each examples as page (page.name)}
 					<li>
 						<Link href={page.url}>{page.name}</Link>
 					</li>

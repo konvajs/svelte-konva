@@ -36,6 +36,7 @@ export default ts.config(
 		rules: {
 			'@typescript-eslint/no-non-null-assertion': 'off',
 			'svelte/no-at-html-tags': 'off',
+			'svelte/require-each-key': 'off',
 
 			'@typescript-eslint/no-empty-interface': [
 				'error',
