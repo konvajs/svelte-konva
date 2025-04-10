@@ -1,5 +1,7 @@
 # Unreleased
 
+- Various dependency updates
+
 # v1.0.0-next.2
 
 - Export `KonvaEventHooks` to library user #196 (@CaptainCodeman)
