@@ -47,7 +47,6 @@ test('creates a Konva canvas instance inside of the div', () => {
 	});
 
 	const div = rendered.container.querySelector('#container');
-	console.log(rendered.container.innerHTML);
 	expect(div).toBeTruthy();
 
 	if (div) {
