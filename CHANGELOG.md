@@ -1,5 +1,8 @@
 # Unreleased
 
+- Breaking: Renamed `handle` used to access Konva node to `node`
+- Breaking: `stage.handle()` is no longer a function. Use `stage.node` instead, which is immediately defined and never `null`
+- Breaking: All svelte-konva Component's `node` objects are immediately defined and usable. It is no longer necessary to wait one rendering cycle using `await tick()`
 - Various dependency updates
 
 # v1.0.0-next.2

@@ -27,12 +27,12 @@
 	let drawTimeoutRunning = false; // Used to indicate wether the timeout is currently in progress or not
 
 	function startDraw() {
-		if (!stage || !stage.handle()) return;
+		if (!stage) return;
 
-		const stageHandle = stage.handle();
-		if (!stageHandle) return;
+		const stageNode = stage.node;
+		if (!stageNode) return;
 
-		const pointerPos = getRealPointerPos(stageHandle.getPointerPosition()!, stageHandle);
+		const pointerPos = getRealPointerPos(stageNode.getPointerPosition()!, stageNode);
 
 		const lineConfig = {
 			points: [pointerPos.x, pointerPos.y, pointerPos.x, pointerPos.y], // Initial position is added twice to make a single click visible as dot (otherwise a single click would result in an invisible dot)
@@ -58,16 +58,16 @@
 	function draw() {
 		if (!isDrawing || !stage) return;
 
-		const stageHandle = stage.handle();
+		const stageNode = stage.node;
 
-		if (!stageHandle) return;
+		if (!stageNode) return;
 
 		if (drawTimeout) {
 			if (drawTimeoutRunning) {
 				return;
 			}
 
-			const pointerPos = getRealPointerPos(stageHandle.getPointerPosition()!, stageHandle);
+			const pointerPos = getRealPointerPos(stageNode.getPointerPosition()!, stageNode);
 
 			const points = strokes[strokes.length - 1].points!;
 

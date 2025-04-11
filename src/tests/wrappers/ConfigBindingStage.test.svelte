@@ -11,7 +11,7 @@ Special component for svelte-konva stage component, as it does only support bind
 
 	let {
 		Component,
-		getHandle,
+		getNode,
 		staticConfig = false,
 		x,
 		y,
@@ -20,7 +20,7 @@ Special component for svelte-konva stage component, as it does only support bind
 		Component: any;
 		x: Writable<any>;
 		y: Writable<any>;
-		getHandle: (handle: any) => void;
+		getNode: (node: any) => void;
 		staticConfig?: boolean;
 		[key: string]: any;
 	} = $props();
@@ -28,8 +28,8 @@ Special component for svelte-konva stage component, as it does only support bind
 	let boundComponent: any;
 
 	onMount(() => {
-		// Once we have the inner component handle of the svelte-konva component we pass it to the callback to get access to it in the test function
-		getHandle(boundComponent.handle);
+		// Once we have the Konva node of the svelte-konva component we pass it to the callback to get access to it in the test function
+		getNode(boundComponent.node);
 	});
 </script>
 

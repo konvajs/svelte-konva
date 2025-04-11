@@ -13,7 +13,6 @@ import type { Layer } from 'konva/lib/Layer';
 import type { Group } from 'konva/lib/Group';
 import type { Label } from 'konva/lib/shapes/Label';
 import { getContext, setContext } from 'svelte';
-import type { Writable } from 'svelte/store';
 
 /** Keys used for each konva container element in the svelte context */
 export const CONTAINER_COMPONENT_KEYS = [
@@ -46,7 +45,7 @@ export const LAYER_ERROR = 'svelte-konva: A Layer needs to have a Stage as paren
  * @param kind The current konva container kind
  * @param value The writable store associated with the container
  */
-export function setContainerContext(kind: Container, value: Writable<null | KonvaContainer>) {
+export function setContainerContext(kind: Container, value: null | KonvaContainer) {
 	// Set all parent context to null
 	CONTAINER_COMPONENT_KEYS.forEach((key) => {
 		setContext(key, null);
@@ -55,9 +54,16 @@ export function setContainerContext(kind: Container, value: Writable<null | Konv
 	setContext(CONTAINER_COMPONENT_KEYS[kind], value);
 }
 
-export function getParentContainer(): Writable<null | KonvaParent> {
+/**
+ * Gets the Konva parent container (Layer, Group, Label) of a svelte-konva component
+ *
+ * @returns Konva parent container
+ * @throws if component does not have a Konva parent (wrong usage of library)
+ */
+export function getParentContainer(): KonvaParent {
 	for (let i = 1; i < 4; i++) {
-		const parent = getContext<null | Writable<null | KonvaParent>>(CONTAINER_COMPONENT_KEYS[i]);
+		// Loop all containers excluding stage
+		const parent = getContext<null | KonvaParent>(CONTAINER_COMPONENT_KEYS[i]);
 
 		if (parent) {
 			return parent;
@@ -67,10 +73,14 @@ export function getParentContainer(): Writable<null | KonvaParent> {
 	throw new Error(CONTAINER_ERROR);
 }
 
-export function getParentStage(): Writable<null | Stage> {
-	const parent = getContext<null | Writable<null | Stage>>(
-		CONTAINER_COMPONENT_KEYS[Container.Stage]
-	);
+/**
+ * Gets the Konva parent Stage of a svelte-konva layer component
+ *
+ * @returns Konva parent container
+ * @throws if component does not have a Konva parent or it is not a stage (wrong usage of library)
+ */
+export function getParentStage(): Stage {
+	const parent = getContext<null | Stage>(CONTAINER_COMPONENT_KEYS[Container.Stage]);
 
 	if (parent) {
 		return parent;

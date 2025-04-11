@@ -42,13 +42,13 @@ test('is correctly added to the parent Layer', () => {
 	});
 
 	const parent: Konva.Container = get(mockContext.get(CONTAINER_COMPONENT_KEYS[Container.Layer])!);
-	const handle = rendered.component.handle;
+	const node = rendered.component.node;
 
 	expect(parent.children).toBeTruthy();
 
 	if (parent.children) {
 		expect(parent.children.length).toBe(1);
-		expect(parent.children[0]).toStrictEqual(handle);
+		expect(parent.children[0]).toStrictEqual(node);
 	}
 });
 
@@ -60,13 +60,13 @@ test('is correctly added to the parent Group', () => {
 	});
 
 	const parent: Konva.Container = get(mockContext.get(CONTAINER_COMPONENT_KEYS[Container.Group])!);
-	const handle = rendered.component.handle;
+	const node = rendered.component.node;
 
 	expect(parent.children).toBeTruthy();
 
 	if (parent.children) {
 		expect(parent.children.length).toBe(1);
-		expect(parent.children[0]).toStrictEqual(handle);
+		expect(parent.children[0]).toStrictEqual(node);
 	}
 });
 
@@ -78,13 +78,13 @@ test('is correctly added to the parent Label', () => {
 	});
 
 	const parent: Konva.Container = get(mockContext.get(CONTAINER_COMPONENT_KEYS[Container.Label])!);
-	const handle = rendered.component.handle;
+	const node = rendered.component.node;
 
 	expect(parent.children).toBeTruthy();
 
 	if (parent.children) {
 		expect(parent.children.length).toBe(1);
-		expect(parent.children[0]).toStrictEqual(handle);
+		expect(parent.children[0]).toStrictEqual(node);
 	}
 });
 
@@ -98,12 +98,12 @@ test('Can listen to Konva events', () => {
 		}
 	});
 
-	const handle = rendered.component.handle;
+	const node = rendered.component.node;
 
 	const div = document.createElement('div');
 	const stage = new Konva.Stage({ container: div, width: 1000, height: 1000 });
 
-	stage.add(handle.getLayer()!);
+	stage.add(node.getLayer()!);
 
 	(stage as MockStage).simulateMouseDown({ x: 50, y: 50 });
 
@@ -115,7 +115,7 @@ test('Correctly updates bound config on dragend', () => {
 	const CONFIG = { ...rawConfig, draggable: true };
 	const xWritable = writable(CONFIG.x);
 	const yWritable = writable(CONFIG.y);
-	let handle: Konva.Star | null = null;
+	let node: Konva.Star | null = null;
 
 	render(ConfigBinding, {
 		context: createMockParentContext(Container.Layer),
@@ -124,14 +124,14 @@ test('Correctly updates bound config on dragend', () => {
 			...CONFIG,
 			x: xWritable,
 			y: yWritable,
-			getHandle: (hnd) => (handle = hnd)
+			getNode: (nd) => (node = nd)
 		}
 	});
 
 	const div = document.createElement('div');
 	const stage = new Konva.Stage({ container: div, width: 1000, height: 1000 });
 
-	stage.add(handle!.getLayer()!);
+	stage.add(node!.getLayer()!);
 
 	(stage as MockStage).simulateMouseDown({ x: 50, y: 50 });
 	(stage as MockStage).simulateMouseMove({ x: 100, y: 100 });
@@ -147,7 +147,7 @@ test('Does not update config if instantiated with staticConfig prop', () => {
 	const oldConfig = { ...CONFIG };
 	const xWritable = writable(CONFIG.x);
 	const yWritable = writable(CONFIG.y);
-	let handle: Konva.Star | null = null;
+	let node: Konva.Star | null = null;
 
 	render(ConfigBinding, {
 		context: createMockParentContext(Container.Layer),
@@ -156,7 +156,7 @@ test('Does not update config if instantiated with staticConfig prop', () => {
 			...CONFIG,
 			x: xWritable,
 			y: yWritable,
-			getHandle: (hnd) => (handle = hnd),
+			getNode: (nd) => (node = nd),
 			staticConfig: true
 		}
 	});
@@ -164,7 +164,7 @@ test('Does not update config if instantiated with staticConfig prop', () => {
 	const div = document.createElement('div');
 	const stage = new Konva.Stage({ container: div, width: 1000, height: 1000 });
 
-	stage.add(handle!.getLayer()!);
+	stage.add(node!.getLayer()!);
 
 	(stage as MockStage).simulateMouseDown({ x: 50, y: 50 });
 	(stage as MockStage).simulateMouseMove({ x: 100, y: 100 });

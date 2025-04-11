@@ -9,7 +9,7 @@ Wraps the to be tested svelte-konva component so that the binding of the config 
 
 	let {
 		Component,
-		getHandle,
+		getNode,
 		staticConfig = false,
 		x,
 		y,
@@ -30,7 +30,7 @@ Wraps the to be tested svelte-konva component so that the binding of the config 
 		rotation?: Writable<any>;
 		skewX?: Writable<any>;
 		skewY?: Writable<any>;
-		getHandle: (handle: any) => void;
+		getNode: (node: any) => void;
 		staticConfig?: boolean;
 		[key: string]: any;
 	} = $props();
@@ -38,8 +38,8 @@ Wraps the to be tested svelte-konva component so that the binding of the config 
 	let boundComponent: any;
 
 	onMount(() => {
-		// Once we have the inner component handle of the svelte-konva component we pass it to the callback to get access to it in the test function
-		getHandle(boundComponent.handle);
+		// Once we have the Konva node of the svelte-konva component we pass it to the callback to get access to it in the test function
+		getNode(boundComponent.node);
 	});
 </script>
 

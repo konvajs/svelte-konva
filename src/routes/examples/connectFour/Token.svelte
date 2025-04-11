@@ -141,7 +141,7 @@
 
 		// Create a tween to animate the drop
 		const tween = new Konva.Tween({
-			node: token!.handle,
+			node: token!.node,
 			duration: 1,
 			y: GAME_GRID_ROW_POSITIONS[rowPos!],
 			easing: Konva.Easings.BounceEaseOut,

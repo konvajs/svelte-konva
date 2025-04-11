@@ -23,10 +23,8 @@ Further information: [Konva API docs](https://konvajs.org/api/Konva.Layer.html),
 -->
 <script lang="ts">
 	import Konva from 'konva/lib/Core';
-	import type { Stage } from 'konva/lib/Stage';
-	import type { Layer as KonvaLayer, LayerConfig } from 'konva/lib/Layer';
-	import { onMount, onDestroy } from 'svelte';
-	import { type Writable, writable } from 'svelte/store';
+	import type { LayerConfig } from 'konva/lib/Layer';
+	import { onDestroy } from 'svelte';
 	import { Container, getParentStage, setContainerContext } from '$lib/util/manageContext';
 	import { registerEvents } from '$lib/util/events';
 	import { type PropsContainer, type Props } from '$lib/util/props';
@@ -45,7 +43,7 @@ Further information: [Konva API docs](https://konvajs.org/api/Konva.Layer.html),
 		...restProps
 	}: Props<LayerConfig> & PropsContainer = $props();
 
-	export const handle = new Konva.Layer({
+	export const node = new Konva.Layer({
 		x,
 		y,
 		scale,
@@ -57,82 +55,69 @@ Further information: [Konva API docs](https://konvajs.org/api/Konva.Layer.html),
 		...restProps
 	});
 
-	const inner = writable<null | KonvaLayer>(null);
+	// Add layer to stage
+	getParentStage().add(node);
 
-	let isReady = $state(false);
+	if (!staticConfig) {
+		const attrs = node.getAttrs();
 
-	let parent: Writable<null | Stage> = getParentStage();
+		node.on('transformend', () => {
+			if (x !== undefined) x = attrs.x;
+			if (y !== undefined) y = attrs.y;
+			if (scale !== undefined) scale = attrs.scale;
+			if (scaleX !== undefined) scaleX = attrs.scaleX;
+			if (scaleY !== undefined) scaleY = attrs.scaleY;
+			if (rotation !== undefined) rotation = attrs.rotation;
+			if (skewX !== undefined) skewX = attrs.skewX;
+			if (skewY !== undefined) skewY = attrs.skewY;
+		});
 
-	onMount(() => {
-		$parent!.add(handle);
+		node.on('dragend', () => {
+			if (x !== undefined) x = attrs.x;
+			if (y !== undefined) y = attrs.y;
+		});
+	}
 
-		if (!staticConfig) {
-			const attrs = handle.getAttrs();
-
-			handle.on('transformend', () => {
-				if (x !== undefined) x = attrs.x;
-				if (y !== undefined) y = attrs.y;
-				if (scale !== undefined) scale = attrs.scale;
-				if (scaleX !== undefined) scaleX = attrs.scaleX;
-				if (scaleY !== undefined) scaleY = attrs.scaleY;
-				if (rotation !== undefined) rotation = attrs.rotation;
-				if (skewX !== undefined) skewX = attrs.skewX;
-				if (skewY !== undefined) skewY = attrs.skewY;
+	Object.keys(restProps)
+		.filter((e) => !e.startsWith('on')) // Do not register svelte-konva event hooks as node attributes (Currently no konva config property starts with "on" so this is the fastest and most inexpensive way to filter out the event hooks from the provided props)
+		.forEach((e) => {
+			$effect(() => {
+				node.setAttr(e, restProps[e]);
 			});
-
-			handle.on('dragend', () => {
-				if (x !== undefined) x = attrs.x;
-				if (y !== undefined) y = attrs.y;
-			});
-		}
-
-		Object.keys(restProps)
-			.filter((e) => !e.startsWith('on')) // Do not register svelte-konva event hooks as node attributes (Currently no konva config property starts with "on" so this is the fastest and most inexpensive way to filter out the event hooks from the provided props)
-			.forEach((e) => {
-				$effect(() => {
-					handle.setAttr(e, restProps[e]);
-				});
-			});
-
-		// Register explicit props (not included in restProps)
-		$effect(() => {
-			handle.setAttr('x', x);
-		});
-		$effect(() => {
-			handle.setAttr('y', y);
-		});
-		$effect(() => {
-			handle.setAttr('scale', scale);
-		});
-		$effect(() => {
-			handle.setAttr('scaleX', scaleX);
-		});
-		$effect(() => {
-			handle.setAttr('scaleY', scaleY);
-		});
-		$effect(() => {
-			handle.setAttr('rotation', rotation);
-		});
-		$effect(() => {
-			handle.setAttr('skewX', skewX);
-		});
-		$effect(() => {
-			handle.setAttr('skewY', skewY);
 		});
 
-		registerEvents(restProps, handle);
-
-		inner.set(handle);
-		isReady = true;
+	// Register explicit props (not included in restProps)
+	$effect(() => {
+		node.setAttr('x', x);
 	});
+	$effect(() => {
+		node.setAttr('y', y);
+	});
+	$effect(() => {
+		node.setAttr('scale', scale);
+	});
+	$effect(() => {
+		node.setAttr('scaleX', scaleX);
+	});
+	$effect(() => {
+		node.setAttr('scaleY', scaleY);
+	});
+	$effect(() => {
+		node.setAttr('rotation', rotation);
+	});
+	$effect(() => {
+		node.setAttr('skewX', skewX);
+	});
+	$effect(() => {
+		node.setAttr('skewY', skewY);
+	});
+
+	registerEvents(restProps, node);
+	setContainerContext(Container.Layer, node);
 
 	onDestroy(() => {
-		handle.destroy();
+		node.destroy();
 	});
-
-	setContainerContext(Container.Layer, inner);
 </script>
 
-{#if isReady && children}
-	{@render children()}
-{/if}
+{@render children?.()}

@@ -43,9 +43,9 @@ test('passes the config prop', () => {
 		props: CONFIG
 	});
 
-	const handle = rendered.component.handle;
+	const node = rendered.component.node;
 
-	expect(handle.getAttrs()).toStrictEqual(CONFIG);
+	expect(node.getAttrs()).toStrictEqual(CONFIG);
 });
 
 test('is correctly added to the parent stage', () => {
@@ -56,13 +56,13 @@ test('is correctly added to the parent stage', () => {
 	});
 
 	const parent: Konva.Container = get(mockContext.get(CONTAINER_COMPONENT_KEYS[Container.Stage])!);
-	const handle = rendered.component.handle;
+	const node = rendered.component.node;
 
 	expect(parent.children).toBeTruthy();
 
 	if (parent.children) {
 		expect(parent.children.length).toBe(1);
-		expect(parent.children[0]).toStrictEqual(handle);
+		expect(parent.children[0]).toStrictEqual(node);
 	}
 });
 
@@ -76,16 +76,16 @@ test('Can listen to Konva events', () => {
 		}
 	});
 
-	const handle = rendered.component.handle;
+	const node = rendered.component.node;
 
 	// As the layer only receives events if any of its children detects an event
 	// we need to create a shape as child of the layer and start the event on that shape
 	// in order to detect the event on the layer. Otherwise clicking on an empty layer only
 	// results in a stage event.
 	const rectangle = new Konva.Rect({ x: 0, y: 0, width: 100, height: 100 });
-	handle.add(rectangle);
+	node.add(rectangle);
 
-	const stage = handle.getStage();
+	const stage = node.getStage();
 
 	stage.draw();
 
@@ -99,7 +99,7 @@ test('Correctly updates bound config on dragend', () => {
 	const div = document.createElement('div');
 	const xWritable = writable(CONFIG.x);
 	const yWritable = writable(CONFIG.y);
-	let handle: Konva.Layer | null = null;
+	let node: Konva.Layer | null = null;
 
 	render(ConfigBinding, {
 		context: createMockParentContext(Container.Stage, div),
@@ -108,14 +108,14 @@ test('Correctly updates bound config on dragend', () => {
 			...CONFIG,
 			x: xWritable,
 			y: yWritable,
-			getHandle: (hnd) => (handle = hnd)
+			getNode: (nd) => (node = nd)
 		}
 	});
 
-	const stage = handle!.getStage()!;
+	const stage = node!.getStage()!;
 	const rectangle = new Konva.Rect({ x: 0, y: 0, width: 100, height: 100, fill: 'red' });
 
-	handle!.add(rectangle);
+	node!.add(rectangle);
 
 	stage.draw();
 
@@ -133,7 +133,7 @@ test('Does not update config if instantiated with staticConfig prop', async () =
 	const div = document.createElement('div');
 	const xWritable = writable(CONFIG.x);
 	const yWritable = writable(CONFIG.y);
-	let handle: Konva.Layer | null = null;
+	let node: Konva.Layer | null = null;
 
 	render(ConfigBinding, {
 		context: createMockParentContext(Container.Stage, div),
@@ -142,15 +142,15 @@ test('Does not update config if instantiated with staticConfig prop', async () =
 			...CONFIG,
 			x: xWritable,
 			y: yWritable,
-			getHandle: (hnd) => (handle = hnd),
+			getNode: (nd) => (node = nd),
 			staticConfig: true
 		}
 	});
 
-	const stage = handle!.getStage()!;
+	const stage = node!.getStage()!;
 	const rectangle = new Konva.Rect({ x: 0, y: 0, width: 100, height: 100, fill: 'red' });
 
-	handle!.add(rectangle);
+	node!.add(rectangle);
 
 	stage.draw();
 
@@ -166,18 +166,18 @@ test('sets the correct context', () => {
 	/* eslint-disable @typescript-eslint/no-explicit-any */
 	const div = document.createElement('div');
 	let childContext: Map<string, any> | null = null;
-	let handle: Konva.Layer | null = null;
+	let node: Konva.Layer | null = null;
 
 	render(ContainerContext, {
 		context: createMockParentContext(Container.Stage, div),
 		props: {
 			Component: Layer,
-			getHandle: (hnd) => (handle = hnd),
+			getNode: (nd) => (node = nd),
 			getComponentContext: (ctxMap) => (childContext = ctxMap)
 		}
 	});
 
-	expect(get(childContext!.get(CONTAINER_COMPONENT_KEYS[Container.Layer]))).toStrictEqual(handle!);
+	expect(get(childContext!.get(CONTAINER_COMPONENT_KEYS[Container.Layer]))).toStrictEqual(node!);
 });
 
 test('nulls unused context', () => {

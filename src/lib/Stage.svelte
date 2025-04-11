@@ -19,11 +19,9 @@ It is recommended to only pass `staticConfig = true` if you indeed run into perf
 Further information: [Konva API docs](https://konvajs.org/api/Konva.Stage.html), [svelte-konva docs](https://konvajs.org/docs/svelte)
 -->
 <script lang="ts">
-	import Konva from 'konva/lib/Core';
 	import type { ContainerConfig } from 'konva/lib/Container';
-	import type { Stage as KonvaStage } from 'konva/lib/Stage';
+	import { Stage as KonvaStage } from 'konva/lib/Stage';
 	import { onMount, onDestroy } from 'svelte';
-	import { writable } from 'svelte/store';
 	import { registerEvents } from '$lib/util/events';
 	import { Container, setContainerContext } from '$lib/util/manageContext';
 	import { type Props, type PropsContainer, type PropsStage } from '$lib/util/props';
@@ -38,67 +36,56 @@ Further information: [Konva API docs](https://konvajs.org/api/Konva.Stage.html),
 		...restProps
 	}: Props<ContainerConfig> & PropsContainer & PropsStage = $props();
 
-	let _handle: KonvaStage | null = $state(null);
-	export function handle() {
-		return _handle;
-	}
-
-	const inner = writable<null | KonvaStage>(null);
-
 	let stage: HTMLDivElement;
 
-	let isReady = $state(false);
+	// In order to immediately have an initialized Konva Stage object we supply it with a fake div container and replace it with the real one once it is rendered to the DOM
+	const fakeContainer = document.createElement('div');
+
+	export const node = new KonvaStage({
+		container: fakeContainer,
+		y,
+		x,
+		...restProps
+	});
+
+	if (!staticConfig) {
+		const attrs = node.getAttrs();
+
+		node.on('dragend', () => {
+			if (x !== undefined) x = attrs.x;
+			if (y !== undefined) y = attrs.y;
+		});
+	}
+
+	Object.keys(restProps)
+		.filter((e) => !e.startsWith('on')) // Do not register svelte-konva event hooks as node attributes (Currently no konva config property starts with "on" so this is the fastest and most inexpensive way to filter out the event hooks from the provided props)
+		.forEach((e) => {
+			$effect(() => {
+				node!.setAttr(e, restProps[e]);
+			});
+		});
+
+	// Register explicit props (not included in restProps)
+	$effect(() => {
+		node!.setAttr('x', x);
+	});
+	$effect(() => {
+		node!.setAttr('y', y);
+	});
+
+	registerEvents(restProps, node);
+	setContainerContext(Container.Stage, node);
 
 	onMount(() => {
-		_handle = new Konva.Stage({
-			container: stage,
-			y,
-			x,
-			...restProps
-		});
-
-		if (!staticConfig) {
-			const attrs = _handle.getAttrs();
-
-			_handle.on('dragend', () => {
-				if (x !== undefined) x = attrs.x;
-				if (y !== undefined) y = attrs.y;
-			});
-		}
-
-		Object.keys(restProps)
-			.filter((e) => !e.startsWith('on')) // Do not register svelte-konva event hooks as node attributes (Currently no konva config property starts with "on" so this is the fastest and most inexpensive way to filter out the event hooks from the provided props)
-			.forEach((e) => {
-				$effect(() => {
-					_handle!.setAttr(e, restProps[e]);
-				});
-			});
-
-		// Register explicit props (not included in restProps)
-		$effect(() => {
-			_handle!.setAttr('x', x);
-		});
-		$effect(() => {
-			_handle!.setAttr('y', y);
-		});
-
-		registerEvents(restProps, _handle);
-
-		inner.set(_handle);
-		isReady = true;
+		// mount Konva object onto real wrapper div
+		node.setContainer(stage);
 	});
 
 	onDestroy(() => {
-		if (_handle) {
-			_handle.destroy();
-		}
+		node.destroy();
 	});
-
-	setContainerContext(Container.Stage, inner);
 </script>
 
 <div bind:this={stage} {...divWrapperProps}>
-	{#if isReady && children}
-		{@render children()}
-	{/if}
+	{@render children?.()}
 </div>

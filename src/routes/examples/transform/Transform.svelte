@@ -61,8 +61,7 @@
 	function selectStart(e: KonvaPointerEvent) {
 		if (!transformer || !stage) return;
 
-		const handle = stage.handle();
-		if (!handle) return;
+		const stageNode = stage.node;
 
 		// Check if event target is stage (eg. user clicked on empty part of the stage and not any shape)
 		if (e.target.getType() !== 'Stage') {
@@ -71,12 +70,12 @@
 
 		// If there is already a selection active, cancel it
 		if (selectionActive) {
-			transformer.handle.nodes([]);
+			transformer.node.nodes([]);
 			selectionActive = false;
 			return;
 		}
 
-		const pointerPos = getRealPointerPos(handle.getPointerPosition()!, handle);
+		const pointerPos = getRealPointerPos(stageNode.getPointerPosition()!, stageNode);
 
 		selectionRectangleConfig.x = pointerPos.x;
 		selectionRectangleConfig.y = pointerPos.y;
@@ -90,15 +89,14 @@
 	function selectDrag() {
 		if (!stage) return;
 
-		const handle = stage.handle();
-		if (!handle) return;
+		const node = stage.node;
 
 		if (!selectionRectangleConfig.visible) {
 			// Currently no selection is active (eg. user is just moving the cursor around)
 			return;
 		}
 
-		const pointerPos = getRealPointerPos(handle.getPointerPosition()!, handle);
+		const pointerPos = getRealPointerPos(node.getPointerPosition()!, node);
 
 		// Set new x coordinate and width of selection rectangle
 		selectionRectangleConfig.x = Math.min(pointerPos.x, initialSelectionCoordinates.x);
@@ -116,19 +114,19 @@
 			return;
 		}
 
-		if (layer.handle.children) {
-			const selectedEntities = layer.handle.children.filter(
+		if (layer.node.children) {
+			const selectedEntities = layer.node.children.filter(
 				(child) =>
 					child.name() !== SELECTION_RECTANGLE_NAME &&
 					Konva.Util.haveIntersection(
-						selectionRectangle!.handle.getClientRect(),
+						selectionRectangle!.node.getClientRect(),
 						child.getClientRect()
 					)
 			);
 
 			if (selectedEntities.length !== 0) {
 				// Add all selected shapes etc. to the transformer
-				transformer.handle.nodes(selectedEntities);
+				transformer.node.nodes(selectedEntities);
 
 				selectionActive = true;
 			}

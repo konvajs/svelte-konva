@@ -42,13 +42,13 @@ test('is correctly added to the parent Layer', () => {
 	});
 
 	const parent: Konva.Container = get(mockContext.get(CONTAINER_COMPONENT_KEYS[Container.Layer])!);
-	const handle = rendered.component.handle;
+	const node = rendered.component.node;
 
 	expect(parent.children).toBeTruthy();
 
 	if (parent.children) {
 		expect(parent.children.length).toBe(1);
-		expect(parent.children[0]).toStrictEqual(handle);
+		expect(parent.children[0]).toStrictEqual(node);
 	}
 });
 
@@ -60,13 +60,13 @@ test('is correctly added to the parent Group', () => {
 	});
 
 	const parent: Konva.Container = get(mockContext.get(CONTAINER_COMPONENT_KEYS[Container.Group])!);
-	const handle = rendered.component.handle;
+	const node = rendered.component.node;
 
 	expect(parent.children).toBeTruthy();
 
 	if (parent.children) {
 		expect(parent.children.length).toBe(1);
-		expect(parent.children[0]).toStrictEqual(handle);
+		expect(parent.children[0]).toStrictEqual(node);
 	}
 });
 
@@ -78,13 +78,13 @@ test('is correctly added to the parent Label', () => {
 	});
 
 	const parent: Konva.Container = get(mockContext.get(CONTAINER_COMPONENT_KEYS[Container.Label])!);
-	const handle = rendered.component.handle;
+	const node = rendered.component.node;
 
 	expect(parent.children).toBeTruthy();
 
 	if (parent.children) {
 		expect(parent.children.length).toBe(1);
-		expect(parent.children[0]).toStrictEqual(handle);
+		expect(parent.children[0]).toStrictEqual(node);
 	}
 });
 
@@ -97,14 +97,14 @@ test('Can listen to Konva events', () => {
 		}
 	});
 
-	const handle = rendered.component.handle;
+	const node = rendered.component.node;
 
 	const div = document.createElement('div');
 	const stage = new Konva.Stage({ container: div, width: 1000, height: 1000 });
 	const rectangle = new Konva.Rect({ x: 0, y: 0, width: 100, height: 100 });
 
-	handle.add(rectangle);
-	stage.add(handle.getLayer()!);
+	node.add(rectangle);
+	stage.add(node.getLayer()!);
 
 	(stage as MockStage).simulateMouseDown({ x: 50, y: 50 });
 
@@ -115,7 +115,7 @@ test('Correctly updates bound config on dragend', () => {
 	const CONFIG = { x: 0, y: 0, draggable: true };
 	const xWritable = writable(CONFIG.x);
 	const yWritable = writable(CONFIG.y);
-	let handle: Konva.Label | null = null;
+	let node: Konva.Label | null = null;
 
 	render(ConfigBinding, {
 		context: createMockParentContext(Container.Layer),
@@ -124,7 +124,7 @@ test('Correctly updates bound config on dragend', () => {
 			...CONFIG,
 			x: xWritable,
 			y: yWritable,
-			getHandle: (hnd) => (handle = hnd)
+			getNode: (nd) => (node = nd)
 		}
 	});
 
@@ -132,8 +132,8 @@ test('Correctly updates bound config on dragend', () => {
 	const stage = new Konva.Stage({ container: div, width: 1000, height: 1000 });
 	const rectangle = new Konva.Rect({ x: 0, y: 0, width: 100, height: 100 });
 
-	handle!.add(rectangle);
-	stage.add(handle!.getLayer()!);
+	node!.add(rectangle);
+	stage.add(node!.getLayer()!);
 
 	(stage as MockStage).simulateMouseDown({ x: 50, y: 50 });
 	(stage as MockStage).simulateMouseMove({ x: 100, y: 100 });
@@ -148,7 +148,7 @@ test('Does not update config if instantiated with staticConfig prop', async () =
 	const oldConfig = { ...CONFIG };
 	const xWritable = writable(CONFIG.x);
 	const yWritable = writable(CONFIG.y);
-	let handle: Konva.Label | null = null;
+	let node: Konva.Label | null = null;
 
 	render(ConfigBinding, {
 		context: createMockParentContext(Container.Layer),
@@ -157,7 +157,7 @@ test('Does not update config if instantiated with staticConfig prop', async () =
 			...CONFIG,
 			x: xWritable,
 			y: yWritable,
-			getHandle: (hnd) => (handle = hnd),
+			getNode: (nd) => (node = nd),
 			staticConfig: true
 		}
 	});
@@ -166,8 +166,8 @@ test('Does not update config if instantiated with staticConfig prop', async () =
 	const stage = new Konva.Stage({ container: div, width: 1000, height: 1000 });
 	const rectangle = new Konva.Rect({ x: 0, y: 0, width: 100, height: 100 });
 
-	handle!.add(rectangle);
-	stage.add(handle!.getLayer()!);
+	node!.add(rectangle);
+	stage.add(node!.getLayer()!);
 
 	(stage as MockStage).simulateMouseDown({ x: 50, y: 50 });
 	(stage as MockStage).simulateMouseMove({ x: 100, y: 100 });
@@ -180,18 +180,18 @@ test('Does not update config if instantiated with staticConfig prop', async () =
 test('sets the correct context', () => {
 	/* eslint-disable @typescript-eslint/no-explicit-any */
 	let childContext: Map<string, any> | null = null;
-	let handle: Konva.Label | null = null;
+	let node: Konva.Label | null = null;
 
 	render(ContainerContext, {
 		context: createMockParentContext(Container.Layer),
 		props: {
 			Component: Label,
-			getHandle: (hnd) => (handle = hnd),
+			getNode: (nd) => (node = nd),
 			getComponentContext: (ctxMap) => (childContext = ctxMap)
 		}
 	});
 
-	expect(get(childContext!.get(CONTAINER_COMPONENT_KEYS[Container.Label]))).toStrictEqual(handle!);
+	expect(get(childContext!.get(CONTAINER_COMPONENT_KEYS[Container.Label]))).toStrictEqual(node!);
 });
 
 test('nulls unused context', () => {

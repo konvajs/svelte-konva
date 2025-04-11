@@ -69,13 +69,13 @@ test('creates a konva stage instance and passes config prop', () => {
 		}
 	});
 
-	const handle = rendered.component.handle();
+	const node = rendered.component.node;
 
-	expect(handle).toBeTruthy();
+	expect(node).toBeTruthy();
 
-	expect(handle).toBeInstanceOf(Konva.Stage);
+	expect(node).toBeInstanceOf(Konva.Stage);
 
-	expect((handle as Konva.Stage).getSize()).toStrictEqual(CONFIG);
+	expect((node as Konva.Stage).getSize()).toStrictEqual(CONFIG);
 });
 
 test('Can listen to Konva events', () => {
@@ -87,9 +87,9 @@ test('Can listen to Konva events', () => {
 		onmousedown: mockFn
 	});
 
-	const handle = rendered.component.handle();
+	const node = rendered.component.node;
 
-	(handle as MockStage).simulateMouseDown({ x: 50, y: 50 });
+	(node as MockStage).simulateMouseDown({ x: 50, y: 50 });
 
 	expect(mockFn).toHaveBeenCalledTimes(1);
 });
@@ -98,7 +98,7 @@ test('Correctly updates bound config on dragend', () => {
 	const CONFIG = { x: 0, y: 0, width: 1000, height: 1000, draggable: true };
 	const xWritable = writable(CONFIG.x);
 	const yWritable = writable(CONFIG.y);
-	let handle: MockStage | null = null;
+	let node: MockStage | null = null;
 
 	render(ConfigBindingStage, {
 		props: {
@@ -106,13 +106,13 @@ test('Correctly updates bound config on dragend', () => {
 			...CONFIG,
 			x: xWritable,
 			y: yWritable,
-			getHandle: (hnd) => (handle = hnd())
+			getNode: (nd) => (node = nd)
 		}
 	});
 
-	handle!.simulateMouseDown({ x: 50, y: 50 });
-	handle!.simulateMouseMove({ x: 100, y: 100 });
-	handle!.simulateMouseUp({ x: 100, y: 100 });
+	node!.simulateMouseDown({ x: 50, y: 50 });
+	node!.simulateMouseMove({ x: 100, y: 100 });
+	node!.simulateMouseUp({ x: 100, y: 100 });
 
 	expect(get(xWritable)).toEqual(50);
 	expect(get(yWritable)).toEqual(50);
@@ -123,7 +123,7 @@ test('Does not update config if instantiated with staticConfig prop', async () =
 	const oldConfig = { ...CONFIG };
 	const xWritable = writable(CONFIG.x);
 	const yWritable = writable(CONFIG.y);
-	let handle: MockStage | null = null;
+	let node: MockStage | null = null;
 
 	render(ConfigBindingStage, {
 		props: {
@@ -131,14 +131,14 @@ test('Does not update config if instantiated with staticConfig prop', async () =
 			...CONFIG,
 			x: xWritable,
 			y: yWritable,
-			getHandle: (hnd) => (handle = hnd()),
+			getNode: (nd) => (node = nd),
 			staticConfig: true
 		}
 	});
 
-	handle!.simulateMouseDown({ x: 50, y: 50 });
-	handle!.simulateMouseMove({ x: 100, y: 100 });
-	handle!.simulateMouseUp({ x: 100, y: 100 });
+	node!.simulateMouseDown({ x: 50, y: 50 });
+	node!.simulateMouseMove({ x: 100, y: 100 });
+	node!.simulateMouseUp({ x: 100, y: 100 });
 
 	expect(get(xWritable)).toEqual(oldConfig.x);
 	expect(get(yWritable)).toEqual(oldConfig.y);
@@ -147,19 +147,19 @@ test('Does not update config if instantiated with staticConfig prop', async () =
 test('sets the correct context', () => {
 	/* eslint-disable @typescript-eslint/no-explicit-any */
 	let childContext: Map<string, any> | null = null;
-	let handle: Konva.Stage | null = null;
+	let node: Konva.Stage | null = null;
 
 	render(ContainerContext, {
 		props: {
 			Component: Stage,
 			width: 1000,
 			height: 1000,
-			getHandle: (hnd) => (handle = hnd()),
+			getNode: (nd) => (node = nd),
 			getComponentContext: (ctxMap) => (childContext = ctxMap)
 		}
 	});
 
-	expect(get(childContext!.get(CONTAINER_COMPONENT_KEYS[Container.Stage]))).toStrictEqual(handle!);
+	expect(get(childContext!.get(CONTAINER_COMPONENT_KEYS[Container.Stage]))).toStrictEqual(node!);
 });
 
 test('nulls unused context', () => {
