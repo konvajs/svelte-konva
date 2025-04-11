@@ -1,6 +1,5 @@
 import Konva from 'konva';
 import { Container, CONTAINER_COMPONENT_KEYS } from '$lib/util/manageContext';
-import { writable, type Writable } from 'svelte/store';
 
 /**
  * Currently testing in Svelte is very limited especially for special/unusual things like svelte-konva.
@@ -14,7 +13,7 @@ import { writable, type Writable } from 'svelte/store';
 export function createMockParentContext(
 	parent: Container,
 	container?: HTMLDivElement
-): Map<string, Writable<Konva.Container> | null> {
+): Map<string, Konva.Container | null> {
 	let konvaContainer;
 	switch (parent) {
 		case Container.Stage:
@@ -23,16 +22,16 @@ export function createMockParentContext(
 					'To create a Stage as parent you need to provide a HTML div element in the container argument of the function.'
 				);
 			}
-			konvaContainer = writable(new Konva.Stage({ container, width: 1000, height: 1000 }));
+			konvaContainer = new Konva.Stage({ container, width: 1000, height: 1000 });
 			break;
 		case Container.Layer:
-			konvaContainer = writable(new Konva.Layer());
+			konvaContainer = new Konva.Layer();
 			break;
 		case Container.Group:
-			konvaContainer = writable(new Konva.Group());
+			konvaContainer = new Konva.Group();
 			break;
 		case Container.Label:
-			konvaContainer = writable(new Konva.Label());
+			konvaContainer = new Konva.Label();
 			break;
 		default:
 			assertUnreachable(parent);

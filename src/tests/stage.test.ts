@@ -159,7 +159,7 @@ test('sets the correct context', () => {
 		}
 	});
 
-	expect(get(childContext!.get(CONTAINER_COMPONENT_KEYS[Container.Stage]))).toStrictEqual(node!);
+	expect(childContext!.get(CONTAINER_COMPONENT_KEYS[Container.Stage])).toStrictEqual(node!);
 });
 
 test('nulls unused context', () => {

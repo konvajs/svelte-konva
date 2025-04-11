@@ -55,7 +55,7 @@ test('is correctly added to the parent stage', () => {
 		context: mockContext
 	});
 
-	const parent: Konva.Container = get(mockContext.get(CONTAINER_COMPONENT_KEYS[Container.Stage])!);
+	const parent: Konva.Container = mockContext.get(CONTAINER_COMPONENT_KEYS[Container.Stage])!;
 	const node = rendered.component.node;
 
 	expect(parent.children).toBeTruthy();
@@ -177,7 +177,7 @@ test('sets the correct context', () => {
 		}
 	});
 
-	expect(get(childContext!.get(CONTAINER_COMPONENT_KEYS[Container.Layer]))).toStrictEqual(node!);
+	expect(childContext!.get(CONTAINER_COMPONENT_KEYS[Container.Layer])).toStrictEqual(node!);
 });
 
 test('nulls unused context', () => {
@@ -208,7 +208,7 @@ test('Konva instance is correctly destroyed on component unmount', () => {
 		context: mockContext
 	});
 
-	const parent: Konva.Container = get(mockContext.get(CONTAINER_COMPONENT_KEYS[Container.Stage])!);
+	const parent: Konva.Container = mockContext.get(CONTAINER_COMPONENT_KEYS[Container.Stage])!;
 
 	expect(parent.children).toBeTruthy();
 

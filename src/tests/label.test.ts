@@ -41,7 +41,7 @@ test('is correctly added to the parent Layer', () => {
 		props: {}
 	});
 
-	const parent: Konva.Container = get(mockContext.get(CONTAINER_COMPONENT_KEYS[Container.Layer])!);
+	const parent: Konva.Container = mockContext.get(CONTAINER_COMPONENT_KEYS[Container.Layer])!;
 	const node = rendered.component.node;
 
 	expect(parent.children).toBeTruthy();
@@ -59,7 +59,7 @@ test('is correctly added to the parent Group', () => {
 		props: {}
 	});
 
-	const parent: Konva.Container = get(mockContext.get(CONTAINER_COMPONENT_KEYS[Container.Group])!);
+	const parent: Konva.Container = mockContext.get(CONTAINER_COMPONENT_KEYS[Container.Group])!;
 	const node = rendered.component.node;
 
 	expect(parent.children).toBeTruthy();
@@ -77,7 +77,7 @@ test('is correctly added to the parent Label', () => {
 		props: {}
 	});
 
-	const parent: Konva.Container = get(mockContext.get(CONTAINER_COMPONENT_KEYS[Container.Label])!);
+	const parent: Konva.Container = mockContext.get(CONTAINER_COMPONENT_KEYS[Container.Label])!;
 	const node = rendered.component.node;
 
 	expect(parent.children).toBeTruthy();
@@ -191,7 +191,7 @@ test('sets the correct context', () => {
 		}
 	});
 
-	expect(get(childContext!.get(CONTAINER_COMPONENT_KEYS[Container.Label]))).toStrictEqual(node!);
+	expect(childContext!.get(CONTAINER_COMPONENT_KEYS[Container.Label])).toStrictEqual(node!);
 });
 
 test('nulls unused context', () => {
@@ -221,7 +221,7 @@ test('Konva instance is correctly destroyed on component unmount', () => {
 		props: {}
 	});
 
-	const parent: Konva.Container = get(mockContext.get(CONTAINER_COMPONENT_KEYS[Container.Layer])!);
+	const parent: Konva.Container = mockContext.get(CONTAINER_COMPONENT_KEYS[Container.Layer])!;
 
 	expect(parent.children).toBeTruthy();
 
