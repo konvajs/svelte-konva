@@ -56,7 +56,7 @@
 		"@tailwindcss/typography": "^0.5.16",
 		"@testing-library/svelte": "^5.2.7",
 		"@types/lodash.clonedeep": "^4.5.7",
-		"canvas": "^2.11.2",
+		"canvas": "^3.1.0",
 		"daisyui": "^5.0.18",
 		"eslint": "^9.24.0",
 		"eslint-config-prettier": "^10.0.1",
