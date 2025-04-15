@@ -157,7 +157,7 @@ function handleClick(e) {
 
 ## Accessing the underlying Konva handle
 
-The way to access the corresponding Konva handle in a svelte-konva component has changed. You can no longer bind the `handle` prop to access it. Instead `handle` is now exposed directly on the component instance. To access it use `bind:this` and then access the `handle` property on the component object:
+The way to access the corresponding Konva handle in a svelte-konva component has changed. You can no longer bind the `handle` prop to access it. Instead `handle` has been renamed to `node` and is now exposed directly on the component instance. To access it use `bind:this` and then access the `node` property on the component object:
 
 ```diff
 <script>
@@ -167,11 +167,8 @@ The way to access the corresponding Konva handle in a svelte-konva component has
   let rectangle;
 
   onMount(async () => {
-     // Wait for dom update so the rectangle component becomes defined
-     await tick();
-
 -    const json = rectangle.toJSON();
-+    const json = rectangle.handle.toJSON();
++    const json = rectangle.node.toJSON();
      window.alert(`Rectangle as JSON: ${json}`);
   });
 </script>
@@ -187,9 +184,16 @@ The way to access the corresponding Konva handle in a svelte-konva component has
 </Stage>
 ```
 
-## Stage handle
+### Why this was changed:
 
-The stage `handle` needs special treatment, as it only becomes defined once the canvas HTML element has been rendered to the DOM. Due to this, the `handle` property on the stage component is a function which can be called to retrieve the Konva handle. It returns `null` if the stage object has not been created yet:
+- Properties on the component instance are read-only enforced by the compiler -> Users cannot accidentally overwrite it anymore causing undefined behavior inside svelte-konva
+- Renaming `handle` to `node` makes brings the naming in line with Konva terminology -> Existing Konva developers know immediately what they are getting when accessing `node`
+
+## Underlying Konva node is defined immediately after component instantiation
+
+The internal logic of svelte-konva has been overhauled in order to provide a better developer experience. The Konva `node` which you can now access directly on the component instance (using `bind:this`) is now immediately defined. There is no longer a need to wait a Svelte `tick()` before accessing it as in previous versions.
+
+In previous versions it was required to wait a `tick()` in order for the Konva stage wrapper div HTML element to become available (rendered to the DOM). As only then a new Konva Stage Object and any child svelte-konva layer and shape components were instantiated. Like this:
 
 ```svelte
 <script>
@@ -207,12 +211,39 @@ The stage `handle` needs special treatment, as it only becomes defined once the 
 	});
 </script>
 
+<Stage config={...} bind:handle={stage}>
+	<Layer>
+		<Rect config={...} />
+	</Layer>
+</Stage>
+```
+
+Now all underlying Konva objects are immediately instantiated once a svelte-konva component is instantiated by Svelte. The way this works is that svelte-konva first creates a fake div element on the `document` object and attaches the Konva stage there. Once the real wrapper div has been rendered to the dom the Konva stage is transferred to the real wrapper div. The old example above would be migrated to:
+
+```svelte
+<script>
+	import { onMount } from 'svelte';
+	import { Stage, Layer, Rect } from 'svelte-konva';
+
+	let stage;
+
+	onMount(async () => {
+		const json = stage.node.toJSON();
+		window.alert(`Stage as JSON: ${json}`);
+	});
+</script>
+
 <Stage width={1000} height={1000} bind:this={stage}>
 	<Layer>
 		<Rect x={100} y={100} width={400} height={200} fill="blue" />
 	</Layer>
 </Stage>
 ```
+
+### Why this was changed
+
+- internal svelte-konva logic has been simplified, the context manager does no longer need to use reactive writables
+- Better developer experience as accessing the Konva node on svelte-konva now works consistently accross all svelte-konva components without any special exceptions (For example, in some cases awaiting `tick()` was not necessary if svelte-konva components were wrapped in user defined renderless components)
 
 ## Passing props to the wrapping stage div
 
