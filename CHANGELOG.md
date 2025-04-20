@@ -1,5 +1,7 @@
 # Unreleased
 
+- Add a descriptive svelte-konva error if `Stage` component is used in a non-browser environment (For example SvelteKit SSR or prerendering)
+
 # v1.0.0-next.3
 
 **breaking changes** please refer to the [migration guide](./docs/svelte-konva-v1-migration.md) for detailed examples on how to update.

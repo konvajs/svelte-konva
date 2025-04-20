@@ -37,9 +37,17 @@ Further information: [Konva API docs](https://konvajs.org/api/Konva.Stage.html),
 	}: Props<ContainerConfig> & PropsContainer & PropsStage = $props();
 
 	let stage: HTMLDivElement;
+	let fakeContainer: HTMLDivElement;
 
-	// In order to immediately have an initialized Konva Stage object we supply it with a fake div container and replace it with the real one once it is rendered to the DOM
-	const fakeContainer = document.createElement('div');
+	try {
+		// In order to immediately have an initialized Konva Stage object we supply it with a fake div container and replace it with the real one once it is rendered to the DOM
+		fakeContainer = document.createElement('div');
+	} catch (err) {
+		throw new Error(
+			`svelte-konva: Library can only be used in a browser context but is currently used in a server environment. If you are using SvelteKit, please refer to the following docs: https://konvajs.org/docs/svelte/SvelteKit.html`,
+			{ cause: err }
+		);
+	}
 
 	export const node = new KonvaStage({
 		container: fakeContainer,
