@@ -1,6 +1,9 @@
 # Unreleased
 
+# v1.0.0-next.5
+
 - Add missing Konva event `contextmenu` #269
+- Various dependency updates
 
 # v1.0.0-next.4
 
