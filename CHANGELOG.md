@@ -1,5 +1,7 @@
 # Unreleased
 
+- Add missing Konva event `contextmenu` #269
+
 # v1.0.0-next.4
 
 - Add a descriptive svelte-konva error if `Stage` component is used in a non-browser environment (For example SvelteKit SSR or prerendering)

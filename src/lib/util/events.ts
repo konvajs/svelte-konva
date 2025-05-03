@@ -30,6 +30,7 @@ const KONVA_EVENTS = [
 	'pointerleave',
 	'pointerclick',
 	'pointerdblclick',
+	'contextmenu',
 	'dragstart',
 	'dragmove',
 	'dragend',
@@ -70,6 +71,7 @@ export type KonvaEventHooks = {
 	onpointerleave?: (e: KonvaPointerEvent) => void;
 	onpointerclick?: (e: KonvaPointerEvent) => void;
 	onpointerdblclick?: (e: KonvaPointerEvent) => void;
+	oncontextmenu?: (e: KonvaPointerEvent) => void;
 	ondragstart?: (e: KonvaDragTransformEvent) => void;
 	ondragmove?: (e: KonvaDragTransformEvent) => void;
 	ondragend?: (e: KonvaDragTransformEvent) => void;
