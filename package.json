@@ -67,7 +67,7 @@
 		"plop": "^4.0.1",
 		"prettier": "^3.5.3",
 		"prettier-plugin-svelte": "^3.3.3",
-		"svelte": "5.28.2",
+		"svelte": "5.34.7",
 		"svelte-check": "^4.1.5",
 		"svelte-highlight": "^7.3.0",
 		"svelte-persisted-store": "^0.12.0",
