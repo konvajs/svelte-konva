@@ -195,6 +195,10 @@
 			"types": "./dist/Wedge.svelte.d.ts",
 			"svelte": "./dist/Wedge.svelte",
 			"default": "./dist/Wedge.svelte"
+		},
+		"./util": {
+			"types": "./dist/util/index.d.ts",
+			"default": "./dist/util/index.js"
 		}
 	},
 	"files": [
@@ -273,6 +277,9 @@
 			],
 			"Wedge.svelte": [
 				"./dist/Wedge.svelte.d.ts"
+			],
+			"util": [
+				"./dist/util/index.d.ts"
 			]
 		}
 	},
