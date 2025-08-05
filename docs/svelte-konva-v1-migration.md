@@ -206,7 +206,7 @@ In previous versions it was required to wait a `tick()` in order for the Konva s
 		// Wait for dom update so the stage handle becomes defined
 		await tick();
 
-		const json = stage.handle().toJSON(); // Caution: handle() can return null if the stage has not been created yet (eg. canvas HTML component has not yet been rendered)
+		const json = stage.toJSON(); // Caution: stage can be null if the stage has not been created yet (eg. canvas HTML component has not yet been rendered)
 		window.alert(`Stage as JSON: ${json}`);
 	});
 </script>
