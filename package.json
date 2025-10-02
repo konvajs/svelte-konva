@@ -1,6 +1,6 @@
 {
 	"name": "svelte-konva",
-	"version": "1.0.0-next.5",
+	"version": "1.0.0",
 	"author": {
 		"name": "TeyKey1",
 		"url": "https://github.com/TeyKey1"
@@ -42,7 +42,7 @@
 		"precoverage": "plop svelteKonvaComponentTests"
 	},
 	"peerDependencies": {
-		"konva": "8 - 9",
+		"konva": "8 - 10",
 		"svelte": "^5.0.0"
 	},
 	"devDependencies": {
@@ -56,13 +56,13 @@
 		"@tailwindcss/typography": "^0.5.16",
 		"@testing-library/svelte": "^5.2.7",
 		"@types/lodash.clonedeep": "^4.5.7",
-		"canvas": "^2.11.2",
+		"canvas": "^3.2.0",
 		"daisyui": "^5.0.18",
 		"eslint": "^9.24.0",
 		"eslint-config-prettier": "^10.0.1",
 		"eslint-plugin-svelte": "^3.5.1",
-		"jsdom": "^25.0.1",
-		"konva": "^9.3.20",
+		"jsdom": "^27.0.0",
+		"konva": "^10.0.2",
 		"lodash.clonedeep": "^4.5.0",
 		"plop": "^4.0.1",
 		"prettier": "^3.5.3",
