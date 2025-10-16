@@ -172,9 +172,9 @@ _+page.svelte_
   <!-- Use your dynamically imported svelte-konva canvas component once it becomes defined, you can pass any component props as usual -->
   {#await MyCanvas}
   <p>Loading...</p>
-  {:then component}
-  <svelte:component this="{component}" someProp="someString" />
-  {:catch}
+  {:then Component}
+  <Component someProp="someString" />
+  {:catch error}
   <p>Something went wrong: {error.message}</p>
   {/await}
 </div>

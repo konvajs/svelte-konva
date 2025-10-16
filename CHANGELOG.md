@@ -1,5 +1,7 @@
 # Unreleased
 
+- Fix wrong & deprecated SvelteKit dynamic import example in README
+
 # v1.0.0
 
 **breaking changes** please refer to the [migration guide](./docs/svelte-konva-v1-migration.md) for detailed examples on how to update.
