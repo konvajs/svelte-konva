@@ -1,6 +1,11 @@
 # Unreleased
 
+# v1.0.1
+
+**Version bump to update README, functionality remains unchanged**
+
 - Fix wrong & deprecated SvelteKit dynamic import example in README
+- Various dependency updates
 
 # v1.0.0
 
