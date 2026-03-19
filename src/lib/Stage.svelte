@@ -75,10 +75,10 @@ Further information: [Konva API docs](https://konvajs.org/api/Konva.Stage.html),
 
 	// Register explicit props (not included in restProps)
 	$effect(() => {
-		node!.setAttr('x', x);
+		if (x !== undefined) node!.setAttr('x', x);
 	});
 	$effect(() => {
-		node!.setAttr('y', y);
+		if (y !== undefined) node!.setAttr('y', y);
 	});
 
 	registerEvents(restProps, node);

@@ -84,28 +84,28 @@ Further information: [Konva API docs](https://konvajs.org/api/Konva.Line.html), 
 
 	// Register explicit props (not included in restProps)
 	$effect(() => {
-		node.setAttr('x', x);
+		if (x !== undefined) node.setAttr('x', x);
 	});
 	$effect(() => {
-		node.setAttr('y', y);
+		if (y !== undefined) node.setAttr('y', y);
 	});
 	$effect(() => {
-		node.setAttr('scale', scale);
+		if (scale !== undefined) node.setAttr('scale', scale);
 	});
 	$effect(() => {
-		node.setAttr('scaleX', scaleX);
+		if (scaleX !== undefined) node.setAttr('scaleX', scaleX);
 	});
 	$effect(() => {
-		node.setAttr('scaleY', scaleY);
+		if (scaleY !== undefined) node.setAttr('scaleY', scaleY);
 	});
 	$effect(() => {
-		node.setAttr('rotation', rotation);
+		if (rotation !== undefined) node.setAttr('rotation', rotation);
 	});
 	$effect(() => {
-		node.setAttr('skewX', skewX);
+		if (skewX !== undefined) node.setAttr('skewX', skewX);
 	});
 	$effect(() => {
-		node.setAttr('skewY', skewY);
+		if (skewY !== undefined) node.setAttr('skewY', skewY);
 	});
 
 	registerEvents(restProps, node);
