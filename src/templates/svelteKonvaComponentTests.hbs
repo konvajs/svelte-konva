@@ -74,7 +74,7 @@ test('is correctly added to the parent Label', () => {
 	const mockContext = createMockParentContext(Container.Label);
 	const rendered = render({{ componentName }}, {
 		context: mockContext,
-		props:{{{ testConfig }}}
+		props: {{{ testConfig }}}
 	});
 
 	const parent: Konva.Container = mockContext.get(CONTAINER_COMPONENT_KEYS[Container.Label])!;
