@@ -25,6 +25,7 @@ Further information: [Konva API docs](https://konvajs.org/api/Konva.Stage.html),
 	import { registerEvents } from '$lib/util/events';
 	import { Container, setContainerContext } from '$lib/util/manageContext';
 	import { type Props, type PropsContainer, type PropsStage } from '$lib/util/props';
+	import lazyEffect from './util/effect.svelte';
 
 	let {
 		children,
@@ -74,10 +75,20 @@ Further information: [Konva API docs](https://konvajs.org/api/Konva.Stage.html),
 		});
 
 	// Register explicit props (not included in restProps)
-	$effect(() => {
+	// Those props are registered using lazy $effects to prevent
+	// the initial $effect exection from affecting Konva internals
+	lazyEffect((skip) => {
+		if (skip) {
+			x; // Dummy read to register dependency
+			return;
+		}
 		node!.setAttr('x', x);
 	});
-	$effect(() => {
+	lazyEffect((skip) => {
+		if (skip) {
+			y;
+			return;
+		}
 		node!.setAttr('y', y);
 	});
 

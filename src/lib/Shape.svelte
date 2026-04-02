@@ -25,6 +25,7 @@ Further information: [Konva API docs](https://konvajs.org/api/Konva.Shape.html),
 	import { registerEvents } from '$lib/util/events';
 	import { getParentContainer } from '$lib/util/manageContext';
 	import { type Props } from '$lib/util/props';
+	import lazyEffect from './util/effect.svelte';
 
 	let {
 		staticConfig = false,
@@ -83,30 +84,64 @@ Further information: [Konva API docs](https://konvajs.org/api/Konva.Shape.html),
 		});
 
 	// Register explicit props (not included in restProps)
-	$effect(() => {
+	// Those props are registered using lazy $effects to prevent
+	// the initial $effect exection from affecting Konva internals
+	lazyEffect((skip) => {
+		if (skip) {
+			x; // Dummy read to register dependency
+			return;
+		}
 		node.setAttr('x', x);
-	});
-	$effect(() => {
+	})();
+	lazyEffect((skip) => {
+		if (skip) {
+			y;
+			return;
+		}
 		node.setAttr('y', y);
-	});
-	$effect(() => {
+	})();
+	lazyEffect((skip) => {
+		if (skip) {
+			scale;
+			return;
+		}
 		node.setAttr('scale', scale);
-	});
-	$effect(() => {
+	})();
+	lazyEffect((skip) => {
+		if (skip) {
+			scaleX;
+			return;
+		}
 		node.setAttr('scaleX', scaleX);
-	});
-	$effect(() => {
+	})();
+	lazyEffect((skip) => {
+		if (skip) {
+			scaleY;
+			return;
+		}
 		node.setAttr('scaleY', scaleY);
-	});
-	$effect(() => {
+	})();
+	lazyEffect((skip) => {
+		if (skip) {
+			rotation;
+			return;
+		}
 		node.setAttr('rotation', rotation);
-	});
-	$effect(() => {
+	})();
+	lazyEffect((skip) => {
+		if (skip) {
+			skewX;
+			return;
+		}
 		node.setAttr('skewX', skewX);
-	});
-	$effect(() => {
+	})();
+	lazyEffect((skip) => {
+		if (skip) {
+			skewY;
+			return;
+		}
 		node.setAttr('skewY', skewY);
-	});
+	})();
 
 	registerEvents(restProps, node);
 
