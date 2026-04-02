@@ -25,7 +25,8 @@ const config = {
 	},
 
 	compilerOptions: {
-		runes: true
+		runes: true,
+		warningFilter: (warning) => warning.code !== 'state_referenced_locally' // We filter this one out for the moment as it is annoying and affects a lot of intentional use-cases within the code base
 	}
 };
 

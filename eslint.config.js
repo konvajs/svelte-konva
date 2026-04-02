@@ -35,6 +35,7 @@ export default ts.config(
 		},
 		rules: {
 			'@typescript-eslint/no-non-null-assertion': 'off',
+			'@typescript-eslint/no-unused-expressions': 'off', // temporarily disabled due to lazyEffect dummy reads
 			'svelte/no-at-html-tags': 'off',
 			'svelte/require-each-key': 'off',
 
