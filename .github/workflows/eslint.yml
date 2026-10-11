@@ -15,7 +15,12 @@ jobs:
       security-events: write
     steps:
       - name: Checkout code
-        uses: actions/checkout@v3
+        uses: actions/checkout@v7
+
+      - name: Setup specific node version
+        uses: actions/setup-node@v7
+        with:
+          node-version: 24
 
       - name: Setup/Retrieve npm build chache
         uses: bahmutov/npm-install@v1
@@ -30,7 +35,12 @@ jobs:
       security-events: write
     steps:
       - name: Checkout code
-        uses: actions/checkout@v3
+        uses: actions/checkout@v7
+
+      - name: Setup specific node version
+        uses: actions/setup-node@v7
+        with:
+          node-version: 24
 
       - name: Setup/Retrieve npm build chache
         uses: bahmutov/npm-install@v1
