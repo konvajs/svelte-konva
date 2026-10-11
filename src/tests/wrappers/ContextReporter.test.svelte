@@ -5,7 +5,7 @@ Is attached as a child component to svelte-konva containers and reports its curr
 <script lang="ts">
 	/* eslint-disable @typescript-eslint/no-explicit-any, svelte/prefer-svelte-reactivity */
 	import { getContext, onMount } from 'svelte';
-	import { CONTAINER_COMPONENT_KEYS } from 'svelte-konva/util/manageContext';
+	import { CONTAINER_COMPONENT_KEYS } from '#lib/util/manageContext.js';
 
 	const {
 		getComponentContext
