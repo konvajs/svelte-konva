@@ -23,9 +23,9 @@ Further information: [Konva API docs](https://konvajs.org/api/Konva.Label.html),
 <script lang="ts">
 	import { Label as KonvaLabel, type LabelConfig } from 'konva/lib/shapes/Label';
 	import { onDestroy } from 'svelte';
-	import { Container, getParentContainer, setContainerContext } from '$lib/util/manageContext';
-	import { registerEvents } from '$lib/util/events';
-	import { type Props, type PropsContainer } from '$lib/util/props';
+	import { Container, getParentContainer, setContainerContext } from '#lib/util/manageContext.js';
+	import { registerEvents } from '#lib/util/events.js';
+	import { type Props, type PropsContainer } from '#lib/util/props.js';
 
 	let {
 		children,

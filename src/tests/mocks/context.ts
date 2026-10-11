@@ -1,5 +1,5 @@
 import Konva from 'konva';
-import { Container, CONTAINER_COMPONENT_KEYS } from '$lib/util/manageContext';
+import { Container, CONTAINER_COMPONENT_KEYS } from '#lib/util/manageContext.js';
 
 /**
  * Currently testing in Svelte is very limited especially for special/unusual things like svelte-konva.

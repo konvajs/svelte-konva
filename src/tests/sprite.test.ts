@@ -5,8 +5,8 @@ import Konva from 'konva';
 import { loadImage } from './util';
 
 // svelte-konva
-import Sprite from '$lib/Sprite.svelte';
-import { CONTAINER_ERROR, Container, CONTAINER_COMPONENT_KEYS } from '$lib/util/manageContext';
+import Sprite from '#lib/Sprite.svelte';
+import { CONTAINER_ERROR, Container, CONTAINER_COMPONENT_KEYS } from '#lib/util/manageContext.js';
 
 // Mocks
 import { createMockParentContext } from './mocks/context';

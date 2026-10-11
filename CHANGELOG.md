@@ -1,5 +1,7 @@
 # Unreleased
 
+- Update to SvelteKit v3 (Library still remains compatible with SvelteKit v2)
+
 # v1.0.1
 
 **Version bump to update README, functionality remains unchanged**

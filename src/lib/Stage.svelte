@@ -22,9 +22,9 @@ Further information: [Konva API docs](https://konvajs.org/api/Konva.Stage.html),
 	import type { ContainerConfig } from 'konva/lib/Container';
 	import { Stage as KonvaStage } from 'konva/lib/Stage';
 	import { onMount, onDestroy } from 'svelte';
-	import { registerEvents } from '$lib/util/events';
-	import { Container, setContainerContext } from '$lib/util/manageContext';
-	import { type Props, type PropsContainer, type PropsStage } from '$lib/util/props';
+	import { registerEvents } from '#lib/util/events.js';
+	import { Container, setContainerContext } from '#lib/util/manageContext.js';
+	import { type Props, type PropsContainer, type PropsStage } from '#lib/util/props.js';
 
 	let {
 		children,

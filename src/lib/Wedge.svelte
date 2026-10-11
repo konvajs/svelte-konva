@@ -22,9 +22,9 @@ Further information: [Konva API docs](https://konvajs.org/api/Konva.Wedge.html),
 
 	import { Wedge as KonvaWedge, type WedgeConfig } from 'konva/lib/shapes/Wedge';
 	import { onDestroy } from 'svelte';
-	import { registerEvents } from '$lib/util/events';
-	import { getParentContainer } from '$lib/util/manageContext';
-	import { type Props } from '$lib/util/props';
+	import { registerEvents } from '#lib/util/events.js';
+	import { getParentContainer } from '#lib/util/manageContext.js';
+	import { type Props } from '#lib/util/props.js';
 
 	let {
 		staticConfig = false,

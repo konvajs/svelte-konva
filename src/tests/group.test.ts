@@ -4,8 +4,8 @@ import Konva from 'konva';
 import { get, writable } from 'svelte/store';
 
 // svelte-konva
-import Group from '$lib/Group.svelte';
-import { CONTAINER_ERROR, Container, CONTAINER_COMPONENT_KEYS } from '$lib/util/manageContext';
+import Group from '#lib/Group.svelte';
+import { CONTAINER_ERROR, Container, CONTAINER_COMPONENT_KEYS } from '#lib/util/manageContext.js';
 
 // Mocks
 import { createMockParentContext } from './mocks/context';

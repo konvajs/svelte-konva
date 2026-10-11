@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 
 import type { Snippet } from 'svelte';
-import { type KonvaEventHooks } from '$lib/util/events';
+import { type KonvaEventHooks } from '#lib/util/events.js';
 import type { NodeConfig } from 'konva/lib/Node';
 
 type MappedOmit<T, K extends keyof T> = { [P in keyof T as P extends K ? never : P]: T[P] };

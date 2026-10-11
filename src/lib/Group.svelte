@@ -23,9 +23,9 @@ Further information: [Konva API docs](https://konvajs.org/api/Konva.Group.html),
 	import Konva from 'konva/lib/Core';
 	import type { GroupConfig } from 'konva/lib/Group';
 	import { onDestroy } from 'svelte';
-	import { Container, getParentContainer, setContainerContext } from '$lib/util/manageContext';
-	import { registerEvents } from '$lib/util/events';
-	import { type PropsContainer, type Props } from '$lib/util/props';
+	import { Container, getParentContainer, setContainerContext } from '#lib/util/manageContext.js';
+	import { registerEvents } from '#lib/util/events.js';
+	import { type PropsContainer, type Props } from '#lib/util/props.js';
 
 	let {
 		children,

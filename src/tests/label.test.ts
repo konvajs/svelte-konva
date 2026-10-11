@@ -4,8 +4,8 @@ import { get, writable } from 'svelte/store';
 import Konva from 'konva';
 
 // svelte-konva
-import Label from '$lib/Label.svelte';
-import { CONTAINER_ERROR, Container, CONTAINER_COMPONENT_KEYS } from '$lib/util/manageContext';
+import Label from '#lib/Label.svelte';
+import { CONTAINER_ERROR, Container, CONTAINER_COMPONENT_KEYS } from '#lib/util/manageContext.js';
 
 // Mocks
 import { createMockParentContext } from './mocks/context';

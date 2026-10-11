@@ -4,8 +4,8 @@ import { get, writable } from 'svelte/store';
 import Konva from 'konva';
 
 // svelte-konva
-import Stage from '$lib/Stage.svelte';
-import { CONTAINER_COMPONENT_KEYS, Container } from '$lib/util/manageContext';
+import Stage from '#lib/Stage.svelte';
+import { CONTAINER_COMPONENT_KEYS, Container } from '#lib/util/manageContext.js';
 
 // Mocks
 import './mocks/mouse';

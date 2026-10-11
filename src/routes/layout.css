@@ -12,7 +12,7 @@
 	darktheme: dark;
 }
 
-@config '../tailwind.config.cjs';
+@config '../../tailwind.config.js';
 
 /*
   The default border color has changed to `currentcolor` in Tailwind CSS v4,

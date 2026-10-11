@@ -22,9 +22,9 @@ Further information: [Konva API docs](https://konvajs.org/api/Konva.Tag.html), [
 
 	import { Tag as KonvaTag, type TagConfig } from 'konva/lib/shapes/Label';
 	import { onDestroy } from 'svelte';
-	import { registerEvents } from '$lib/util/events';
-	import { getParentContainer } from '$lib/util/manageContext';
-	import { type Props } from '$lib/util/props';
+	import { registerEvents } from '#lib/util/events.js';
+	import { getParentContainer } from '#lib/util/manageContext.js';
+	import { type Props } from '#lib/util/props.js';
 
 	let {
 		staticConfig = false,

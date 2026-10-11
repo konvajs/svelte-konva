@@ -1,5 +1,6 @@
 <script lang="ts">
-	import '../app.css';
+	import { resolve } from '$app/paths';
+	import './layout.css';
 	import Link from './Link.svelte';
 	import { darkMode } from './stores';
 
@@ -8,23 +9,23 @@
 	let examples = [
 		{
 			name: 'Label',
-			url: '/examples/label'
+			url: resolve('/examples/label')
 		},
 		{
 			name: 'Grouping',
-			url: '/examples/group'
+			url: resolve('/examples/group')
 		},
 		{
 			name: 'Select and Transform',
-			url: '/examples/transform'
+			url: resolve('/examples/transform')
 		},
 		{
 			name: 'Free drawing',
-			url: '/examples/drawing'
+			url: resolve('/examples/drawing')
 		},
 		{
 			name: 'Connect four',
-			url: '/examples/connectFour'
+			url: resolve('/examples/connectFour')
 		}
 	];
 </script>
@@ -114,7 +115,7 @@
 			<ul class="menu menu-compact p-4 overflow-y-auto w-80 bg-base-200 text-base-content h-full">
 				<!-- Sidebar content here -->
 				<li>
-					<Link href="/">Home</Link>
+					<Link href={resolve('/')}>Home</Link>
 				</li>
 				<li>
 					<a href="https://konvajs.org/docs/svelte" rel="noreferrer">Documentation</a>

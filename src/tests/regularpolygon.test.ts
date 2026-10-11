@@ -7,8 +7,8 @@ import { get, writable } from 'svelte/store';
 import Konva from 'konva';
 
 // svelte-konva
-import RegularPolygon from '$lib/RegularPolygon.svelte';
-import { CONTAINER_ERROR, Container, CONTAINER_COMPONENT_KEYS } from '$lib/util/manageContext';
+import RegularPolygon from '#lib/RegularPolygon.svelte';
+import { CONTAINER_ERROR, Container, CONTAINER_COMPONENT_KEYS } from '#lib/util/manageContext.js';
 
 // Mocks
 import { createMockParentContext } from './mocks/context';
