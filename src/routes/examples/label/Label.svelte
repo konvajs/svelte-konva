@@ -79,7 +79,7 @@
 
 		<Label {...labelConfig}>
 			<Tag
-				fill="black"
+				fill="grey"
 				pointerDirection="down"
 				pointerWidth={10}
 				pointerHeight={10}
