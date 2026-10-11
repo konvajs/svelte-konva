@@ -6,8 +6,8 @@
 		target="_blank"
 		rel="noreferrer">Konva</a
 	>
-	HTML 5 2D canvas library. Here you can find some example usages of svelte-konva. The documentation
-	can be found on the
+	HTML 5 2D canvas library. Here you can find some example usages of svelte-konva. The documentation can
+	be found on the
 	<a href="https://konvajs.org/docs/svelte" rel="noreferrer"> official Konva website </a>.
 </p>
 

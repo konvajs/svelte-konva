@@ -23,7 +23,7 @@ test('throws an error if not placed inside a Container (Layer, Group, Label) com
 				height: 100,
 				sceneFunc: function (context: Konva.Context, shape: Konva.Shape) {
 					context.beginPath();
-					context.rect(0, 0, shape.getAttr('width'), shape.getAttr('height'));
+					context.rect(0, 0, shape.getAttr('width')!, shape.getAttr('height')!);
 					context.fillStrokeShape(shape);
 				}
 			}
@@ -39,7 +39,7 @@ test('throws an error if not placed inside a Container (Layer, Group, Label) com
 				height: 100,
 				sceneFunc: function (context: Konva.Context, shape: Konva.Shape) {
 					context.beginPath();
-					context.rect(0, 0, shape.getAttr('width'), shape.getAttr('height'));
+					context.rect(0, 0, shape.getAttr('width')!, shape.getAttr('height')!);
 					context.fillStrokeShape(shape);
 				}
 			}
@@ -56,7 +56,7 @@ test('is correctly added to the parent Layer', () => {
 			height: 100,
 			sceneFunc: function (context: Konva.Context, shape: Konva.Shape) {
 				context.beginPath();
-				context.rect(0, 0, shape.getAttr('width'), shape.getAttr('height'));
+				context.rect(0, 0, shape.getAttr('width')!, shape.getAttr('height')!);
 				context.fillStrokeShape(shape);
 			}
 		}
@@ -82,7 +82,7 @@ test('is correctly added to the parent Group', () => {
 			height: 100,
 			sceneFunc: function (context: Konva.Context, shape: Konva.Shape) {
 				context.beginPath();
-				context.rect(0, 0, shape.getAttr('width'), shape.getAttr('height'));
+				context.rect(0, 0, shape.getAttr('width')!, shape.getAttr('height')!);
 				context.fillStrokeShape(shape);
 			}
 		}
@@ -108,7 +108,7 @@ test('is correctly added to the parent Label', () => {
 			height: 100,
 			sceneFunc: function (context: Konva.Context, shape: Konva.Shape) {
 				context.beginPath();
-				context.rect(0, 0, shape.getAttr('width'), shape.getAttr('height'));
+				context.rect(0, 0, shape.getAttr('width')!, shape.getAttr('height')!);
 				context.fillStrokeShape(shape);
 			}
 		}
@@ -134,7 +134,7 @@ test('Can listen to Konva events', () => {
 			height: 100,
 			sceneFunc: function (context: Konva.Context, shape: Konva.Shape) {
 				context.beginPath();
-				context.rect(0, 0, shape.getAttr('width'), shape.getAttr('height'));
+				context.rect(0, 0, shape.getAttr('width')!, shape.getAttr('height')!);
 				context.fillStrokeShape(shape);
 			},
 			onmousedown: mockFn
@@ -161,7 +161,7 @@ test('Correctly updates bound config on dragend', () => {
 		height: 100,
 		sceneFunc: function (context: Konva.Context, shape: Konva.Shape) {
 			context.beginPath();
-			context.rect(0, 0, shape.getAttr('width'), shape.getAttr('height'));
+			context.rect(0, 0, shape.getAttr('width')!, shape.getAttr('height')!);
 			context.fillStrokeShape(shape);
 		},
 		draggable: true
@@ -202,7 +202,7 @@ test('Does not update config if instantiated with staticConfig prop', () => {
 		height: 100,
 		sceneFunc: function (context: Konva.Context, shape: Konva.Shape) {
 			context.beginPath();
-			context.rect(0, 0, shape.getAttr('width'), shape.getAttr('height'));
+			context.rect(0, 0, shape.getAttr('width')!, shape.getAttr('height')!);
 			context.fillStrokeShape(shape);
 		},
 		draggable: true
@@ -246,7 +246,7 @@ test('Konva instance is correctly destroyed on component unmount', () => {
 			height: 100,
 			sceneFunc: function (context: Konva.Context, shape: Konva.Shape) {
 				context.beginPath();
-				context.rect(0, 0, shape.getAttr('width'), shape.getAttr('height'));
+				context.rect(0, 0, shape.getAttr('width')!, shape.getAttr('height')!);
 				context.fillStrokeShape(shape);
 			}
 		}
