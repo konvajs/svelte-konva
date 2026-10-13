@@ -35,7 +35,7 @@
 		"lint": "prettier --check . && eslint .",
 		"format": "prettier --write .",
 		"plop": "plop",
-		"prepack": "plop svelteKonvaComponents&&npm run build",
+		"prepublishOnly": "plop svelteKonvaComponents&&npm run build",
 		"test": "vitest run src",
 		"test:watch": "npm run test -- --watch",
 		"pretest": "plop svelteKonvaComponentTests&&plop svelteKonvaComponents",

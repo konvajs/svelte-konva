@@ -1,0 +1,128 @@
+<!--
+@component
+The Transformer component needs to be placed inside a svelte-konva Layer or Group component.
+
+In order to add shapes to the transformer you need to access the underlying Konva Transformer by binding the `handle` prop.
+Then use the `nodes()` function to add any shapes to the Transformer.
+
+### Usage:
+```tsx
+<script>
+	let transformer;
+
+	transformer.handle.nodes([someShape, otherShape]);
+</script>
+
+<Transformer bind:this={transformer} />
+```
+
+### Static config:
+By default svelte-konva will automatically update all changed props on `dragend` and `transformend` events to match the prop values (position, rotation, scale, ...) with the internal Konva state.
+If you bind those props they will be updated automatically, otherwise no update of the changed values happens.
+In cases this is not needed (eg. the respective values are not bound) or not beneficial you can disable it by passing the `staticConfig = true` prop to the component.
+It is recommended to only pass `staticConfig = true` if you indeed run into performance problems connected to dragging and transforming of nodes.
+
+Further information: [Konva API docs](https://konvajs.org/api/Konva.Transformer.html), [svelte-konva docs](https://konvajs.org/docs/svelte)
+-->
+<script lang="ts">
+	import {
+		Transformer as KonvaTransformer,
+		type TransformerConfig
+	} from 'konva/lib/shapes/Transformer';
+	import { onMount, onDestroy } from 'svelte';
+	import type { Writable } from 'svelte/store';
+	import { registerEvents } from './util/events';
+	import { getParentContainer, type KonvaParent } from './util/manageContext';
+	import { type Props } from './util/props';
+
+	let {
+		staticConfig = false,
+		x = $bindable(),
+		y = $bindable(),
+		scale = $bindable(),
+		scaleX = $bindable(),
+		scaleY = $bindable(),
+		rotation = $bindable(),
+		skewX = $bindable(),
+		skewY = $bindable(),
+		...restProps
+	}: Props<TransformerConfig> = $props();
+
+	export const handle = new KonvaTransformer({
+		x,
+		y,
+		scale,
+		scaleX,
+		scaleY,
+		rotation,
+		skewX,
+		skewY,
+		...restProps
+	});
+
+	const parent: Writable<null | KonvaParent> = getParentContainer();
+
+	onMount(() => {
+		$parent!.add(handle);
+
+		if (!staticConfig) {
+			const attrs = handle.getAttrs();
+
+			handle.on('transformend', () => {
+				if (x !== undefined) x = attrs.x;
+				if (y !== undefined) y = attrs.y;
+				if (scale !== undefined) scale = attrs.scale;
+				if (scaleX !== undefined) scaleX = attrs.scaleX;
+				if (scaleY !== undefined) scaleY = attrs.scaleY;
+				if (rotation !== undefined) rotation = attrs.rotation;
+				if (skewX !== undefined) skewX = attrs.skewX;
+				if (skewY !== undefined) skewY = attrs.skewY;
+			});
+
+			handle.on('dragend', () => {
+				if (x !== undefined) x = attrs.x;
+				if (y !== undefined) y = attrs.y;
+			});
+		}
+
+		Object.keys(restProps)
+			.filter((e) => !e.startsWith('on')) // Do not register svelte-konva event hooks as node attributes (Currently no konva config property starts with "on" so this is the fastest and most inexpensive way to filter out the event hooks from the provided props)
+			.forEach((e) => {
+				$effect(() => {
+					handle.setAttr(e, restProps[e]);
+				});
+			});
+
+		// Register explicit props (not included in restProps)
+		$effect(() => {
+			handle.setAttr('x', x);
+		});
+		$effect(() => {
+			handle.setAttr('y', y);
+		});
+		$effect(() => {
+			handle.setAttr('scale', scale);
+		});
+		$effect(() => {
+			handle.setAttr('scaleX', scaleX);
+		});
+		$effect(() => {
+			handle.setAttr('scaleY', scaleY);
+		});
+		$effect(() => {
+			handle.setAttr('rotation', rotation);
+		});
+		$effect(() => {
+			handle.setAttr('skewX', skewX);
+		});
+		$effect(() => {
+			handle.setAttr('skewY', skewY);
+		});
+
+		registerEvents(restProps, handle);
+	});
+
+	onDestroy(() => {
+		handle.destroy();
+	});
+</script>
